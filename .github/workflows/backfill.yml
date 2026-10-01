@@ -1,0 +1,28 @@
+name: ngx-backfill
+on: workflow_dispatch
+permissions:
+  contents: write
+concurrency:
+  group: ngx-bot
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pdfplumber
+      - run: python ngx_backfill.py --days 520
+      - run: python ngx_bot.py --backtest
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - run: |
+          git config user.name "ngx-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add ngx_history.json backfill_report.json backtest_report.json
+          git commit -m "NGX history backfill + backtest" || true
+          git pull --rebase && git push
