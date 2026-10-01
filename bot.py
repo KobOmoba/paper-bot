@@ -1,16 +1,23 @@
-"""Paper-trading bot for Polymarket. FAKE money only. No keys, no wallet.
-Each run: settle finished markets, scan active ones, open simulated trades.
-State lives in state.json (committed back to the repo by the workflow)."""
-import json, os, time, urllib.request
+"""Paper-trading bot for Polymarket. FAKE money only. No wallet, no trading keys.
+Each run: settle finished markets, scan active ones, open simulated trades,
+answer Telegram commands, and send alerts. State lives in state.json."""
+import json, os, time, urllib.request, urllib.parse, traceback
 
 LIST = ("https://gamma-api.polymarket.com/markets?active=true&closed=false"
         "&limit=200&order=volume24hr&ascending=false")
 ONE = "https://gamma-api.polymarket.com/markets/"
 STATE = "state.json"
-START = 50.0       # fake starting bankroll
-MAX_FRAC = 0.06    # max 6% of equity per trade
-MIN_EDGE = 0.02    # minimum gap between your fair value and market price
-MIN_LIQ = 5000     # skip thin markets
+START = 50.0        # fake starting bankroll
+MAX_FRAC = 0.06     # max 6% of equity per trade
+MIN_EDGE = 0.02     # min gap between fair value and (haircut) entry price
+MIN_LIQ = 5000      # skip thin markets
+HAIRCUT = 0.01      # pessimistic fill: pay 1 cent worse than the quoted price
+MAX_PER_EVENT = 2   # cap correlated bets on the same event
+VOID_WAIT = 86400   # seconds a market may sit closed-but-undecided before refund
+SUMMARY_HOUR_UTC = 8
+
+TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
+CHAT = os.environ.get("TELEGRAM_CHAT_ID", "")
 
 
 def get(url):
@@ -18,33 +25,67 @@ def get(url):
     return json.load(urllib.request.urlopen(req, timeout=30))
 
 
+def tg(text):
+    print(text)
+    if not (TOKEN and CHAT):
+        return
+    try:
+        data = urllib.parse.urlencode({"chat_id": CHAT, "text": text[:4000]}).encode()
+        urllib.request.urlopen(urllib.request.Request(
+            f"https://api.telegram.org/bot{TOKEN}/sendMessage", data=data), timeout=20)
+    except Exception as e:
+        print("telegram send failed:", e)
+
+
+def jl(x):
+    return json.loads(x) if isinstance(x, str) else x
+
+
 def prices(m):
-    p = m.get("outcomePrices")
-    if isinstance(p, str):
-        p = json.loads(p)
-    return [float(x) for x in p]
+    return [float(x) for x in jl(m.get("outcomePrices"))]
+
+
+def is_yes_no(m):
+    try:
+        return [str(o).lower() for o in jl(m.get("outcomes"))] == ["yes", "no"]
+    except Exception:
+        return False
 
 
 def fair_yes(m, p):
     """THE ONLY PART THAT MATTERS. Your estimate of the true YES probability.
-    This placeholder assumes the favorite-longshot bias (cheap contracts are
-    overpriced, near-certain ones underpriced). It is UNPROVEN. Replace it
-    with a better idea and let the paper results judge it."""
+    Placeholder = favorite-longshot bias. UNPROVEN. Replace with a better idea."""
     if p < 0.08:
         return p * 0.6
     if p > 0.92:
         return min(0.99, p + 0.03)
-    return p  # no opinion
+    return p
 
 
 def load():
     if os.path.exists(STATE):
-        return json.load(open(STATE))
-    return {"cash": START, "open": [], "closed": [], "dead": False}
+        s = json.load(open(STATE))
+    else:
+        s = {"cash": START, "open": [], "closed": [], "dead": False}
+    s.setdefault("offset", 0)
+    s.setdefault("last_summary", "")
+    s.setdefault("dead_notified", False)
+    return s
 
 
 def equity(s):
-    return s["cash"] + sum(t["cost"] for t in s["open"])
+    """Cash + open positions marked to the latest market price (cost if unknown)."""
+    return s["cash"] + sum(t["shares"] * t.get("mark", t["price"]) for t in s["open"])
+
+
+def status(s):
+    wins = sum(1 for t in s["closed"] if t["won"])
+    lines = [f"Equity ${equity(s):.2f} (start ${START:.0f}) | cash ${s['cash']:.2f}",
+             f"Open {len(s['open'])} | settled {len(s['closed'])} (wins {wins})"]
+    for t in s["open"]:
+        pnl = t["shares"] * t.get("mark", t["price"]) - t["cost"]
+        lines.append(f"- {t['side']} ${t['cost']:.2f} @ {t['price']} | {pnl:+.2f} | {t['q'][:50]}")
+    return "\n".join(lines)
 
 
 def settle(s):
@@ -56,62 +97,120 @@ def settle(s):
         except Exception:
             keep.append(t)
             continue
+        idx = 0 if t["side"] == "YES" else 1
+        t["mark"] = round(pr[idx], 3)
+        payout = None
         if m.get("closed") and max(pr) >= 0.99:
-            won = pr[0 if t["side"] == "YES" else 1] >= 0.99
-            payout = t["shares"] if won else 0.0
-            s["cash"] += payout
-            t.update(payout=round(payout, 2), won=won, settled=time.strftime("%F %T"))
-            s["closed"].append(t)
-        else:
+            payout = t["shares"] if pr[idx] >= 0.99 else 0.0
+        elif m.get("closed"):
+            # closed but no clear winner (void / 50-50). Refund at final prices after a wait.
+            t.setdefault("closed_seen", time.time())
+            if time.time() - t["closed_seen"] > VOID_WAIT:
+                payout = t["shares"] * pr[idx]
+        if payout is None:
             keep.append(t)
+            continue
+        s["cash"] += payout
+        won = payout > t["cost"]
+        t.update(payout=round(payout, 2), won=won, settled=time.strftime("%F %T"))
+        s["closed"].append(t)
+        tg(f"{'WIN' if won else 'LOSS'} {t['side']} | cost ${t['cost']:.2f} -> "
+           f"${payout:.2f} ({payout - t['cost']:+.2f})\n{t['q']}")
     s["open"] = keep
+
+
+def event_id(m):
+    try:
+        return str(m["events"][0]["id"])
+    except Exception:
+        return None
 
 
 def scan(s):
     held = {t["id"] for t in s["open"]}
+    per_event = {}
+    for t in s["open"]:
+        if t.get("ev"):
+            per_event[t["ev"]] = per_event.get(t["ev"], 0) + 1
     for m in get(LIST):
-        if m["id"] in held or float(m.get("liquidity") or 0) < MIN_LIQ:
+        if m["id"] in held or float(m.get("liquidity") or 0) < MIN_LIQ or not is_yes_no(m):
+            continue
+        ev = event_id(m)
+        if ev and per_event.get(ev, 0) >= MAX_PER_EVENT:
             continue
         try:
             p = prices(m)[0]
         except Exception:
             continue
         f = fair_yes(m, p)
-        edge_yes, edge_no = f - p, p - f
-        if edge_yes >= MIN_EDGE:
-            side, price, fp = "YES", p, f
-        elif edge_no >= MIN_EDGE:
-            side, price, fp = "NO", 1 - p, 1 - f
+        yes_cost = min(0.99, p + HAIRCUT)
+        no_cost = min(0.99, (1 - p) + HAIRCUT)
+        if f - yes_cost >= MIN_EDGE:
+            side, price, fp = "YES", yes_cost, f
+        elif (1 - f) - no_cost >= MIN_EDGE:
+            side, price, fp = "NO", no_cost, 1 - f
         else:
             continue
         if price <= 0.01 or price >= 0.99:
             continue
         kelly = max(0.0, (fp - price) / (1 - price))
-        size = min(MAX_FRAC * equity(s), 0.5 * kelly * equity(s), s["cash"])
+        eq = equity(s)
+        size = min(MAX_FRAC * eq, 0.5 * kelly * eq, s["cash"])
         if size < 0.5:
             continue
         s["cash"] -= size
         s["open"].append({"id": m["id"], "q": m["question"][:80], "side": side,
                           "price": round(price, 3), "cost": round(size, 2),
-                          "shares": round(size / price, 3),
+                          "shares": round(size / price, 3), "ev": ev,
                           "opened": time.strftime("%F %T")})
+        if ev:
+            per_event[ev] = per_event.get(ev, 0) + 1
+        tg(f"OPEN {side} ${size:.2f} @ {price:.3f}\n{m['question'][:80]}")
+
+
+def commands(s):
+    if not (TOKEN and CHAT):
+        return
+    try:
+        r = get(f"https://api.telegram.org/bot{TOKEN}/getUpdates?offset={s['offset'] + 1}&timeout=0")
+        for u in r.get("result", []):
+            s["offset"] = u["update_id"]
+            msg = u.get("message") or {}
+            if str((msg.get("chat") or {}).get("id")) != CHAT:
+                continue
+            if (msg.get("text") or "").startswith(("/status", "/start")):
+                tg(status(s))
+    except Exception as e:
+        print("telegram poll failed:", e)
+
+
+def daily_summary(s):
+    now = time.gmtime()
+    today = time.strftime("%F", now)
+    if now.tm_hour >= SUMMARY_HOUR_UTC and s["last_summary"] != today:
+        s["last_summary"] = today
+        tg("Daily summary\n" + status(s))
 
 
 def main():
     s = load()
-    if s.get("dead"):
-        print("Bot is dead (balance hit zero).")
-        return
-    settle(s)
-    scan(s)
-    s["cash"] = round(s["cash"], 2)
-    if equity(s) <= 0.5:
-        s["dead"] = True
+    if not s["dead"]:
+        settle(s)
+        scan(s)
+        s["cash"] = round(s["cash"], 2)
+        if equity(s) <= 0.5:
+            s["dead"] = True
+    if s["dead"] and not s["dead_notified"]:
+        s["dead_notified"] = True
+        tg("Bot is dead (balance hit zero).")
+    commands(s)
+    daily_summary(s)
     json.dump(s, open(STATE, "w"), indent=1)
-    wins = sum(1 for t in s["closed"] if t["won"])
-    print(f"equity ${equity(s):.2f} | cash ${s['cash']:.2f} | open {len(s['open'])} "
-          f"| settled {len(s['closed'])} (wins {wins})")
+    print(status(s).splitlines()[0])
 
 
-main()
-
+try:
+    main()
+except Exception:
+    tg("Bot crashed:\n" + traceback.format_exc()[-1500:])
+    raise
