@@ -20,9 +20,23 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      - run: |
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ngx-results
+          path: |
+            ngx_history.json
+            backfill_report.json
+            backtest_report.json
+      - name: Save results to repo
+        run: |
+          set +e
           git config user.name "ngx-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add ngx_history.json backfill_report.json backtest_report.json
-          git commit -m "NGX history backfill + backtest" || true
-          git pull --rebase && git push
+          ls -la ngx_history.json backfill_report.json backtest_report.json > out.txt 2>&1
+          git add -f ngx_history.json backfill_report.json backtest_report.json >> out.txt 2>&1
+          git commit -m "NGX history backfill + backtest" >> out.txt 2>&1
+          git pull --rebase --autostash >> out.txt 2>&1
+          git push >> out.txt 2>&1
+          rc=$?
+          if [ $rc -ne 0 ]; then echo "::error::$(tr '\n' ' ' < out.txt | cut -c1-1500)"; exit 1; fi
