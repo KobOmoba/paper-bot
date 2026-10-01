@@ -1,0 +1,79 @@
+{
+ "ticker": {
+  "type": "list",
+  "len": 198,
+  "head": [
+   {
+    "$id": "1",
+    "Id": 171,
+    "SYMBOL": "ABBEYBANK",
+    "Value": 7.0,
+    "PercChange": 0.05,
+    "TickerType": "EQUITIES",
+    "SYMBOL2": "ABBEYBANK "
+   },
+   {
+    "$id": "2",
+    "Id": 144,
+    "SYMBOL": "ABCTRANS",
+    "Value": 6.75,
+    "PercChange": 0.6,
+    "TickerType": "EQUITIES",
+    "SYMBOL2": "ABCTRANS "
+   }
+  ],
+  "tail": [
+   {
+    "$id": "197",
+    "Id": 157,
+    "SYMBOL": "ZENITHBANK",
+    "Value": 134.0,
+    "PercChange": 0.0,
+    "TickerType": "EQUITIES",
+    "SYMBOL2": "ZENITHBANK "
+   },
+   {
+    "$id": "198",
+    "Id": 90,
+    "SYMBOL": "ZICHIS",
+    "Value": 19.9,
+    "PercChange": 0.0,
+    "TickerType": "EQUITIES",
+    "SYMBOL2": "ZICHIS "
+   }
+  ]
+ },
+ "seplat_row": {
+  "$id": "163",
+  "Id": 83,
+  "SYMBOL": "SEPLAT",
+  "Value": 16000.1,
+  "PercChange": 0.0,
+  "TickerType": "EQUITIES",
+  "SYMBOL2": "SEPLAT "
+ },
+ "id_candidates": [
+  [
+   "$id",
+   "163"
+  ],
+  [
+   "Id",
+   83
+  ]
+ ],
+ "chart_tries": {
+  "$id=163": {
+   "type": "list",
+   "len": 0,
+   "head": [],
+   "tail": []
+  },
+  "Id=83": {
+   "type": "list",
+   "len": 0,
+   "head": [],
+   "tail": []
+  }
+ }
+}
