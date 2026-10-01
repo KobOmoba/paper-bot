@@ -1,0 +1,43 @@
+{
+ "cash": 38.0,
+ "open": [
+  {
+   "id": "562831",
+   "q": "2026 Balance of Power: R Senate, R House",
+   "side": "NO",
+   "price": 0.925,
+   "cost": 3.0,
+   "shares": 3.243,
+   "opened": "2026-10-01 17:47:21"
+  },
+  {
+   "id": "679022",
+   "q": "Will David Lisnard win the 2027 French presidential election?",
+   "side": "NO",
+   "price": 0.924,
+   "cost": 3.0,
+   "shares": 3.245,
+   "opened": "2026-10-01 17:47:21"
+  },
+  {
+   "id": "4678615",
+   "q": "Will Serbia win on 2026-10-01?",
+   "side": "NO",
+   "price": 0.945,
+   "cost": 3.0,
+   "shares": 3.175,
+   "opened": "2026-10-01 17:47:21"
+  },
+  {
+   "id": "3758964",
+   "q": "Bab el-Mandeb Strait effectively closed by October 31?",
+   "side": "NO",
+   "price": 0.925,
+   "cost": 3.0,
+   "shares": 3.243,
+   "opened": "2026-10-01 17:47:21"
+  }
+ ],
+ "closed": [],
+ "dead": false
+}
