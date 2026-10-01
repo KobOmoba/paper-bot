@@ -1,0 +1,128 @@
+{
+ "pdfs": 478,
+ "dates_without_file": 42,
+ "rows_parsed": 158548,
+ "stocks_matched": 127,
+ "live_symbols": 146,
+ "official_pairs": 133,
+ "live_name_pairs": 0,
+ "first_date": "2024-10-04",
+ "last_date": "2026-09-30",
+ "unmatched_names": 277,
+ "top_unmatched_by_value": [
+  [
+   "U A C N PLC.",
+   455,
+   194576026
+  ],
+  [
+   "FBN HOLDINGS PLC",
+   98,
+   769839126
+  ],
+  [
+   "P Z CUSSONS NIGERIA PLC.",
+   455,
+   131393829
+  ],
+  [
+   "GUINNESS NIG PLC",
+   455,
+   126136028
+  ],
+  [
+   "VITAFOAM NIG PLC.",
+   455,
+   110184193
+  ],
+  [
+   "THE INITIATES PLC",
+   478,
+   92391960
+  ],
+  [
+   "JAIZ BANK PLC",
+   478,
+   86198662
+  ],
+  [
+   "ZICHIS AGRO ALLIED INDUSTRIES PLC",
+   172,
+   97529243
+  ],
+  [
+   "CAP PLC",
+   455,
+   35572152
+  ],
+  [
+   "MECURE INDUSTRIES PLC",
+   478,
+   24767086
+  ],
+  [
+   "VETIVA GRIFFIN 30 ETF",
+   478,
+   23057540
+  ],
+  [
+   "DEAP CAPITAL MANAGEMENT & TRUST PLC",
+   412,
+   22403131
+  ],
+  [
+   "N NIG. FLOUR MILLS PLC.",
+   455,
+   13259240
+  ],
+  [
+   "MCNICHOLS PLC",
+   455,
+   11677938
+  ],
+  [
+   "17.50% NBET JAN 2033 TRANCHE B",
+   102,
+   49766135
+  ],
+  [
+   "MRS OIL NIGERIA PLC.",
+   187,
+   25065521
+  ],
+  [
+   "FLOUR MILLS NIG. PLC.",
+   55,
+   82491777
+  ],
+  [
+   "REGENCY ASSURANCE PLC",
+   455,
+   7817701
+  ],
+  [
+   "THE SIAML PENSION ETF 40",
+   478,
+   5859723
+  ],
+  [
+   "NEWGOLD EXCHANGE TRADED FUND (ETF)",
+   478,
+   5417521
+  ]
+ ],
+ "watch_found": {
+  "SEPLAT": 478,
+  "ZENITHBANK": 478,
+  "GTCO": 478,
+  "MTNN": 478,
+  "DANGCEM": 478,
+  "AIRTELAFRI": 478,
+  "ACCESSCORP": 478,
+  "UBA": 478,
+  "FIRSTHOLDCO": 380,
+  "BUACEMENT": 478,
+  "STANBIC": 478,
+  "NESTLE": 478
+ }
+}
