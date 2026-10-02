@@ -307,6 +307,7 @@ def main():
     s = load()
     if not s["dead"]:
         settle(s)
+        score(s)
         scan(s)
         s["cash"] = round(s["cash"], 2)
         if equity(s) <= 0.5:
