@@ -1,0 +1,130 @@
+{
+ "dates": [
+  "2005-01-03",
+  "2026-10-02"
+ ],
+ "sessions": 5472,
+ "stocks": 80,
+ "periods": {
+  "build": [
+   "2005-01-03",
+   "2020-03-23"
+  ],
+  "test": [
+   "2020-03-24",
+   "2026-10-02"
+  ]
+ },
+ "benchmark_liquid_buyhold_pct": {
+  "build": 121.2,
+  "test": 387.5
+ },
+ "strategies": {
+  "breakout": {
+   "build": {
+    "trades": 1364,
+    "win_pct": 35.4,
+    "avg_trade_pct": -0.63,
+    "return_pct": -61.9,
+    "max_drawdown_pct": -70.5
+   },
+   "test": {
+    "trades": 803,
+    "win_pct": 38.4,
+    "avg_trade_pct": 0.76,
+    "return_pct": 67.4,
+    "max_drawdown_pct": -25.9
+   }
+  },
+  "dip": {
+   "build": {
+    "trades": 882,
+    "win_pct": 48.1,
+    "avg_trade_pct": -0.41,
+    "return_pct": -35.1,
+    "max_drawdown_pct": -40.1
+   },
+   "test": {
+    "trades": 852,
+    "win_pct": 53.5,
+    "avg_trade_pct": 0.64,
+    "return_pct": 58.6,
+    "max_drawdown_pct": -25.8
+   }
+  },
+  "trend": {
+   "build": {
+    "trades": 956,
+    "win_pct": 34.4,
+    "avg_trade_pct": -0.44,
+    "return_pct": -37.8,
+    "max_drawdown_pct": -47.4
+   },
+   "test": {
+    "trades": 693,
+    "win_pct": 35.2,
+    "avg_trade_pct": 0.44,
+    "return_pct": 25.2,
+    "max_drawdown_pct": -29.2
+   }
+  },
+  "regime_breakout": {
+   "build": {
+    "trades": 1048,
+    "win_pct": 33.3,
+    "avg_trade_pct": -0.81,
+    "return_pct": -60.4,
+    "max_drawdown_pct": -66.5
+   },
+   "test": {
+    "trades": 582,
+    "win_pct": 38.3,
+    "avg_trade_pct": 0.78,
+    "return_pct": 44.1,
+    "max_drawdown_pct": -32.5
+   }
+  },
+  "momentum": {
+   "build": {
+    "trades": 655,
+    "win_pct": 39.8,
+    "avg_trade_pct": -0.7,
+    "return_pct": -44.4,
+    "max_drawdown_pct": -61.2
+   },
+   "test": {
+    "trades": 333,
+    "win_pct": 39.0,
+    "avg_trade_pct": 3.37,
+    "return_pct": 120.1,
+    "max_drawdown_pct": -45.4
+   }
+  },
+  "momo_regime": {
+   "build": {
+    "trades": 675,
+    "win_pct": 39.3,
+    "avg_trade_pct": -0.56,
+    "return_pct": -38.2,
+    "max_drawdown_pct": -51.2
+   },
+   "test": {
+    "trades": 373,
+    "win_pct": 43.7,
+    "avg_trade_pct": 2.13,
+    "return_pct": 80.7,
+    "max_drawdown_pct": -33.8
+   }
+  }
+ },
+ "index_buyhold_pct": {
+  "IWM": {
+   "build": 91.9,
+   "test": 180.4
+  },
+  "IJR": {
+   "build": 121.3,
+   "test": 187.7
+  }
+ }
+}
