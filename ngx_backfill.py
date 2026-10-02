@@ -12,6 +12,13 @@ UA = ngx_bot.UA
 ROW = re.compile(r"^\d+\s+(.+?)\s+([\d,]+\.\d+)\s+([\d,]+\.\d+)\s+(-?[\d,.]+|-)\s+([\d,]+)\s+([\d,]+)$")
 HEAD = re.compile(r"^\d+\s+[A-Z(]")
 OLROW = re.compile(r"^([A-Z][A-Z0-9]{2,})\s+(.+?)\s+\d+\.\d{2}\s")
+ALIASES = {  # PDF company name -> ticker (applied only if the ticker exists in the live feed)
+    "U A C N PLC.": "UACN", "FBN HOLDINGS PLC": "FIRSTHOLDCO", "P Z CUSSONS NIGERIA PLC.": "PZ",
+    "GUINNESS NIG PLC": "GUINNESS", "VITAFOAM NIG PLC.": "VITAFOAM", "THE INITIATES PLC": "INITSPLC",
+    "JAIZ BANK PLC": "JAIZBANK", "ZICHIS AGRO ALLIED INDUSTRIES PLC": "ZICHIS", "CAP PLC": "CAP",
+    "MECURE INDUSTRIES PLC": "MECURE", "DEAP CAPITAL MANAGEMENT & TRUST PLC": "DEAPCAP",
+    "N NIG. FLOUR MILLS PLC.": "FLOURMILL", "FLOUR MILLS NIG. PLC.": "FLOURMILL",
+    "MCNICHOLS PLC": "MCNICHOLS", "MRS OIL NIGERIA PLC.": "MRS", "REGENCY ASSURANCE PLC": "REGALINS"}
 STOP = {"PLC", "LTD", "LIMITED", "THE", "OF", "AND", "CO", "COMPANY"}
 
 
@@ -67,6 +74,9 @@ def build_matcher(live_syms, live_names, official):
     def match(name):
         if name in cache:
             return cache[name]
+        if ALIASES.get(name) in live_syms:
+            cache[name] = ALIASES[name]
+            return cache[name]
         t, best, bs = toks(name), None, 0.0
         for sym, ct in cands:
             inter = len(ct & t)
@@ -101,7 +111,7 @@ def main():
             dates.append(d)
         d -= datetime.timedelta(days=1)
     pdfs, missing = [], 0
-    for dt in dates:
+    for dt in ([] if "--remap" in sys.argv else dates):
         data = download(SUMMARY, dt)
         if data and data[:4] == b"%PDF":
             pdfs.append((dt.isoformat(), data))
@@ -120,8 +130,22 @@ def main():
                     official.append((m.group(1), m.group(2)))
             break
     match = build_matcher(live_syms, live_names, official)
-    with Pool() as pool:
-        parsed = pool.map(parse_summary, pdfs, chunksize=4)
+    if "--remap" in sys.argv:
+        raw = json.load(open("ngx_raw.json"))
+        by = {}
+        for name, rows in raw.items():
+            for dt, price, pc, vol in rows:
+                by.setdefault(dt, {})[name] = (price, pc, vol)
+        parsed = list(by.items())
+        pdfs = parsed
+    else:
+        with Pool() as pool:
+            parsed = pool.map(parse_summary, pdfs, chunksize=4)
+        raw = {}
+        for dt, rows in parsed:
+            for name, (price, pc, vol) in rows.items():
+                raw.setdefault(name, []).append([dt, price, pc, vol])
+        json.dump(raw, open("ngx_raw.json", "w"), separators=(",", ":"))
     hist, unmatched, total_rows = {}, {}, 0
     for dt, rows in sorted(parsed):
         for name, (price, pc, vol) in rows.items():
@@ -143,6 +167,7 @@ def main():
            "last_date": max((r[-1][0] for r in out.values()), default=None),
            "unmatched_names": len(unmatched),
            "top_unmatched_by_value": [[k, v[0], round(v[1] / max(v[0], 1))] for k, v in top_un],
+           "aliases_applied": sorted({k for k in ALIASES if ALIASES[k] in live_syms}),
            "watch_found": {w: len(out.get(w, [])) for w in ngx_bot.WATCH}}
     json.dump(rep, open("backfill_report.json", "w"), indent=1)
     print(json.dumps(rep, indent=1))

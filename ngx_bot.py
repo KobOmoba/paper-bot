@@ -181,7 +181,47 @@ def x_trend(p, h):
     if p["days"] >= 120: return "time"
 
 
-STRATS = {"breakout": (e_breakout, x_breakout), "dip": (e_dip, x_dip), "trend": (e_trend, x_trend)}
+def e_regime(h, c, sym):
+    """Breakout, but only when most liquid stocks are above their 50-day average."""
+    return c["breadth"] >= 0.55 and e_breakout(h)
+
+
+def e_mom(h, c, sym):
+    """Relative-strength momentum: top-10% 60-day performers, in an uptrend, in a healthy market."""
+    if len(h) < 61 or not liquid(h) or c["breadth"] < 0.5:
+        return False
+    cl = [x[1] for x in h]
+    return c["rank"].get(sym, 0) >= 0.9 and cl[-1] > avg(cl[-50:])
+
+
+def x_mom(p, h, c):
+    if h[-1][1] <= p["entry"] * 0.88: return "stop"
+    if c["rank"].get(p["sym"], 0) < 0.6: return "rank"
+    if p["days"] >= 90: return "time"
+
+
+STRATS = {
+    "breakout": (lambda h, c, s: e_breakout(h), lambda p, h, c: x_breakout(p, h)),
+    "dip": (lambda h, c, s: e_dip(h), lambda p, h, c: x_dip(p, h)),
+    "trend": (lambda h, c, s: e_trend(h), lambda p, h, c: x_trend(p, h)),
+    "regime_breakout": (e_regime, lambda p, h, c: x_breakout(p, h)),
+    "momentum": (e_mom, x_mom),
+}
+
+
+def market_ctx(hist):
+    """Market-wide context: breadth (share of liquid stocks above 50d avg) and 60-day strength ranks."""
+    up = tot = 0
+    rets = {}
+    for sym, h in hist.items():
+        if len(h) >= 51 and liquid(h):
+            tot += 1
+            up += h[-1][1] > avg([x[1] for x in h[-50:]])
+            if len(h) >= 61 and h[-61][1] > 0:
+                rets[sym] = h[-1][1] / h[-61][1]
+    order = sorted(rets, key=rets.get)
+    rank = {sym: i / max(len(order) - 1, 1) for i, sym in enumerate(order)}
+    return {"breadth": up / tot if tot else 0.0, "rank": rank}
 
 
 # ---------- engine ----------
@@ -226,7 +266,7 @@ def fill_pending(a, q, name, say):
     a["pending"] = keep
 
 
-def run_signals(a, name, q, hist, date, say):
+def run_signals(a, name, q, hist, date, say, ctx):
     entry, exit_ = STRATS[name]
     held = {p["sym"] for p in a["pos"]}
     queued = {o["sym"] for o in a["pending"]}
@@ -238,7 +278,7 @@ def run_signals(a, name, q, hist, date, say):
         h = hist.get(p["sym"], [])
         if p["sym"] in queued or not r or not h:
             continue
-        why = exit_(p, h)
+        why = exit_(p, h, ctx)
         if why:
             a["pending"].append({"side": "SELL", "sym": p["sym"], "reason": why, "date": date})
             say(f"[{name}] SELL SIGNAL {p['sym']} ({why})")
@@ -250,7 +290,7 @@ def run_signals(a, name, q, hist, date, say):
         h = hist.get(sym, [])
         if sym in held or sym in queued or not h or h[-1][0] != date:
             continue
-        if pct(r) < SKIP_LIMIT_UP and entry(h):
+        if pct(r) < SKIP_LIMIT_UP and entry(h, ctx, sym):
             ratio = h[-1][2] / max(avg([x[2] for x in h[-21:-1]]), 1)
             cands.append((ratio, sym, r))
     for ratio, sym, r in sorted(cands, reverse=True)[:slots]:
@@ -268,9 +308,10 @@ def update_history(s, q, date):
 
 def process_day(s, q, date, say=tg):
     update_history(s, q, date)
+    ctx = market_ctx(s["hist"])
     for name, a in s["accts"].items():
         fill_pending(a, q, name, say)
-        run_signals(a, name, q, s["hist"], date, say)
+        run_signals(a, name, q, s["hist"], date, say, ctx)
         for p in a["pos"]:
             if p["sym"] in q:
                 p["mark"] = q[p["sym"]]["close"]

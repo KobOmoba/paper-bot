@@ -26,6 +26,7 @@ jobs:
           name: ngx-results
           path: |
             ngx_history.json
+            ngx_raw.json
             backfill_report.json
             backtest_report.json
       - name: Save results to repo
@@ -33,8 +34,8 @@ jobs:
           set +e
           git config user.name "ngx-bot"
           git config user.email "bot@users.noreply.github.com"
-          ls -la ngx_history.json backfill_report.json backtest_report.json > out.txt 2>&1
-          git add -f ngx_history.json backfill_report.json backtest_report.json >> out.txt 2>&1
+          ls -la ngx_history.json ngx_raw.json backfill_report.json backtest_report.json > out.txt 2>&1
+          git add -f ngx_history.json ngx_raw.json backfill_report.json backtest_report.json >> out.txt 2>&1
           git commit -m "NGX history backfill + backtest" >> out.txt 2>&1
           git pull --rebase --autostash >> out.txt 2>&1
           git push >> out.txt 2>&1
