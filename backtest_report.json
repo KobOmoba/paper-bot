@@ -99,6 +99,22 @@
     "return_pct": -14.1,
     "max_drawdown_pct": -15.4
    }
+  },
+  "momo_regime": {
+   "build": {
+    "trades": 41,
+    "win_pct": 22.0,
+    "avg_trade_pct": -2.65,
+    "return_pct": -8.2,
+    "max_drawdown_pct": -18.7
+   },
+   "test": {
+    "trades": 14,
+    "win_pct": 14.3,
+    "avg_trade_pct": -7.61,
+    "return_pct": -15.6,
+    "max_drawdown_pct": -15.6
+   }
   }
  }
 }
