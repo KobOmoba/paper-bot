@@ -1,0 +1,130 @@
+{
+ "dates": [
+  "2005-01-03",
+  "2026-10-01"
+ ],
+ "sessions": 5471,
+ "stocks": 89,
+ "periods": {
+  "build": [
+   "2005-01-03",
+   "2020-03-20"
+  ],
+  "test": [
+   "2020-03-23",
+   "2026-10-01"
+  ]
+ },
+ "benchmark_liquid_buyhold_pct": {
+  "build": 429.1,
+  "test": 337.1
+ },
+ "strategies": {
+  "breakout": {
+   "build": {
+    "trades": 904,
+    "win_pct": 43.8,
+    "avg_trade_pct": 0.48,
+    "return_pct": 48.8,
+    "max_drawdown_pct": -20.8
+   },
+   "test": {
+    "trades": 400,
+    "win_pct": 46.8,
+    "avg_trade_pct": 1.12,
+    "return_pct": 53.5,
+    "max_drawdown_pct": -10.9
+   }
+  },
+  "dip": {
+   "build": {
+    "trades": 459,
+    "win_pct": 50.1,
+    "avg_trade_pct": 0.59,
+    "return_pct": 25.8,
+    "max_drawdown_pct": -22.9
+   },
+   "test": {
+    "trades": 333,
+    "win_pct": 52.0,
+    "avg_trade_pct": 0.69,
+    "return_pct": 24.2,
+    "max_drawdown_pct": -21.1
+   }
+  },
+  "trend": {
+   "build": {
+    "trades": 943,
+    "win_pct": 41.9,
+    "avg_trade_pct": 0.43,
+    "return_pct": 45.6,
+    "max_drawdown_pct": -21.9
+   },
+   "test": {
+    "trades": 408,
+    "win_pct": 41.2,
+    "avg_trade_pct": 1.08,
+    "return_pct": 50.1,
+    "max_drawdown_pct": -14.9
+   }
+  },
+  "regime_breakout": {
+   "build": {
+    "trades": 728,
+    "win_pct": 43.7,
+    "avg_trade_pct": 0.63,
+    "return_pct": 52.9,
+    "max_drawdown_pct": -13.8
+   },
+   "test": {
+    "trades": 317,
+    "win_pct": 45.4,
+    "avg_trade_pct": 1.28,
+    "return_pct": 47.3,
+    "max_drawdown_pct": -9.5
+   }
+  },
+  "momentum": {
+   "build": {
+    "trades": 385,
+    "win_pct": 50.9,
+    "avg_trade_pct": 2.99,
+    "return_pct": 187.5,
+    "max_drawdown_pct": -22.3
+   },
+   "test": {
+    "trades": 172,
+    "win_pct": 48.8,
+    "avg_trade_pct": 3.1,
+    "return_pct": 61.7,
+    "max_drawdown_pct": -17.7
+   }
+  },
+  "momo_regime": {
+   "build": {
+    "trades": 469,
+    "win_pct": 43.7,
+    "avg_trade_pct": 1.56,
+    "return_pct": 97.6,
+    "max_drawdown_pct": -19.2
+   },
+   "test": {
+    "trades": 197,
+    "win_pct": 43.1,
+    "avg_trade_pct": 0.73,
+    "return_pct": 12.3,
+    "max_drawdown_pct": -24.5
+   }
+  }
+ },
+ "index_buyhold_pct": {
+  "SPY": {
+   "build": 158.4,
+   "test": 274.7
+  },
+  "QQQ": {
+   "build": 388.8,
+   "test": 351.7
+  }
+ }
+}
