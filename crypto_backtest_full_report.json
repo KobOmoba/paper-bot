@@ -1,0 +1,130 @@
+{
+ "dates": [
+  "2018-01-01",
+  "2026-10-02"
+ ],
+ "sessions": 3197,
+ "stocks": 45,
+ "periods": {
+  "build": [
+   "2018-01-01",
+   "2024-02-16"
+  ],
+  "test": [
+   "2024-02-17",
+   "2026-10-02"
+  ]
+ },
+ "benchmark_liquid_buyhold_pct": {
+  "build": 1094.4,
+  "test": 107.6
+ },
+ "strategies": {
+  "breakout": {
+   "build": {
+    "trades": 1032,
+    "win_pct": 37.5,
+    "avg_trade_pct": 2.98,
+    "return_pct": 851.5,
+    "max_drawdown_pct": -79.1
+   },
+   "test": {
+    "trades": 411,
+    "win_pct": 28.5,
+    "avg_trade_pct": -0.44,
+    "return_pct": -37.6,
+    "max_drawdown_pct": -70.5
+   }
+  },
+  "dip": {
+   "build": {
+    "trades": 1730,
+    "win_pct": 47.6,
+    "avg_trade_pct": -0.28,
+    "return_pct": -60.7,
+    "max_drawdown_pct": -79.5
+   },
+   "test": {
+    "trades": 652,
+    "win_pct": 43.9,
+    "avg_trade_pct": -0.56,
+    "return_pct": -46.6,
+    "max_drawdown_pct": -66.9
+   }
+  },
+  "trend": {
+   "build": {
+    "trades": 371,
+    "win_pct": 39.9,
+    "avg_trade_pct": 8.18,
+    "return_pct": 813.7,
+    "max_drawdown_pct": -42.4
+   },
+   "test": {
+    "trades": 218,
+    "win_pct": 33.0,
+    "avg_trade_pct": 8.3,
+    "return_pct": 254.8,
+    "max_drawdown_pct": -38.5
+   }
+  },
+  "regime_breakout": {
+   "build": {
+    "trades": 762,
+    "win_pct": 41.1,
+    "avg_trade_pct": 4.97,
+    "return_pct": 2134.1,
+    "max_drawdown_pct": -53.0
+   },
+   "test": {
+    "trades": 285,
+    "win_pct": 31.9,
+    "avg_trade_pct": 1.16,
+    "return_pct": 11.4,
+    "max_drawdown_pct": -57.7
+   }
+  },
+  "momentum": {
+   "build": {
+    "trades": 261,
+    "win_pct": 35.2,
+    "avg_trade_pct": 18.28,
+    "return_pct": 985.8,
+    "max_drawdown_pct": -64.5
+   },
+   "test": {
+    "trades": 126,
+    "win_pct": 31.0,
+    "avg_trade_pct": 3.93,
+    "return_pct": 45.1,
+    "max_drawdown_pct": -37.5
+   }
+  },
+  "momo_regime": {
+   "build": {
+    "trades": 274,
+    "win_pct": 38.7,
+    "avg_trade_pct": 11.24,
+    "return_pct": 654.2,
+    "max_drawdown_pct": -43.5
+   },
+   "test": {
+    "trades": 161,
+    "win_pct": 33.5,
+    "avg_trade_pct": 0.44,
+    "return_pct": 15.2,
+    "max_drawdown_pct": -37.9
+   }
+  }
+ },
+ "index_buyhold_pct": {
+  "BTC-USD": {
+   "build": 281.9,
+   "test": 63.4
+  },
+  "ETH-USD": {
+   "build": 262.9,
+   "test": -4.5
+  }
+ }
+}
