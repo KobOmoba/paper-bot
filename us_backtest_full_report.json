@@ -17,7 +17,7 @@
  },
  "benchmark_liquid_buyhold_pct": {
   "build": 417.2,
-  "test": 292.3
+  "test": 291.4
  },
  "strategies": {
   "breakout": {
@@ -32,7 +32,7 @@
     "trades": 754,
     "win_pct": 44.4,
     "avg_trade_pct": 1.22,
-    "return_pct": 136.9,
+    "return_pct": 135.0,
     "max_drawdown_pct": -15.0
    }
   },
@@ -48,7 +48,7 @@
     "trades": 419,
     "win_pct": 52.7,
     "avg_trade_pct": 0.81,
-    "return_pct": 37.4,
+    "return_pct": 36.7,
     "max_drawdown_pct": -25.2
    }
   },
@@ -62,9 +62,9 @@
    },
    "test": {
     "trades": 704,
-    "win_pct": 42.3,
-    "avg_trade_pct": 1.1,
-    "return_pct": 102.5,
+    "win_pct": 42.2,
+    "avg_trade_pct": 1.09,
+    "return_pct": 100.9,
     "max_drawdown_pct": -22.6
    }
   },
@@ -96,8 +96,8 @@
     "trades": 343,
     "win_pct": 47.2,
     "avg_trade_pct": 3.49,
-    "return_pct": 156.2,
-    "max_drawdown_pct": -24.6
+    "return_pct": 157.3,
+    "max_drawdown_pct": -24.3
    }
   },
   "momo_regime": {
@@ -120,11 +120,11 @@
  "index_buyhold_pct": {
   "SPY": {
    "build": 151.8,
-   "test": 246.8
+   "test": 246.1
   },
   "QQQ": {
    "build": 389.2,
-   "test": 324.9
+   "test": 323.5
   }
  }
 }
