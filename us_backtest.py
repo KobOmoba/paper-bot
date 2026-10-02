@@ -30,17 +30,23 @@ json.dump(hist, open("us_history.json", "w"), separators=(",", ":"))
 
 b.START, b.MIN_AVG_VALUE, b.FEE, b.SLIP = 100_000.0, 20_000_000, 0.0005, 0.0005
 b.SKIP_LIMIT_UP, b.HIST_KEEP, b.POS_FRAC, b.MAX_POS = 1e9, 120, 0.10, 5
+import os
+FULL = os.environ.get("FULL") == "true"
+if FULL:
+    b.MAX_POS = 10          # pre-registered change: 10 x 10% = fully invested (was 5 x 10% = half)
+OUT = "us_backtest_full_report.json" if FULL else "us_backtest_report.json"
+LABEL = "US fully-invested" if FULL else "US large-cap"
 b.tg = lambda t: print(t)           # capture summary text, send once at the end
 import io, contextlib
 buf = io.StringIO()
 with contextlib.redirect_stdout(buf):
-    b.backtest(histfile="us_history.json", outfile="us_backtest_report.json", label="US large-cap")
-rep = json.load(open("us_backtest_report.json"))
+    b.backtest(histfile="us_history.json", outfile=OUT, label=LABEL)
+rep = json.load(open(OUT))
 for k, rows in bench.items():
     for p, (lo, hi) in rep["periods"].items():
         w = [r[1] for r in rows if lo <= r[0] <= hi]
         rep.setdefault("index_buyhold_pct", {}).setdefault(k, {})[p] = round((w[-1] / w[0] - 1) * 100, 1) if len(w) > 1 else None
-json.dump(rep, open("us_backtest_report.json", "w"), indent=1)
+json.dump(rep, open(OUT, "w"), indent=1)
 msg = buf.getvalue() + "\nIndex buy & hold: " + json.dumps(rep["index_buyhold_pct"])
 print(msg)
 import os, urllib.parse, urllib.request
