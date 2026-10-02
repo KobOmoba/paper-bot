@@ -5,6 +5,9 @@ on:
       full:
         description: fully invested
         default: 'false'
+      dataset:
+        description: us, crypto or small
+        default: 'us'
 permissions:
   contents: write
 concurrency:
@@ -23,6 +26,7 @@ jobs:
       - run: python us_backtest.py
         env:
           FULL: ${{ inputs.full }}
+          DATASET: ${{ inputs.dataset }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       - name: Save report
@@ -30,7 +34,7 @@ jobs:
           set +e
           git config user.name "ngx-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add -f us_backtest_report.json us_backtest_full_report.json > out.txt 2>&1
+          git add -f *_backtest_report.json *_backtest_full_report.json > out.txt 2>&1
           git commit -m "US backtest report" >> out.txt 2>&1
           git pull --rebase --autostash >> out.txt 2>&1
           git push >> out.txt 2>&1

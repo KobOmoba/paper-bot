@@ -137,6 +137,7 @@ def status(s):
     for t in s["open"]:
         pnl = t["shares"] * t.get("mark", t["price"]) - t["cost"]
         lines.append(f"- {t['side']} ${t['cost']:.2f} @ {t['price']} | {pnl:+.2f} | {t['q'][:50]}")
+    lines.append(scoreboard(s))
     return "\n".join(lines)
 
 
@@ -179,51 +180,103 @@ def event_id(m):
 
 
 def scan(s):
+    """Trade ONLY where we have an information source (the BTC model). The old bias guess is retired.
+    Payoff shape: cheap contracts (<25c) need the model to say fair >= 1.5x price, tiny stakes (1%),
+    big upside. Expensive contracts (>=75c) need a 5-point edge and get 2% stakes. Middle: 5 pts, 3%."""
     held = {t["id"] for t in s["open"]}
     per_event = {}
     for t in s["open"]:
         if t.get("ev"):
             per_event[t["ev"]] = per_event.get(t["ev"], 0) + 1
     for m in get(LIST):
-        if m["id"] in held or float(m.get("liquidity") or 0) < MIN_LIQ or not is_yes_no(m):
-            continue
-        ev = event_id(m)
-        if ev and per_event.get(ev, 0) >= MAX_PER_EVENT:
+        if float(m.get("liquidity") or 0) < MIN_LIQ or not is_yes_no(m):
             continue
         try:
             p = prices(m)[0]
         except Exception:
             continue
         mp = btc_model(m)
-        if mp is not None:
-            log = s.setdefault("model_log", [])
-            log.append({"t": time.strftime("%F %T"), "q": m["question"][:60], "model": round(mp, 4), "mkt": round(p, 4)})
-            del log[:-30]
-        f = mp if mp is not None else fair_yes(m, p)
-        src = "btc-model" if mp is not None else "bias-guess"
-        yes_cost = min(0.99, p + HAIRCUT)
-        no_cost = min(0.99, (1 - p) + HAIRCUT)
-        if f - yes_cost >= MIN_EDGE:
-            side, price, fp = "YES", yes_cost, f
-        elif (1 - f) - no_cost >= MIN_EDGE:
-            side, price, fp = "NO", no_cost, 1 - f
+        if mp is None:
+            continue
+        s.setdefault("fc", {}).setdefault(str(m["id"]), {"q": m["question"][:60], "model": round(mp, 4),
+                                                       "mkt": round(p, 4), "end": m.get("endDate"),
+                                                       "t": time.strftime("%F %T")})
+        log = s.setdefault("model_log", [])
+        log.append({"t": time.strftime("%F %T"), "q": m["question"][:60], "model": round(mp, 4), "mkt": round(p, 4)})
+        del log[:-30]
+        if m["id"] in held:
+            continue
+        ev = event_id(m)
+        if ev and per_event.get(ev, 0) >= MAX_PER_EVENT:
+            continue
+        yes_cost, no_cost = min(0.99, p + HAIRCUT), min(0.99, (1 - p) + HAIRCUT)
+        if mp - yes_cost >= MIN_EDGE:
+            side, price, fp = "YES", yes_cost, mp
+        elif (1 - mp) - no_cost >= MIN_EDGE:
+            side, price, fp = "NO", no_cost, 1 - mp
         else:
             continue
         if price <= 0.01 or price >= 0.99:
             continue
+        if price < 0.25:
+            ok, frac = fp >= 1.5 * price, 0.01
+        elif price >= 0.75:
+            ok, frac = fp - price >= 0.05, 0.02
+        else:
+            ok, frac = fp - price >= 0.05, 0.03
+        if not ok:
+            continue
         kelly = max(0.0, (fp - price) / (1 - price))
-        eq = equity(s)
-        size = min(MAX_FRAC * eq, 0.5 * kelly * eq, s["cash"])
-        if size < 0.5:
+        size = min(frac * equity(s), 0.5 * kelly * equity(s), s["cash"])
+        if size < 0.25:
             continue
         s["cash"] -= size
         s["open"].append({"id": m["id"], "q": m["question"][:80], "side": side,
                           "price": round(price, 3), "cost": round(size, 2),
-                          "shares": round(size / price, 3), "ev": ev, "fair": round(fp, 3), "src": src,
+                          "shares": round(size / price, 3), "ev": ev, "fair": round(fp, 3), "src": "btc-model",
                           "opened": time.strftime("%F %T")})
         if ev:
             per_event[ev] = per_event.get(ev, 0) + 1
-        tg(f"OPEN {side} ${size:.2f} @ {price:.3f} | fair {fp:.3f} [{src}]\n{m['question'][:80]}")
+        win, lose = size / price - size, size
+        tg(f"OPEN {side} ${size:.2f} @ {price:.3f} | fair {fp:.3f} [btc-model]\n"
+           f"win +${win:.2f} / lose -${lose:.2f}\n{m['question'][:80]}")
+
+
+def score(s):
+    """Scoreboard: once a forecasted market resolves, record model vs market vs outcome."""
+    for mid, f in list(s.get("fc", {}).items()):
+        end = f.get("end")
+        try:
+            if end and len(end) <= 10:
+                end += "T16:00:00+00:00"
+            t_end = datetime.datetime.fromisoformat(end.replace("Z", "+00:00")).timestamp()
+        except Exception:
+            del s["fc"][mid]
+            continue
+        if time.time() < t_end + 3600:
+            continue
+        try:
+            m = get(ONE + str(mid))
+            pr = prices(m)
+        except Exception:
+            continue
+        if m.get("closed") and max(pr) >= 0.99:
+            s.setdefault("scores", []).append({"q": f["q"], "model": f["model"], "mkt": f["mkt"],
+                                               "y": 1 if pr[0] >= 0.99 else 0})
+            del s["fc"][mid]
+        elif time.time() > t_end + 3 * 86400:
+            del s["fc"][mid]
+    del s.get("scores", [])[:-500]
+
+
+def scoreboard(s):
+    sc = s.get("scores", [])
+    if not sc:
+        return "Scoreboard: no resolved forecasts yet"
+    bm = sum((x["model"] - x["y"]) ** 2 for x in sc) / len(sc)
+    bk = sum((x["mkt"] - x["y"]) ** 2 for x in sc) / len(sc)
+    verdict = "model better" if bm < bk else "market better"
+    return f"Scoreboard: {len(sc)} resolved | Brier model {bm:.4f} vs market {bk:.4f} (lower wins) -> {verdict}"
 
 
 def commands(s):
@@ -247,7 +300,7 @@ def daily_summary(s):
     today = time.strftime("%F", now)
     if now.tm_hour >= SUMMARY_HOUR_UTC and s["last_summary"] != today:
         s["last_summary"] = today
-        tg("Daily summary\n" + status(s))
+        tg("Daily summary\n" + status(s) + "\n" + scoreboard(s))
 
 
 def main():
