@@ -1,84 +1,34 @@
 {
- "pdfs": 478,
- "dates_without_file": 42,
- "rows_parsed": 158548,
- "stocks_matched": 127,
+ "pdfs": 477,
+ "dates_without_file": 43,
+ "rows_parsed": 158211,
+ "stocks_matched": 132,
  "live_symbols": 146,
  "official_pairs": 133,
  "live_name_pairs": 0,
- "first_date": "2024-10-04",
+ "first_date": "2024-10-07",
  "last_date": "2026-09-30",
- "unmatched_names": 277,
+ "unmatched_names": 266,
  "top_unmatched_by_value": [
   [
-   "U A C N PLC.",
-   455,
-   194576026
-  ],
-  [
-   "FBN HOLDINGS PLC",
-   98,
-   769839126
-  ],
-  [
-   "P Z CUSSONS NIGERIA PLC.",
-   455,
-   131393829
-  ],
-  [
-   "GUINNESS NIG PLC",
-   455,
-   126136028
-  ],
-  [
-   "VITAFOAM NIG PLC.",
-   455,
-   110184193
-  ],
-  [
    "THE INITIATES PLC",
-   478,
-   92391960
-  ],
-  [
-   "JAIZ BANK PLC",
-   478,
-   86198662
-  ],
-  [
-   "ZICHIS AGRO ALLIED INDUSTRIES PLC",
-   172,
-   97529243
-  ],
-  [
-   "CAP PLC",
-   455,
-   35572152
-  ],
-  [
-   "MECURE INDUSTRIES PLC",
-   478,
-   24767086
+   477,
+   92584200
   ],
   [
    "VETIVA GRIFFIN 30 ETF",
-   478,
-   23057540
+   477,
+   23105426
   ],
   [
    "DEAP CAPITAL MANAGEMENT & TRUST PLC",
-   412,
-   22403131
+   411,
+   22447262
   ],
   [
    "N NIG. FLOUR MILLS PLC.",
-   455,
-   13259240
-  ],
-  [
-   "MCNICHOLS PLC",
-   455,
-   11677938
+   454,
+   13283730
   ],
   [
    "17.50% NBET JAN 2033 TRANCHE B",
@@ -87,42 +37,105 @@
   ],
   [
    "MRS OIL NIGERIA PLC.",
-   187,
-   25065521
+   186,
+   25197458
   ],
   [
    "FLOUR MILLS NIG. PLC.",
-   55,
-   82491777
-  ],
-  [
-   "REGENCY ASSURANCE PLC",
-   455,
-   7817701
+   54,
+   83645280
   ],
   [
    "THE SIAML PENSION ETF 40",
-   478,
-   5859723
+   477,
+   5872008
   ],
   [
    "NEWGOLD EXCHANGE TRADED FUND (ETF)",
-   478,
-   5417521
+   477,
+   5428878
+  ],
+  [
+   "LIVINGTRUST MORTGAGE BANK PLC",
+   477,
+   4714439
+  ],
+  [
+   "PZ CUSSONS NIGERIA PLC.",
+   23,
+   96966868
+  ],
+  [
+   "MERISTEM GROWTH EXCHANGE TRADED FUND",
+   477,
+   4369476
+  ],
+  [
+   "VETIVA S & P NIGERIA SOVEREIGN BOND ETF",
+   477,
+   4079950
+  ],
+  [
+   "VETIVA BANKING ETF",
+   477,
+   4056929
+  ],
+  [
+   "ASSOCIATED BUS COMPANY PLC",
+   454,
+   3811863
+  ],
+  [
+   "MERISTEM VALUE EXCHANGE TRADED FUND",
+   477,
+   3495165
+  ],
+  [
+   "LOTUS HALAL EQUITY ETF",
+   477,
+   3402208
+  ],
+  [
+   "VETIVA CONSUMER GOODS ETF",
+   477,
+   2811639
+  ],
+  [
+   "GREENWICH ALPHA ETF",
+   477,
+   2220311
+  ],
+  [
+   "S C O A NIG. PLC.",
+   454,
+   1693530
   ]
  ],
+ "aliases_applied": [
+  "CAP PLC",
+  "FBN HOLDINGS PLC",
+  "GUINNESS NIG PLC",
+  "JAIZ BANK PLC",
+  "MCNICHOLS PLC",
+  "MECURE INDUSTRIES PLC",
+  "P Z CUSSONS NIGERIA PLC.",
+  "REGENCY ASSURANCE PLC",
+  "U A C N PLC.",
+  "VITAFOAM NIG PLC.",
+  "ZICHIS AGRO ALLIED INDUSTRIES PLC"
+ ],
  "watch_found": {
-  "SEPLAT": 478,
-  "ZENITHBANK": 478,
-  "GTCO": 478,
-  "MTNN": 478,
-  "DANGCEM": 478,
-  "AIRTELAFRI": 478,
-  "ACCESSCORP": 478,
-  "UBA": 478,
-  "FIRSTHOLDCO": 380,
-  "BUACEMENT": 478,
-  "STANBIC": 478,
-  "NESTLE": 478
+  "SEPLAT": 477,
+  "ZENITHBANK": 477,
+  "GTCO": 477,
+  "MTNN": 477,
+  "DANGCEM": 477,
+  "AIRTELAFRI": 477,
+  "ACCESSCORP": 477,
+  "UBA": 477,
+  "FIRSTHOLDCO": 477,
+  "BUACEMENT": 477,
+  "STANBIC": 477,
+  "NESTLE": 477
  }
 }
