@@ -17,7 +17,7 @@
  },
  "benchmark_liquid_buyhold_pct": {
   "build": 1094.4,
-  "test": 107.6
+  "test": 107.9
  },
  "strategies": {
   "breakout": {
@@ -32,7 +32,7 @@
     "trades": 411,
     "win_pct": 28.5,
     "avg_trade_pct": -0.44,
-    "return_pct": -37.6,
+    "return_pct": -37.5,
     "max_drawdown_pct": -70.5
    }
   },
@@ -48,7 +48,7 @@
     "trades": 652,
     "win_pct": 43.9,
     "avg_trade_pct": -0.56,
-    "return_pct": -46.6,
+    "return_pct": -46.5,
     "max_drawdown_pct": -66.9
    }
   },
@@ -64,7 +64,7 @@
     "trades": 218,
     "win_pct": 33.0,
     "avg_trade_pct": 8.3,
-    "return_pct": 254.8,
+    "return_pct": 255.2,
     "max_drawdown_pct": -38.5
    }
   },
@@ -79,8 +79,8 @@
    "test": {
     "trades": 285,
     "win_pct": 31.9,
-    "avg_trade_pct": 1.16,
-    "return_pct": 11.4,
+    "avg_trade_pct": 1.17,
+    "return_pct": 11.6,
     "max_drawdown_pct": -57.7
    }
   },
@@ -96,7 +96,7 @@
     "trades": 126,
     "win_pct": 31.0,
     "avg_trade_pct": 3.93,
-    "return_pct": 45.1,
+    "return_pct": 45.3,
     "max_drawdown_pct": -37.5
    }
   },
@@ -112,7 +112,7 @@
     "trades": 161,
     "win_pct": 33.5,
     "avg_trade_pct": 0.44,
-    "return_pct": 15.2,
+    "return_pct": 15.3,
     "max_drawdown_pct": -37.9
    }
   }
@@ -120,11 +120,11 @@
  "index_buyhold_pct": {
   "BTC-USD": {
    "build": 281.9,
-   "test": 63.4
+   "test": 63.5
   },
   "ETH-USD": {
    "build": 262.9,
-   "test": -4.5
+   "test": -4.4
   }
  }
 }
