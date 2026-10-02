@@ -1,7 +1,7 @@
 """Paper-trading bot for Polymarket. FAKE money only. No wallet, no trading keys.
 Each run: settle finished markets, scan active ones, open simulated trades,
 answer Telegram commands, and send alerts. State lives in state.json."""
-import json, os, time, urllib.request, urllib.parse, traceback
+import json, math, os, re, time, datetime, urllib.request, urllib.parse, traceback
 
 LIST = ("https://gamma-api.polymarket.com/markets?active=true&closed=false"
         "&limit=200&order=volume24hr&ascending=false")
@@ -15,6 +15,7 @@ HAIRCUT = 0.01      # pessimistic fill: pay 1 cent worse than the quoted price
 MAX_PER_EVENT = 2   # cap correlated bets on the same event
 VOID_WAIT = 86400   # seconds a market may sit closed-but-undecided before refund
 SUMMARY_HOUR_UTC = 8
+VOL_INFLATE = 1.25  # fat-tail allowance: real Bitcoin moves exceed the plain bell-curve estimate
 
 TOKEN = os.environ.get("TELEGRAM_TOKEN", "")
 CHAT = os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -60,6 +61,57 @@ def fair_yes(m, p):
     if p > 0.92:
         return min(0.99, p + 0.03)
     return p
+
+
+# ---------- information edge: live Bitcoin price model ----------
+BTC_Q = re.compile(r"price of bitcoin be above \$?([\d,]+(?:\.\d+)?)", re.I)
+_BTC = {}
+
+
+def Phi(x):
+    return 0.5 * (1 + math.erf(x / math.sqrt(2)))
+
+
+def btc_context():
+    """Live BTC spot (Coinbase) + 30-day daily volatility, fetched once per run."""
+    if "ctx" in _BTC:
+        return _BTC["ctx"]
+    try:
+        spot = float(get("https://api.coinbase.com/v2/prices/BTC-USD/spot")["data"]["amount"])
+        c = sorted(get("https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=86400"),
+                   key=lambda x: x[0])[:-1]            # drop today's partial candle
+        closes = [x[4] for x in c][-31:]
+        rets = [math.log(b / a) for a, b in zip(closes, closes[1:])]
+        mu = sum(rets) / len(rets)
+        sd = (sum((r - mu) ** 2 for r in rets) / (len(rets) - 1)) ** 0.5
+        _BTC["ctx"] = (spot, sd)
+    except Exception as e:
+        print("btc data failed:", e)
+        _BTC["ctx"] = None
+    return _BTC["ctx"]
+
+
+def btc_model(m):
+    """P(BTC finishes above strike) from live spot, vol and time left. None if not a BTC-threshold market."""
+    mt = BTC_Q.search(m.get("question", ""))
+    end = m.get("endDate")
+    if not mt or not end:
+        return None
+    ctx = btc_context()
+    if not ctx:
+        return None
+    try:
+        if len(end) <= 10:
+            end += "T16:00:00+00:00"                    # noon US Eastern
+        T = (datetime.datetime.fromisoformat(end.replace("Z", "+00:00")).timestamp() - time.time()) / 86400
+        K = float(mt.group(1).replace(",", ""))
+        S, sd = ctx
+        s_ = sd * VOL_INFLATE * math.sqrt(T)
+        if T <= 0 or s_ <= 0:
+            return None
+        return Phi((math.log(S / K) - 0.5 * s_ * s_) / s_)
+    except Exception:
+        return None
 
 
 def load():
@@ -142,7 +194,13 @@ def scan(s):
             p = prices(m)[0]
         except Exception:
             continue
-        f = fair_yes(m, p)
+        mp = btc_model(m)
+        if mp is not None:
+            log = s.setdefault("model_log", [])
+            log.append({"t": time.strftime("%F %T"), "q": m["question"][:60], "model": round(mp, 4), "mkt": round(p, 4)})
+            del log[:-30]
+        f = mp if mp is not None else fair_yes(m, p)
+        src = "btc-model" if mp is not None else "bias-guess"
         yes_cost = min(0.99, p + HAIRCUT)
         no_cost = min(0.99, (1 - p) + HAIRCUT)
         if f - yes_cost >= MIN_EDGE:
@@ -161,11 +219,11 @@ def scan(s):
         s["cash"] -= size
         s["open"].append({"id": m["id"], "q": m["question"][:80], "side": side,
                           "price": round(price, 3), "cost": round(size, 2),
-                          "shares": round(size / price, 3), "ev": ev,
+                          "shares": round(size / price, 3), "ev": ev, "fair": round(fp, 3), "src": src,
                           "opened": time.strftime("%F %T")})
         if ev:
             per_event[ev] = per_event.get(ev, 0) + 1
-        tg(f"OPEN {side} ${size:.2f} @ {price:.3f}\n{m['question'][:80]}")
+        tg(f"OPEN {side} ${size:.2f} @ {price:.3f} | fair {fp:.3f} [{src}]\n{m['question'][:80]}")
 
 
 def commands(s):
