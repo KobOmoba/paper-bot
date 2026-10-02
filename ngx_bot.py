@@ -200,12 +200,23 @@ def x_mom(p, h, c):
     if p["days"] >= 90: return "time"
 
 
+def e_momo_regime(h, c, sym):
+    """Momentum, but only in a clearly healthy market (>=60% of liquid stocks in uptrend)."""
+    return c["breadth"] >= 0.6 and e_mom(h, c, sym)
+
+
+def x_momo_regime(p, h, c):
+    if c["breadth"] < 0.4: return "cash"       # market weak: step aside
+    return x_mom(p, h, c)
+
+
 STRATS = {
     "breakout": (lambda h, c, s: e_breakout(h), lambda p, h, c: x_breakout(p, h)),
     "dip": (lambda h, c, s: e_dip(h), lambda p, h, c: x_dip(p, h)),
     "trend": (lambda h, c, s: e_trend(h), lambda p, h, c: x_trend(p, h)),
     "regime_breakout": (e_regime, lambda p, h, c: x_breakout(p, h)),
     "momentum": (e_mom, x_mom),
+    "momo_regime": (e_momo_regime, x_momo_regime),
 }
 
 
