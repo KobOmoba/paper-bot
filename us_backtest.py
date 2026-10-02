@@ -76,3 +76,41 @@ if os.environ.get("TELEGRAM_TOKEN") and os.environ.get("TELEGRAM_CHAT_ID"):
     d = urllib.parse.urlencode({"chat_id": os.environ["TELEGRAM_CHAT_ID"], "text": msg[:4000]}).encode()
     urllib.request.urlopen(urllib.request.Request(
         f"https://api.telegram.org/bot{os.environ['TELEGRAM_TOKEN']}/sendMessage", data=d), timeout=20)
+
+
+# ---------- rolling-start robustness: does the result depend on WHEN you start? ----------
+import statistics
+curves = b.LAST_CURVES
+prim = BENCH[0]
+brow = {r[0]: r[1] for r in bench[prim]}
+H = 730 if DATASET == "crypto" else 756      # ~2y (crypto, 7 days/wk) or ~3y of sessions
+def mdd(xs):
+    pk, m = xs[0], 0.0
+    for x in xs:
+        pk = max(pk, x); m = min(m, x / pk - 1)
+    return m
+roll = {"benchmark": prim, "horizon_sessions": H, "step": 21, "strategies": {},
+        "note": "Windows start after a 60-session warm-up. Measures an investor joining an already-running strategy."}
+for name, cv in curves.items():
+    dts = [d for d, _ in cv]; vals = [v for _, v in cv]
+    res = []
+    for i in range(60, len(cv) - H, 21):
+        j = i + H
+        if dts[i] not in brow or dts[j] not in brow:
+            continue
+        sr, br = vals[j] / vals[i] - 1, brow[dts[j]] / brow[dts[i]] - 1
+        sdd = mdd(vals[i:j + 1]); bdd = mdd([brow[d] for d in dts[i:j + 1] if d in brow])
+        res.append((sr, br, sdd, bdd))
+    if not res:
+        continue
+    roll["strategies"][name] = {
+        "windows": len(res),
+        "beats_bench_pct": round(100 * sum(1 for r in res if r[0] > r[1]) / len(res), 1),
+        "median_strategy_ret_pct": round(100 * statistics.median(r[0] for r in res), 1),
+        "median_bench_ret_pct": round(100 * statistics.median(r[1] for r in res), 1),
+        "median_excess_pts": round(100 * statistics.median(r[0] - r[1] for r in res), 1),
+        "smaller_drawdown_pct": round(100 * sum(1 for r in res if r[2] > r[3]) / len(res), 1),
+        "worst_window_strategy_pct": round(100 * min(r[0] for r in res), 1),
+        "worst_window_bench_pct": round(100 * min(r[1] for r in res), 1)}
+json.dump(roll, open(f"{DATASET}_rolling_report.json", "w"), indent=1)
+print(json.dumps(roll, indent=1)[:3000])

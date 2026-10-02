@@ -210,6 +210,7 @@ def x_momo_regime(p, h, c):
     return x_mom(p, h, c)
 
 
+LAST_CURVES = {}
 STRATS = {
     "breakout": (lambda h, c, s: e_breakout(h), lambda p, h, c: x_breakout(p, h)),
     "dip": (lambda h, c, s: e_dip(h), lambda p, h, c: x_dip(p, h)),
@@ -402,7 +403,9 @@ def backtest(split=0.7, histfile=None, outfile="backtest_report.json", label="NG
             by_date.setdefault(r[0], {})[sym] = r
     dates = sorted(by_date)
     s = {"hist": {}, "last_date": "", "accts": {k: new_acct() for k in STRATS}}
+    global LAST_CURVES
     curves = {k: [] for k in STRATS}
+    LAST_CURVES = curves
     for d in dates:
         q = {}
         for sym, r in by_date[d].items():

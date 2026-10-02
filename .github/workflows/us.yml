@@ -34,7 +34,7 @@ jobs:
           set +e
           git config user.name "ngx-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add -f *_backtest_report.json *_backtest_full_report.json > out.txt 2>&1
+          git add -f *_backtest_report.json *_backtest_full_report.json *_rolling_report.json > out.txt 2>&1
           git commit -m "US backtest report" >> out.txt 2>&1
           git pull --rebase --autostash >> out.txt 2>&1
           git push >> out.txt 2>&1
