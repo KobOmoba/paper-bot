@@ -394,8 +394,8 @@ def benchmark(hist, lo, hi):
     return round(avg(out) * 100, 1) if out else None
 
 
-def backtest(split=0.7):
-    full = json.load(open(HISTFILE))
+def backtest(split=0.7, histfile=None, outfile="backtest_report.json", label="NGX"):
+    full = json.load(open(histfile or HISTFILE))
     by_date = {}
     for sym, rows in full.items():
         for r in rows:
@@ -417,8 +417,8 @@ def backtest(split=0.7):
            "benchmark_liquid_buyhold_pct": {p: benchmark(full, *r) for p, r in periods.items()}, "strategies": {}}
     for name, a in s["accts"].items():
         rep["strategies"][name] = {p: metrics(a, curves[name], *r, full) for p, r in periods.items()}
-    json.dump(rep, open("backtest_report.json", "w"), indent=1)
-    L = [f"Backtest {dates[0]} to {dates[-1]} ({len(dates)} sessions, {len(full)} stocks)",
+    json.dump(rep, open(outfile, "w"), indent=1)
+    L = [f"{label} backtest {dates[0]} to {dates[-1]} ({len(dates)} sessions, {len(full)} stocks)",
          f"Build period to {dates[k]}, then untouched TEST period after.",
          "Benchmark (buy & hold liquid stocks): " + ", ".join(f"{p} {v}%" for p, v in rep["benchmark_liquid_buyhold_pct"].items())]
     for name, per in rep["strategies"].items():
