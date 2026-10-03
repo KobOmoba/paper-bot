@@ -1,0 +1,52 @@
+name: v7-sniper
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: v7-sniper
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 62
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "T0=$(date +%s)" >> $GITHUB_ENV
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install websockets
+      - run: python sniper_v7.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LOOP_MIN: "55"
+          SOLANA_RPC: ${{ secrets.SOLANA_RPC }}
+      - name: Save state
+        if: always()
+        run: |
+          set +e
+          git config user.name "v7-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add v7_state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "v7 state"
+          for i in 1 2 3 4; do git pull --rebase --autostash && git push && exit 0; sleep 6; done
+          echo "::error::could not push state"; exit 1
+      - name: Start next job
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GitHub's cron is unreliable on this repo, so every job starts its own successor (never faster than once per 10 min).
+          E=$(( $(date +%s) - T0 ))
+          [ "$E" -lt 600 ] && sleep $(( 600 - E ))
+          for i in 1 2 3; do
+            gh api -X POST repos/${{ github.repository }}/actions/workflows/v7.yml/dispatches -f ref=main && exit 0
+            sleep 10
+          done
+          echo "::error::could not start next job"
