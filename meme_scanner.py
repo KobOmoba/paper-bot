@@ -191,17 +191,6 @@ def raw_new_tokens(s):
         except Exception as e:
             funnel(s, "gt_fail")
             print("geckoterminal failed:", str(e)[:100])
-    try:
-        d = get_url("https://frontend-api.pump.fun/coins?offset=0&limit=50&sort=created_timestamp&order=DESC&includeNsfw=false")
-        n = 0
-        for r in d if isinstance(d, list) else []:
-            if r.get("mint"):
-                out[("solana", r["mint"])] = "pumpfun"
-                n += 1
-        funnel(s, "pf_ok" if n else "pf_empty")
-    except Exception as e:
-        funnel(s, "pf_fail")
-        print("pump.fun failed:", str(e)[:100])
     return out
 
 
@@ -266,6 +255,52 @@ def vol_velocity(s, addr, v24, age_h):
     return out
 
 
+GT_NET = {"solana": "solana", "base": "base", "bsc": "bsc"}
+NEW_TRACKS = [0]                                   # new tracks started this scan (caps launch-price API calls)
+VEL = {}                                           # address -> (recent, previous) 15-min volume, set by passes_accel
+
+
+def launch_info(chain, pool):
+    """First-trade price ('launch price'), peak and low so far, from GeckoTerminal 1-minute candles (free). None if unavailable.
+    Candle history is capped at 1000 minutes, so for tokens older than ~16h the first candle is NOT the launch."""
+    if not pool or chain not in GT_NET:
+        return None
+    try:
+        d = get_url(f"https://api.geckoterminal.com/api/v2/networks/{GT_NET[chain]}/pools/{pool}/ohlcv/minute"
+                    "?aggregate=1&limit=1000&currency=usd")
+        rows = [r for r in d["data"]["attributes"]["ohlcv_list"] if r and f(r[1]) > 0]
+        if not rows:
+            return None
+        first = min(rows, key=lambda r: r[0])
+        return {"launch_price": f(first[1]), "first_trade_ts": int(first[0]), "ath": max(f(r[2]) for r in rows),
+                "low": min(f(r[3]) for r in rows if f(r[3]) > 0), "candles": len(rows)}
+    except Exception as e:
+        print("launch info failed:", str(e)[:80])
+        return None
+
+
+def entry_context(p, price, fill, liq, launch, vel):
+    ch, tx = p.get("priceChange") or {}, p.get("txns") or {}
+    created = f(p.get("pairCreatedAt")) / 1000
+    age_min = (time.time() - created) / 60 if created else -1
+    mcap = f(p.get("marketCap")) or f(p.get("fdv"))
+    L = [f"Entry price (observed): ${price:.8g} | assumed fill after {SLIP_IN*100:.0f}% slippage + impact: ${fill:.8g}",
+         f"Age {age_min:.0f} min | market cap ${mcap:,.0f} | liquidity ${liq:,.0f}"]
+    if launch and launch["launch_price"] > 0:
+        lp, ath = launch["launch_price"], max(launch["ath"], price)
+        L.append(f"Launch (first-trade) price ${lp:.8g} -> entry is {price/lp:.1f}x launch | peak so far {ath/lp:.1f}x launch | "
+                 f"entry is {(1-price/ath)*100:.0f}% below that peak")
+    else:
+        L.append("Launch price: unavailable")
+    L.append(f"Price change: 5m {f(ch.get('m5')):+.0f}% | 1h {f(ch.get('h1')):+.0f}%")
+    L.append(f"Trades: 5m {f((tx.get('m5') or {}).get('buys')):.0f} buys / {f((tx.get('m5') or {}).get('sells')):.0f} sells | "
+             f"1h {f((tx.get('h1') or {}).get('buys')):.0f} / {f((tx.get('h1') or {}).get('sells')):.0f}")
+    if vel:
+        L.append(f"Volume per 15 min: ${vel[0]:,.0f} now vs ${vel[1]:,.0f} before ({vel[0]/max(vel[1],1):.1f}x)")
+    return "\n".join(L), {"mcap": mcap, "age_min": round(age_min, 1), "launch": launch,
+                          "vel": list(vel) if vel else None}
+
+
 TRACK_MAX_AGE_H, TRACK_START_AGE_H, TRACK_MIN_LIQ, TRACKS = 3.0, 1.5, 5_000, "meme_tracks.jsonl"
 
 
@@ -280,10 +315,13 @@ def track_update(s, a, p):
     if age_h <= 0 or price <= 0:
         return
     if tr is None:
-        if age_h > TRACK_START_AGE_H or liq < TRACK_MIN_LIQ or len(s["track"]) >= 150:
+        if age_h > TRACK_START_AGE_H or liq < TRACK_MIN_LIQ or len(s["track"]) >= 150 or NEW_TRACKS[0] >= 8:
             return
+        NEW_TRACKS[0] += 1
+        li = launch_info("solana", p.get("pairAddress"))
         tr = s["track"][a] = {"sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
-                              "created": int(created), "pts": []}
+                              "created": int(created), "launch_price": (li or {}).get("launch_price"),
+                              "first_trade_ts": (li or {}).get("first_trade_ts"), "pts": []}
     if age_h <= TRACK_MAX_AGE_H:
         tr["pts"].append([int(now), price, liq, f((p.get("volume") or {}).get("h24"))])
 
@@ -316,6 +354,7 @@ def passes_accel(p, s, addr):
     rate, prev = vel
     if rate < ACCEL_MIN_DELTA or rate < ACCEL_VEL * max(prev, 1.0):
         funnel(s, "fail_velocity"); return False
+    VEL[addr] = (rate, prev)
     ok = authorities_ok(p["baseToken"]["address"])
     if ok is None:
         funnel(s, "rpc_error"); return False
@@ -348,6 +387,7 @@ def passes(p, s):
 def scan(s):
     held = {x["addr"].lower() for x in s["pos"]}
     cand = candidates(s)
+    NEW_TRACKS[0] = 0
     if MODE == "accel":
         for tr in s["track"].values():
             cand.setdefault(("solana", tr["addr"]), "track")
@@ -392,14 +432,16 @@ def scan(s):
                 tokens = STAKE * (1 - FEE) / fill
                 s["cash"] -= STAKE
                 s["seen"][a] = time.time()
-                s["pos"].append({"sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
+                launch = launch_info(ch, p["pairAddress"])
+                ctx_text, ctx = entry_context(p, price, fill, liq, launch, VEL.get(a))
+                s["pos"].append({"ctx": ctx, "sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
                                  "chain": ch, "pair": p["pairAddress"], "entry_obs": price, "fill": fill, "liq_entry": liq,
                                  "tokens0": tokens, "tokens": tokens, "proceeds": 0.0, "peak": price, "t1": False, "t2": False,
                                  "t_open": time.time(), "opened": time.strftime("%F %T"), "src": src_of.get(a, "?"),
                                  "h1_change": f((p.get("priceChange") or {}).get("h1")), "miss": 0})
                 funnel(s, "opened")
-                tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} @ ${price:.8g} | liq ${liq:,.0f} | "
-                   f"1h {f((p.get('priceChange') or {}).get('h1')):+.0f}% | source {src_of.get(a)}\n{p.get('url', '')}")
+                tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} (source {src_of.get(a)})\n"
+                   f"{ctx_text}\n{p.get('url', '')}")
     if MODE == "accel":
         archive_tracks(s)
     s["snap"] = {k: v for k, v in s["snap"].items() if time.time() - v["t"] < 3 * 3600}

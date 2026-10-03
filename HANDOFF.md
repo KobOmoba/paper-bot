@@ -72,6 +72,13 @@ so something else used that key (UNVERIFIED what). Code now falls back to the pu
   A replay script (`replay.py`) is NOT written yet; write it once a few days of tracks exist. Treat one trade (SCAT) as an anecdote.
 - SCAT facts (from state): entered 13:47 UTC; next scan 14:11 UTC saw 2.6x so half sold at 2.6x; rug caught 14:24 UTC; net +15%. The scheduling gap helped that exit (sold at 2.6x not 2.0x).
 
+### 2-minute scans, entry context, launch price (2026-10-03)
+- `SCAN_SEC=120` for both meme workflows (user asked for ~2 min). Data providers (DexScreener/GeckoTerminal) have their own indexing delay of unknown size (UNVERIFIED), so the scan period is not the only latency.
+- Pump.fun probe removed (refused from Actions). Discovery for ACCEL = GeckoTerminal new_pools + DexScreener profiles/boosts + our own tracked tokens.
+- Buy alerts now show: observed entry price and assumed fill price, age, market cap, liquidity, LAUNCH (first-trade) price from GeckoTerminal 1-minute candles,
+  entry multiple vs launch, peak multiple so far, % below peak, 5m/1h price change, 5m/1h buys vs sells, and (ACCEL) 15-minute volume now vs before. Stored in each position's `ctx`.
+- `meme_tracks.jsonl` entries carry `launch_price` and `first_trade_ts`. Launch price is only reliable for tokens under ~16h old (candle cap 1000 minutes); it is the first TRADE price, not the pool-creation price.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
