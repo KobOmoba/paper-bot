@@ -631,6 +631,11 @@ def scan_birth(s):
             b = births[m]
             funnel(s, "evaluated")
             age_h = (now - b["t"]) / 3600
+            if "fp" not in b:                                  # first time DexScreener lists this launch: how late is it?
+                b["fp"] = round(age_h * 60, 1)
+                funnel(s, "pair_first")
+                funnel(s, "pair_age_" + ("<5m" if b["fp"] < 5 else "5-10m" if b["fp"] < 10 else "10-20m" if b["fp"] < 20
+                                         else "20-40m" if b["fp"] < 40 else "40m+"))
             v24 = f((p.get("volume") or {}).get("h24"))
             vel = velocity_calc(b["h"], now, v24, age_h)
             b["h"] = [x for x in b["h"] if now - x[0] < 2700] + [[now, v24]]
@@ -656,6 +661,8 @@ def scan_birth(s):
         for m, b in births.items():
             if m in BIRTHS:
                 BIRTHS[m]["h"], BIRTHS[m]["la"] = b["h"], b["la"]
+                if "fp" in b:
+                    BIRTHS[m]["fp"] = b["fp"]
     births_save()
     s["seen"] = {k: v for k, v in s["seen"].items() if v > now - 7 * 86400}
 
@@ -682,7 +689,7 @@ def summary(s):
         rug = sum(1 for t in c if t["reason"].startswith("rug") or t["reason"] == "vanished")
         L.append(f"Rugs/vanished: {rug} of {len(c)}")
     fu = s["funnel"]
-    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_", "b_", "ws_")))
+    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_", "b_", "ws_", "pair_")))
              + f" | seen {fu.get('candidates', 0) or fu.get('ws_births', 0)} tokens, {fu.get('opened', 0)} opened")
     if MODE == "loose" and c:
         def grp(name, key):

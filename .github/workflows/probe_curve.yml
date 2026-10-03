@@ -1,0 +1,29 @@
+name: probe-curve
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: probe-curve
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install websockets
+      - run: python probe_curve.py
+      - name: Save result
+        if: always()
+        run: |
+          set +e
+          git config user.name "probe-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add probe_curve.json
+          git diff --cached --quiet && exit 0
+          git commit -m "curve probe result"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && exit 0; sleep 5; done
