@@ -1,11 +1,16 @@
 """Meme-token scanner + PAPER simulator. FAKE money only. No wallet, no keys, no orders, ever.
 Data: DexScreener public API (free, no key). Runs every ~15 minutes on GitHub Actions.
-Entry (my assumptions, adjust MEME_* constants): confirmed early momentum on liquid, 1-72h-old pairs:
-  1h volume >= 3x its 24h hourly average, 1h price +10%..+100%, buyers clearly outnumber sellers, not already parabolic.
-Exits (trend-following, paper): stop -25%; sell 50% at 2x; sell 25% at 4x; trail the rest 12% from its peak; 48h time stop.
-Pessimistic costs: entry slippage 3% + impact, exit slippage 7% + impact, 1% fee per side. Exits execute at the
-price observed AFTER a breach (15-minute gaps), never at the stop level. Liquidity collapse = rug: exit at 30% of value.
-CAN'T DO: block-0 sniping or sub-minute reactions; this sees tokens only after they trend."""
+RULES = user's "V5 fast-momentum" rules (set 2026-10-03). Entry, ALL must pass:
+  age 1-4h | liquidity $8k-$40k | market cap < $300k | 1h volume >= 3x the prior hourly average | buys >= 1.5x sells (1h).
+Exits: hard stop -25% before Tier 1 | Tier 1 sell 50% at 2x | Tier 2 sell 30% at 4x (peak reset there) |
+  moon bag 20% on a 12% trailing stop from post-4x peak | if 2x not reached within 12h, exit 100% |
+  rug: liquidity falls >=60% within one scan step -> book a 70% loss (30% payout).
+Pessimistic costs: entry slippage 3% + impact, exit slippage 7% + impact, 1% fee per side. Exits execute at the price
+observed AFTER a breach (15-minute gaps), never at the stop level.
+MY ASSUMPTIONS (not in the rules): DexScreener has no 'prior hour' volume, so prior hourly avg is estimated from
+(h6 - h1) spread over the token's earlier life; min 1h volume $3k and >=20 trades (noise floor); a 48h backstop exit
+exists because the rules set no stop between Tier 1 and Tier 2.
+CAN'T DO: block-0 sniping or sub-minute reactions; this sees tokens only after they are listed."""
 import json, os, time, traceback, urllib.parse, urllib.request
 
 API = "https://api.dexscreener.com"
@@ -13,9 +18,11 @@ UA = {"User-Agent": "Mozilla/5.0 (compatible; meme-paper-scanner; educational)",
 STATE = "meme_state.json"
 BANK, STAKE, MAX_POS = 1000.0, 20.0, 10
 CHAINS = {"solana", "base", "bsc"}
-MIN_LIQ, MIN_AGE_H, MAX_AGE_H, MIN_VOL_H1 = 50_000, 1.0, 72.0, 20_000
-SPIKE, CH_LO, CH_HI, MAX_CH24, BUY_SELL, MIN_TX = 3.0, 10.0, 100.0, 400.0, 1.3, 100
-STOP, T1, T2, TRAIL, MAX_HOLD_H = 0.25, 2.0, 4.0, 0.12, 48.0
+MIN_LIQ, MAX_LIQ, MIN_AGE_H, MAX_AGE_H, MIN_VOL_H1, MAX_MCAP = 8_000, 40_000, 1.0, 4.0, 3_000, 300_000
+SPIKE, BUY_SELL, MIN_TX = 3.0, 1.5, 20
+STOP, T1, T2, TRAIL, MAX_HOLD_H, T1_DEADLINE_H = 0.25, 2.0, 4.0, 0.12, 48.0, 12.0
+F_T1, F_T2 = 0.50, 0.30
+RULES = 'V5-1'
 SLIP_IN, SLIP_OUT, FEE, RUG_LIQ_DROP, RUG_PAYOUT = 0.03, 0.07, 0.01, 0.60, 0.30
 COOLDOWN_H, SUMMARY_HOUR_UTC = 24.0, 8
 TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -53,6 +60,8 @@ def f(x, d=0.0):
 def load():
     s = json.load(open(STATE)) if os.path.exists(STATE) else {}
     s.setdefault("cash", BANK); s.setdefault("pos", []); s.setdefault("closed", [])
+    if s.get("rules") != RULES:
+        s["funnel"] = {}; s["rules"] = RULES
     s.setdefault("seen", {}); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
     return s
 
@@ -108,25 +117,30 @@ def manage(s):
         pos["miss"] = 0
         price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
         pos["peak"] = max(pos["peak"], price)
+        prev_liq = pos.get("liq_last", pos["liq_entry"])
+        pos["liq_last"] = liq
         mult, age_h = price / pos["entry_obs"], (time.time() - pos["t_open"]) / 3600
         pos["last"], pos["last_mult"] = price, round(mult, 3)
-        if liq < pos["liq_entry"] * (1 - RUG_LIQ_DROP):
+        if liq < prev_liq * (1 - RUG_LIQ_DROP):
             sell(pos, pos["tokens"], price, s, "rug", rug=True)
             close_out(s, pos, "rug-liquidity-collapse")
             continue
         if not pos["t1"] and mult >= T1:
             pos["t1"] = True
-            got = sell(pos, pos["tokens0"] * 0.5, price, s, "t1")
-            tg(f"MEME {pos['sym']} hit {T1:.0f}x: sold half (+${got:.2f}), trailing the rest")
+            got = sell(pos, pos["tokens0"] * F_T1, price, s, "t1")
+            tg(f"MEME {pos['sym']} hit {T1:.0f}x: sold 50% (+${got:.2f})")
         if pos["t1"] and not pos["t2"] and mult >= T2 and pos["tokens"] > 0:
             pos["t2"] = True
-            got = sell(pos, pos["tokens0"] * 0.25, price, s, "t2")
-            tg(f"MEME {pos['sym']} hit {T2:.0f}x: sold another quarter (+${got:.2f})")
+            pos["peak"] = price                      # trailing stop starts from the 4x level
+            got = sell(pos, pos["tokens0"] * F_T2, price, s, "t2")
+            tg(f"MEME {pos['sym']} hit {T2:.0f}x: sold 30% (+${got:.2f}), 20% moon bag on 12% trail")
         why = None
         if not pos["t1"] and mult <= 1 - STOP:
             why = "stop"
-        elif pos["t1"] and price <= pos["peak"] * (1 - TRAIL):
+        elif pos["t2"] and price <= pos["peak"] * (1 - TRAIL):
             why = "trail"
+        elif not pos["t1"] and age_h >= T1_DEADLINE_H:
+            why = "time12h"
         elif age_h >= MAX_HOLD_H:
             why = "time"
         if why:
@@ -156,11 +170,13 @@ def passes(p, s):
     age_h = (time.time() - created) / 3600 if created else -1
     v = p.get("volume") or {}
     tx = (p.get("txns") or {}).get("h1") or {}
-    ch = p.get("priceChange") or {}
     buys, sells = f(tx.get("buys")), f(tx.get("sells"))
-    checks = [("liq", liq >= MIN_LIQ), ("age", MIN_AGE_H <= age_h <= MAX_AGE_H),
-              ("volume", f(v.get("h1")) >= MIN_VOL_H1 and f(v.get("h1")) >= SPIKE * max(f(v.get("h24")) / 24, 1.0)),
-              ("trend", CH_LO <= f(ch.get("h1")) <= CH_HI and f(ch.get("h24")) <= MAX_CH24),
+    mcap = f(p.get("marketCap")) or f(p.get("fdv"))
+    h1 = f(v.get("h1"))
+    prior = max((f(v.get("h6")) - h1) / min(5.0, max(age_h - 1.0, 0.5)), 1.0)
+    checks = [("liq", MIN_LIQ <= liq <= MAX_LIQ), ("age", MIN_AGE_H <= age_h <= MAX_AGE_H),
+              ("mcap", 0 < mcap < MAX_MCAP),
+              ("volume", h1 >= MIN_VOL_H1 and h1 >= SPIKE * prior),
               ("flow", buys + sells >= MIN_TX and buys >= BUY_SELL * max(sells, 1))]
     for name, ok in checks:
         if not ok:
