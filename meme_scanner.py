@@ -10,6 +10,12 @@ observed AFTER a breach (15-minute gaps), never at the stop level.
 MY ASSUMPTIONS (not in the rules): DexScreener has no 'prior hour' volume, so prior hourly avg is estimated from
 (h6 - h1) spread over the token's earlier life; min 1h volume $3k and >=20 trades (noise floor); a 48h backstop exit
 exists because the rules set no stop between Tier 1 and Tier 2.
+ACCEL MODE (MEME_MODE=accel, own state file, runs alongside V5-1 to compare): Solana only. Entry, all must pass: age 15-90 min;
+  liquidity >= $15k (no cap); 15-minute volume (change in DexScreener 24h volume between our own scans) >= 2x the previous 15-minute
+  volume and >= $1k; mint AND freeze authority both revoked (read from a Solana RPC). No market-cap cap, no trade-count or buy/sell filter.
+  Same exit ladder, but exit 100% if 2x is not reached within 45 minutes. NOT CHECKED: "top wallet is not the bonding curve"
+  (needs holder data we do not have). Tokens need two scans before they can qualify. Candidates come only from DexScreener's
+  latest-profiles/boosts lists, so fresh tokens without a profile or boost are never seen.
 CAN'T DO: block-0 sniping or sub-minute reactions; this sees tokens only after they are listed."""
 import json, os, time, traceback, urllib.parse, urllib.request
 
@@ -27,6 +33,14 @@ SLIP_IN, SLIP_OUT, FEE, RUG_LIQ_DROP, RUG_PAYOUT = 0.03, 0.07, 0.01, 0.60, 0.30
 COOLDOWN_H, SUMMARY_HOUR_UTC = 24.0, 8
 TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHAT_ID", "")
 
+# MEME_MODE=accel runs the "Acceleration Gate" variant (separate state file) next to the default V5 rules, to compare them.
+MODE = os.environ.get("MEME_MODE", "v5")
+LABEL = ""
+RPC = os.environ.get("SOLANA_RPC", "https://api.mainnet-beta.solana.com")
+ACCEL_AGE_MIN_H, ACCEL_AGE_MAX_H, ACCEL_MIN_LIQ, ACCEL_VEL, ACCEL_MIN_DELTA = 0.25, 1.5, 15_000, 2.0, 1_000
+if MODE == "accel":
+    STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_accel_state.json", {"solana"}, 0.75, "ACCEL-1", "[ACCEL] "
+
 
 def get(path):
     last = None
@@ -40,6 +54,7 @@ def get(path):
 
 
 def tg(text):
+    text = LABEL + text
     print(text)
     if not (TOKEN and CHAT):
         return
@@ -62,7 +77,7 @@ def load():
     s.setdefault("cash", BANK); s.setdefault("pos", []); s.setdefault("closed", [])
     if s.get("rules") != RULES:
         s["funnel"] = {}; s["rules"] = RULES
-    s.setdefault("seen", {}); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
+    s.setdefault("seen", {}); s.setdefault("snap", {}); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
     return s
 
 
@@ -140,7 +155,7 @@ def manage(s):
         elif pos["t2"] and price <= pos["peak"] * (1 - TRAIL):
             why = "trail"
         elif not pos["t1"] and age_h >= T1_DEADLINE_H:
-            why = "time12h"
+            why = "no-2x-deadline"
         elif age_h >= MAX_HOLD_H:
             why = "time"
         if why:
@@ -162,6 +177,63 @@ def candidates():
         except Exception as e:
             print("candidate source failed:", path, e)
     return out
+
+
+def authorities_ok(mint):
+    """Solana only. True if mint AND freeze authority are both revoked, False if either exists, None if unverifiable."""
+    body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "getAccountInfo",
+                       "params": [mint, {"encoding": "jsonParsed"}]}).encode()
+    for i in range(2):
+        try:
+            r = json.load(urllib.request.urlopen(urllib.request.Request(
+                RPC, data=body, headers={"Content-Type": "application/json", **UA}), timeout=20))
+            info = r["result"]["value"]["data"]["parsed"]["info"]
+            return info.get("mintAuthority") is None and info.get("freezeAuthority") is None
+        except Exception as e:
+            print("authority check failed:", mint[:8], str(e)[:80])
+            time.sleep(2)
+    return None
+
+
+def vol_velocity(s, addr, v24, age_h):
+    """Track 24h volume locally each scan. Returns (recent_rate, previous_rate) in $ per 15 min, or None until two readings exist.
+    For tokens under 24h old the 24h volume is lifetime volume, so differences between scans are real new volume."""
+    now = time.time()
+    sn = s["snap"].get(addr)
+    out = None
+    if sn:
+        dt = max((now - sn["t"]) / 900.0, 0.2)                 # scan gap in 15-minute units
+        rate = max(v24 - sn["v"], 0.0) / dt
+        prev = sn["rate"] if sn.get("rate") is not None else sn["v"] / max(sn["age_h"] * 4.0, 1.0)  # lifetime average per 15m
+        out = (rate, prev)
+        s["snap"][addr] = {"v": v24, "t": now, "rate": rate, "age_h": age_h}
+    else:
+        s["snap"][addr] = {"v": v24, "t": now, "rate": None, "age_h": age_h}
+    return out
+
+
+def passes_accel(p, s, addr):
+    liq = f((p.get("liquidity") or {}).get("usd"))
+    created = f(p.get("pairCreatedAt")) / 1000
+    age_h = (time.time() - created) / 3600 if created else -1
+    if age_h <= 0 or age_h > ACCEL_AGE_MAX_H + 0.5:
+        return False                                            # too old to ever qualify: do not even track it
+    vel = vol_velocity(s, addr, f((p.get("volume") or {}).get("h24")), age_h)
+    if not (ACCEL_AGE_MIN_H <= age_h <= ACCEL_AGE_MAX_H):
+        funnel(s, "fail_age"); return False
+    if liq < ACCEL_MIN_LIQ:
+        funnel(s, "fail_liq"); return False
+    if vel is None:
+        funnel(s, "wait_second_reading"); return False
+    rate, prev = vel
+    if rate < ACCEL_MIN_DELTA or rate < ACCEL_VEL * max(prev, 1.0):
+        funnel(s, "fail_velocity"); return False
+    ok = authorities_ok(p["baseToken"]["address"])
+    if ok is None:
+        funnel(s, "rpc_error"); return False
+    if not ok:
+        funnel(s, "fail_authority"); return False
+    return True
 
 
 def passes(p, s):
@@ -212,10 +284,15 @@ def scan(s):
                 if not p:
                     continue
                 funnel(s, "evaluated")
-                if len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
+                if MODE != "accel" and (len(s["pos"]) >= MAX_POS or s["cash"] < STAKE):
                     funnel(s, "no_slot")
                     continue
-                if not passes(p, s):
+                if MODE == "accel":
+                    if len(s["pos"]) < MAX_POS and s["cash"] >= STAKE and not passes_accel(p, s, a):
+                        continue
+                    elif len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
+                        continue
+                elif not passes(p, s):
                     continue
                 price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
                 fill = price * (1 + SLIP_IN + STAKE / max(liq, 1.0))
@@ -230,6 +307,7 @@ def scan(s):
                 funnel(s, "opened")
                 tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} @ ${price:.8g} | liq ${liq:,.0f} | "
                    f"1h {f((p.get('priceChange') or {}).get('h1')):+.0f}% | source {src_of.get(a)}\n{p.get('url', '')}")
+    s["snap"] = {k: v for k, v in s["snap"].items() if time.time() - v["t"] < 3 * 3600}
     cut = time.time() - 7 * 86400
     s["seen"] = {k: v for k, v in s["seen"].items() if v > cut}
 
@@ -256,7 +334,7 @@ def summary(s):
         rug = sum(1 for t in c if t["reason"].startswith("rug") or t["reason"] == "vanished")
         L.append(f"Rugs/vanished: {rug} of {len(c)}")
     fu = s["funnel"]
-    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith("fail_"))
+    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_")))
              + f" | seen {fu.get('candidates', 0)} candidates, {fu.get('opened', 0)} opened")
     for x in s["pos"]:
         L.append(f"  {x['sym']} ({x['chain']}) {x.get('last_mult', 1):.2f}x")

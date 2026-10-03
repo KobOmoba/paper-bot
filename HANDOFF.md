@@ -18,8 +18,9 @@ not here. Telegram token/chat id are GitHub repo secrets `TELEGRAM_TOKEN` and `T
 |---|---|---|---|
 | Polymarket paper bot, fake $50, Bitcoin-threshold model + Brier scoreboard | `bot.py` | `bot.yml` (every 30 min) | `state.json` |
 | NGX (Nigerian Exchange) 6-strategy paper bot | `ngx_bot.py`, `ngx_backfill.py` | `ngx.yml` (15:00 and 17:30 UTC Mon-Fri), `backfill.yml` (manual) | `ngx_state.json`, `ngx_history.json`, `ngx_raw.json` |
-| Tokenized-stock momentum paper tracker (97 US stocks) | `us_live.py` | `us_live.yml` (21:30 UTC Mon-Fri) | `us_state.json` |
-| Meme-token paper scanner (DexScreener) | `meme_scanner.py` | `meme.yml` (every 15 min) | `meme_state.json` |
+| Tokenized-stock QUARTERLY momentum paper tracker (97 US stocks; every 63 sessions hold top 10 by 126-session return; 1.5%/side cost; compared with SPY) | `us_live.py` | `us_live.yml` (21:30 UTC Mon-Fri) | `us_state.json` (schema `quarterly-v1`; first buys happen at the 2026-10-05 close) |
+| Meme-token paper scanner, V5-1 rules (DexScreener) | `meme_scanner.py` | `meme.yml` (every 15 min) | `meme_state.json` |
+| Meme scanner, ACCEL-1 "Acceleration Gate" variant (same file, `MEME_MODE=accel`, Solana only) | `meme_scanner.py` | `meme_accel.yml` (every 15 min) | `meme_accel_state.json` |
 | Backtests (manual dispatch) | `us_backtest.py`, `mom_rebalance.py` | `us.yml`, `backtest.yml`, `mom.yml` | `*_report.json` |
 
 State snapshot on 2026-10-03: Polymarket cash $37.91, 5 open, 3 settled, 30 model_log entries, 6 forecasts scored (scoreboard needs >=30 resolved).
@@ -41,8 +42,16 @@ My assumptions, NOT from the user: prior-hour volume is estimated from (h6 - h1)
 a 48h backstop exit (the rules set no stop between 2x and 4x). Limits: cannot block-0 snipe; 15-minute granularity; paper cannot model unsellable tokens.
 The user's real "AariNAT Scanner" Telegram bot (V5 blueprint PDF: AWS co-location, Jito bundles, JIT blockhash, Fikra API fraud check) is separate from this repo and is not reproduced here; the blueprint holds placeholder keys only.
 
+## ACCEL-1 variant (user's redesign, 2026-10-03; runs in parallel with V5-1 to compare)
+User's reasoning: edge is catching the 15-90 minute "secondary wave", not picking good tokens. Entry: age 15-90 min; liquidity >= $15k; 15-minute volume
+(difference between our own scans of DexScreener 24h volume) >= 2x the previous 15 minutes; mint and freeze authority revoked (Solana RPC `getAccountInfo`).
+Dropped: market-cap cap, trade-count filter, buy/sell filter. Exits unchanged except exit-all if no 2x within 45 minutes.
+Honest limits: "top wallet is not the bonding curve" is NOT implemented (no holder data). The claim that any meme token makes >5x before rugging is the user's belief, NOT verified.
+Public Solana RPC may rate-limit or block Actions (funnel key `rpc_error` would show it; override with env `SOLANA_RPC`). Only tokens that appear in DexScreener latest-profiles/boosts are ever seen.
+A token needs two scans before it can qualify, and 15-minute scans plus 45-minute deadline give coarse fills.
+
 ## Open items
-1. Ask whether to switch `us_live.py` to quarterly rebalance.
-2. Watch the meme funnel (`funnel` in `meme_state.json`) to see if V5 filters produce trades; report win rate and the 1x/2x/3x slippage stress lines.
+1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
+2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
 3. Polymarket scoreboard review once >=30 resolved forecasts.
 4. Cleanup option: 8 `__pycache__` files are tracked in git; `.gitignore` now blocks new ones.
