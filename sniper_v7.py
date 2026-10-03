@@ -26,13 +26,15 @@ LAND_SLIP = 0.03                                           # extra adverse move 
 ENTRY_DELAY_S = 2.0
 TRACK_MIN = 90                                             # follow a token this long, then force-close
 MAX_TRACKED = 800
+SHAVE_MIN_USD = float(os.environ.get("V7_SHAVE_MIN_USD", "1000"))   # shaving only once the bag is worth this much
+SOL_USD = [float(os.environ.get("V7_SOL_USD", "0") or 0)]          # filled from DexScreener at start if not given
 AMM_SLIP, AMM_FEE = 0.05, 0.01                             # exit model after graduation
 STAGNANT_MIN = 20                                          # price frozen this long -> stop polling, close
 
 STRATS = {
-    "SHAVE":    dict(stop=-0.35, deadline_min=45, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15),
+    "SHAVE":    dict(stop=-0.35, deadline_min=45, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15, gate=True),
     "LADDER":   dict(stop=-0.25, deadline_min=45, shaves=[(2, .5), (4, .6)], trail_mid=0.12, trail_final=0.12),
-    "SHAVE_NS": dict(stop=None,  deadline_min=None, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15),
+    "SHAVE_NS": dict(stop=None,  deadline_min=None, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15, gate=True),
     "FLIP":     dict(stop=-0.20, deadline_min=15, shaves=[(1.5, 1.0)], trail_mid=None, trail_final=None),
 }
 
@@ -84,21 +86,28 @@ class Leg:
         return l
 
 
-def step(leg, cfg, mid, sell_fn, now):
-    """Feed one price (`mid`) to a leg. sell_fn(tokens)->SOL actually received. Returns list of events."""
+def step(leg, cfg, mid, sell_fn, now, min_sol=0.0):
+    """Feed one price (`mid`) to a leg. sell_fn(tokens)->SOL actually received.
+    Multiples (2x, 4x, stop %) are measured on CAPITAL INVESTED: m = what the WHOLE original position would pay out
+    right now, after impact and fees, divided by what we put in. So '2x' means a 2x payout net of costs.
+    Shaving (cfg gate) only happens once the remaining bag is worth >= min_sol; before that, once m >= 2 the position
+    is simply trailed (all-or-nothing) instead of shaved."""
     ev = []
     if leg.closed:
         return ev
-    m = mid / leg.entry_mid
+    m = sell_fn(leg.tokens0) / leg.cost
+    leg.m_now = m
     leg.peak = max(leg.peak, mid)
+    gated = cfg.get("gate")
 
     def dump(why):
         leg.proceeds += sell_fn(leg.tokens)
         leg.tokens, leg.closed, leg.reason = 0.0, True, why
         ev.append(("close", why))
 
-    # take-profit rungs (a gap can jump several rungs in one tick)
     while leg.stage < len(cfg["shaves"]) and m >= cfg["shaves"][leg.stage][0] and leg.tokens > 0:
+        if gated and sell_fn(leg.tokens) < min_sol:
+            break                                           # bag not big enough to be worth shaving yet
         mult, frac = cfg["shaves"][leg.stage]
         part = leg.tokens * min(frac, 1.0)
         leg.proceeds += sell_fn(part)
@@ -109,7 +118,10 @@ def step(leg, cfg, mid, sell_fn, now):
         if leg.tokens <= leg.tokens0 * 1e-9:
             leg.tokens, leg.closed, leg.reason = 0.0, True, "all-sold"
             return ev
-    if leg.stage == 0:
+    if gated and leg.stage == 0 and not getattr(leg, "armed", False) and m >= 2:
+        leg.armed, leg.peak = True, mid                     # capital doubled: start trailing instead of waiting for a shave
+    live = leg.stage > 0 or getattr(leg, "armed", False)
+    if not live:
         if cfg["stop"] is not None and m <= 1 + cfg["stop"]:
             dump("stop"); return ev
         if cfg["deadline_min"] and (now - leg.t0) / 60 >= cfg["deadline_min"]:
@@ -250,6 +262,22 @@ def open_legs(tk, vs, vt, now):
     funnel("entries")
 
 
+def MIN_SOL():
+    return SHAVE_MIN_USD / SOL_USD[0] if SOL_USD[0] > 0 else 1e9      # unknown SOL price -> never shave (safe)
+
+
+def fetch_sol_usd():
+    if SOL_USD[0] > 0:
+        return
+    try:
+        req = urllib.request.Request("https://api.dexscreener.com/tokens/v1/solana/So11111111111111111111111111111111111111112",
+                                     headers={"User-Agent": "paper-v7"})
+        best = max(json.load(urllib.request.urlopen(req, timeout=15)), key=lambda p: f((p.get("liquidity") or {}).get("usd")))
+        SOL_USD[0] = f(best.get("priceUsd"))
+    except Exception as e:
+        print("SOL price fetch failed:", str(e)[:80])
+
+
 def sell_curve(vs, vt):
     return lambda toks: curve_sell(vs, vt, toks)
 
@@ -358,13 +386,13 @@ def drive(tk, mid, sell_fn, now):
         tk["last_move"] = now
     tk["last_mid"] = mid
     if tk["entry_mid"]:
-        tk["peak_mult"] = max(tk["peak_mult"], mid / tk["entry_mid"])
+        tk["peak_mult"] = max(tk["peak_mult"], mid / tk["entry_mid"])      # token peak, raw price basis
     for n, l in tk["legs"].items():
         if l.closed:
             continue
-        for kind, val in step(l, STRATS[n], mid, sell_fn, now):
+        for kind, val in step(l, STRATS[n], mid, sell_fn, now, MIN_SOL()):
             if kind == "shave" and val >= 10 and n == "SHAVE":
-                tg(f"SHAVE {val}x {tk['sym']} ({tk['mint'][:6]}..) | peak {l.peak / l.entry_mid:.0f}x of entry")
+                tg(f"SHAVE {val}x {tk['sym']} ({tk['mint'][:6]}..) | now {l.m_now:.0f}x capital")
             if kind == "close":
                 record(tk, l, now)
 
@@ -411,9 +439,10 @@ def summary():
 def main():
     loop_min = float(os.environ.get("LOOP_MIN", "0"))
     load()
+    fetch_sol_usd()
     threading.Thread(target=ws_thread, daemon=True).start()
     t0 = last_save = last_sum = last_alive = time.time()
-    tg(f"V7 sniper job started (paper only) | stake {STAKE} SOL | strategies {', '.join(STRATS)}")
+    tg(f"V7 sniper job started (paper only) | stake {STAKE} SOL | SOL ${SOL_USD[0]:.0f} | shave only when bag >= ${SHAVE_MIN_USD:.0f} | strategies {', '.join(STRATS)}")
     while True:
         now = time.time()
         try:
