@@ -1,148 +1,193 @@
 {
- "cash": 914.3322,
+ "cash": 814.1364,
  "pos": [
   {
    "ctx": {
-    "mcap": 757577.0,
-    "age_min": 75.3,
+    "mcap": 65800.0,
+    "age_min": 14.9,
     "launch": {
-     "launch_price": 4.9196812059268734e-05,
-     "first_trade_ts": 1791052800,
-     "ath": 0.0013327518706024283,
-     "low": 4.982461714699662e-05,
-     "candles": 76,
-     "launch_sol": 4.108801681200643e-07
+     "launch_price": 3.927873359402649e-06,
+     "first_trade_ts": 1791060720,
+     "ath": 0.00010908608618962028,
+     "low": 2.4228478598079976e-05,
+     "candles": 15,
+     "launch_sol": 3.275914443386887e-08
     },
     "vel": null,
     "birth": {
-     "t": 1791052807.3109043,
-     "lp": 4.108801681200643e-07,
-     "cr": "9zcotTy2kBvvW1BgcVxmXWiMkYpj27hpCNmABjzywBcy",
-     "ib": 85.005359057,
-     "m0": 410.8801681200643
+     "t": 1791059853.4338465,
+     "lp": 3.275914443386887e-08,
+     "cr": "BFmgjdgepMxNnEyndQZC68Db3ajPdD3V8is1bQbdj4h4",
+     "ib": 2.473325351,
+     "m0": 32.759144433868876
     }
    },
-   "sym": "MrBeast",
-   "addr": "qptxT4qQsv1RirnZKtQ6Kb9se7e7bDv76CvQjcTpump",
+   "sym": "lemonem",
+   "addr": "XSeqKH7y53dYjzSxmsfojE6dRGmxGQ14kDFaftTpump",
    "chain": "solana",
-   "pair": "24ocgcokv8jikURvmzPqgC1KLdBrPY7tG4ygj4oBFM5A",
-   "entry_obs": 0.0007596,
-   "fill": 0.0007825819702721918,
-   "liq_entry": 78321.28,
-   "tokens0": 25300.864001649967,
-   "tokens": 25300.864001649967,
+   "pair": "Gj3fCzw7u43PEUdXk2JZG89D7rULjYqLX3GJWptQHLAA",
+   "entry_obs": 6.579e-05,
+   "fill": 6.782427366827009e-05,
+   "liq_entry": 21722.31,
+   "tokens0": 291930.8815136334,
+   "tokens": 291930.8815136334,
    "proceeds": 0.0,
-   "peak": 0.0009478,
+   "peak": 0.0001072,
    "t1": false,
    "t2": false,
-   "t_open": 1791057326.1907005,
-   "opened": "2026-10-03 19:55:26",
+   "t_open": 1791061670.6294458,
+   "opened": "2026-10-03 21:07:50",
    "src": "pumpportal",
-   "h1_change": -3.62,
+   "h1_change": 35.73,
    "miss": 0,
-   "liq_last": 75347.08,
-   "last": 0.0006984,
-   "last_mult": 0.919,
+   "liq_last": 27449.16,
+   "last": 9.991e-05,
+   "last_mult": 1.519,
    "path": [
     [
-     1791057441,
-     0.0008434,
-     82664.65
+     1791061781,
+     7.704e-05,
+     23683.06
     ],
     [
-     1791057561,
-     0.0008608,
-     83514.53
+     1791061901,
+     9.656e-05,
+     26839.46
     ],
     [
-     1791057681,
-     0.0008434,
-     82670.16
+     1791062021,
+     0.0001072,
+     28353.64
     ],
     [
-     1791057801,
-     0.0009478,
-     87848.85
+     1791062141,
+     8.745e-05,
+     25467.53
     ],
     [
-     1791057921,
-     0.0009179,
-     86447.3
+     1791062261,
+     6.491e-05,
+     21702.42
     ],
     [
-     1791058041,
-     0.000769,
-     78971.2
+     1791062381,
+     7.556e-05,
+     23602.45
     ],
     [
-     1791058161,
-     0.0008108,
-     81170.41
+     1791062501,
+     7.807e-05,
+     24047.88
     ],
     [
-     1791058281,
-     0.0007311,
-     76982.3
+     1791062621,
+     0.0001017,
+     27666.89
     ],
     [
-     1791058401,
-     0.0007514,
-     78075.37
+     1791062741,
+     9.256e-05,
+     26316.23
     ],
     [
-     1791058521,
-     0.0007444,
-     77705.82
+     1791062861,
+     9.022e-05,
+     25972.77
     ],
     [
-     1791058641,
-     0.000771,
-     79143.13
+     1791062981,
+     9.991e-05,
+     27449.16
+    ]
+   ]
+  },
+  {
+   "ctx": {
+    "mcap": 278928.0,
+    "age_min": 87.4,
+    "launch": {
+     "launch_price": 3.3496055330247403e-06,
+     "first_trade_ts": 1791056640,
+     "ath": 0.0003788625585723178,
+     "low": 6.0689557307828996e-05,
+     "candles": 88,
+     "launch_sol": 2.799582402250284e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791056663.7814252,
+     "lp": 2.799582402250284e-08,
+     "cr": "BpVLQkzM8hbHYD7YV6EoZ6ocrXUw7CXfFDLxVBn1iBdk",
+     "ib": 0.019753085,
+     "m0": 27.99582402250284
+    }
+   },
+   "sym": "SA",
+   "addr": "J6yUJLiLywR9CugELcdkpPjG6eZN3FVjHUjMP5jXpump",
+   "chain": "solana",
+   "pair": "Be2tZihvmDLs9DHps9wEWmxC5tXGHGhJMhZtry7SVnTw",
+   "entry_obs": 0.0002844,
+   "fill": 0.00029305041996783833,
+   "liq_entry": 48032.44,
+   "tokens0": 67565.16507354949,
+   "tokens": 67565.16507354949,
+   "proceeds": 0.0,
+   "peak": 0.0003098,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791061905.637912,
+   "opened": "2026-10-03 21:11:45",
+   "src": "pumpportal",
+   "h1_change": 164.0,
+   "miss": 0,
+   "liq_last": 47071.75,
+   "last": 0.0002713,
+   "last_mult": 0.954,
+   "path": [
+    [
+     1791062021,
+     0.0002757,
+     47279.13
     ],
     [
-     1791058761,
-     0.0007237,
-     76613.19
+     1791062141,
+     0.0002498,
+     44922.88
     ],
     [
-     1791058881,
-     0.0006265,
-     71154.08
+     1791062261,
+     0.0002974,
+     49263.29
     ],
     [
-     1791059001,
-     0.0008126,
-     81340.64
+     1791062381,
+     0.0002979,
+     49351.5
     ],
     [
-     1791059121,
-     0.0008032,
-     80910.81
+     1791062501,
+     0.0003098,
+     50386.38
     ],
     [
-     1791059241,
-     0.0007681,
-     79089.1
+     1791062621,
+     0.0002975,
+     49326.11
     ],
     [
-     1791059361,
-     0.0008018,
-     80858.48
+     1791062741,
+     0.0002633,
+     46310.23
     ],
     [
-     1791059481,
-     0.0006876,
-     74741.92
+     1791062861,
+     0.0002848,
+     48266.85
     ],
     [
-     1791059601,
-     0.0006979,
-     75314.31
-    ],
-    [
-     1791059721,
-     0.0006984,
-     75347.08
+     1791062981,
+     0.0002713,
+     47071.75
     ]
    ]
   }
@@ -442,23 +487,688 @@
    "closed": "2026-10-03 20:33:21",
    "pnl": -8.78,
    "mult_net": 0.561
+  },
+  {
+   "ctx": {
+    "mcap": 757577.0,
+    "age_min": 75.3,
+    "launch": {
+     "launch_price": 4.9196812059268734e-05,
+     "first_trade_ts": 1791052800,
+     "ath": 0.0013327518706024283,
+     "low": 4.982461714699662e-05,
+     "candles": 76,
+     "launch_sol": 4.108801681200643e-07
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791052807.3109043,
+     "lp": 4.108801681200643e-07,
+     "cr": "9zcotTy2kBvvW1BgcVxmXWiMkYpj27hpCNmABjzywBcy",
+     "ib": 85.005359057,
+     "m0": 410.8801681200643
+    }
+   },
+   "sym": "MrBeast",
+   "addr": "qptxT4qQsv1RirnZKtQ6Kb9se7e7bDv76CvQjcTpump",
+   "chain": "solana",
+   "pair": "24ocgcokv8jikURvmzPqgC1KLdBrPY7tG4ygj4oBFM5A",
+   "entry_obs": 0.0007596,
+   "fill": 0.0007825819702721918,
+   "liq_entry": 78321.28,
+   "tokens0": 25300.864001649967,
+   "tokens": 0.0,
+   "proceeds": 16.40414419444913,
+   "peak": 0.0009478,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791057326.1907005,
+   "opened": "2026-10-03 19:55:26",
+   "src": "pumpportal",
+   "h1_change": -3.62,
+   "miss": 0,
+   "liq_last": 75671.64,
+   "last": 0.0007044,
+   "last_mult": 0.927,
+   "path": [
+    [
+     1791057441,
+     0.0008434,
+     82664.65
+    ],
+    [
+     1791057561,
+     0.0008608,
+     83514.53
+    ],
+    [
+     1791057681,
+     0.0008434,
+     82670.16
+    ],
+    [
+     1791057801,
+     0.0009478,
+     87848.85
+    ],
+    [
+     1791057921,
+     0.0009179,
+     86447.3
+    ],
+    [
+     1791058041,
+     0.000769,
+     78971.2
+    ],
+    [
+     1791058161,
+     0.0008108,
+     81170.41
+    ],
+    [
+     1791058281,
+     0.0007311,
+     76982.3
+    ],
+    [
+     1791058401,
+     0.0007514,
+     78075.37
+    ],
+    [
+     1791058521,
+     0.0007444,
+     77705.82
+    ],
+    [
+     1791058641,
+     0.000771,
+     79143.13
+    ],
+    [
+     1791058761,
+     0.0007237,
+     76613.19
+    ],
+    [
+     1791058881,
+     0.0006265,
+     71154.08
+    ],
+    [
+     1791059001,
+     0.0008126,
+     81340.64
+    ],
+    [
+     1791059121,
+     0.0008032,
+     80910.81
+    ],
+    [
+     1791059241,
+     0.0007681,
+     79089.1
+    ],
+    [
+     1791059361,
+     0.0008018,
+     80858.48
+    ],
+    [
+     1791059481,
+     0.0006876,
+     74741.92
+    ],
+    [
+     1791059601,
+     0.0006979,
+     75314.31
+    ],
+    [
+     1791059721,
+     0.0006984,
+     75347.08
+    ],
+    [
+     1791059741,
+     0.0006984,
+     75350.06
+    ],
+    [
+     1791059861,
+     0.0006938,
+     75091.85
+    ],
+    [
+     1791059981,
+     0.0006916,
+     74961.18
+    ],
+    [
+     1791060101,
+     0.0007044,
+     75671.64
+    ]
+   ],
+   "obs_sold": 17.821928602762235,
+   "reason": "no-2x-deadline",
+   "closed": "2026-10-03 20:41:41",
+   "pnl": -3.6,
+   "mult_net": 0.82
+  },
+  {
+   "ctx": {
+    "mcap": 34260.0,
+    "age_min": 29.7,
+    "launch": {
+     "launch_price": 3.5508604594939185e-06,
+     "first_trade_ts": 1791058200,
+     "ath": 0.00012629835984590015,
+     "low": 1.7474873128337913e-05,
+     "candles": 30,
+     "launch_sol": 2.9590503829115987e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791055554.5062392,
+     "lp": 2.9590503829115987e-08,
+     "cr": "Af3ZzWVXNKL68BHyxiu7v1AUKe9jisj5AstiJPm9M13a",
+     "ib": 0.862895494,
+     "m0": 29.59050382911599
+    }
+   },
+   "sym": "Minds",
+   "addr": "4SzWdVbXC7JiAtY5rH5MGc8HJPFAv6sSG97QEsjSpump",
+   "chain": "solana",
+   "pair": "5Sp2E7NFbLpkRtMUgo3BfXQGuHLGXrXdh8CXRtt3zCF5",
+   "entry_obs": 3.426e-05,
+   "fill": 3.53330207680271e-05,
+   "liq_entry": 15152.33,
+   "tokens0": 560382.3157378339,
+   "tokens": 0.0,
+   "proceeds": 12.272343405527284,
+   "peak": 3.724e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791059985.567099,
+   "opened": "2026-10-03 20:39:45",
+   "src": "pumpportal",
+   "h1_change": -30.55,
+   "miss": 0,
+   "liq_last": 12275.38,
+   "last": 2.382e-05,
+   "last_mult": 0.695,
+   "path": [
+    [
+     1791060101,
+     3.724e-05,
+     15888.78
+    ],
+    [
+     1791060221,
+     3.277e-05,
+     14762.37
+    ],
+    [
+     1791060341,
+     3.285e-05,
+     14784.06
+    ],
+    [
+     1791060461,
+     2.382e-05,
+     12275.38
+    ]
+   ],
+   "obs_sold": 13.348306760875202,
+   "reason": "stop",
+   "closed": "2026-10-03 20:47:41",
+   "pnl": -7.73,
+   "mult_net": 0.614
+  },
+  {
+   "ctx": {
+    "mcap": 144217.0,
+    "age_min": 7.0,
+    "launch": {
+     "launch_price": 3.905126916252715e-06,
+     "first_trade_ts": 1791060120,
+     "ath": 0.00023623250218868277,
+     "low": 5.584065650398582e-05,
+     "candles": 8,
+     "launch_sol": 3.2551751410095444e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791059034.972091,
+     "lp": 3.2551751410095444e-08,
+     "cr": "Bigm88AivzBjY2L5avxzLYzbYZymoeVUV4sGuykyjWwF",
+     "ib": 2.37037037,
+     "m0": 32.55175141009544
+    }
+   },
+   "sym": "$SIN",
+   "addr": "GDVxFYN43je2q1wyBZXwkcrpLQZij8oqcfvC8Qb4pump",
+   "chain": "solana",
+   "pair": "3PRc3avf7PbY8onZcweKwShenDmR4dkd8S58hu7kdjAa",
+   "entry_obs": 0.0001442,
+   "fill": 0.00014861267748432125,
+   "liq_entry": 33272.77,
+   "tokens0": 133232.2405811504,
+   "tokens": 0.0,
+   "proceeds": 0.5391908776319156,
+   "peak": 0.0001442,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791060585.609378,
+   "opened": "2026-10-03 20:49:45",
+   "src": "pumpportal",
+   "h1_change": 158.0,
+   "miss": 0,
+   "liq_last": 8731.54,
+   "last": 1.349e-05,
+   "last_mult": 0.094,
+   "path": [
+    [
+     1791060701,
+     0.0001218,
+     30464.41
+    ],
+    [
+     1791060821,
+     1.349e-05,
+     8731.54
+    ]
+   ],
+   "obs_sold": 1.7973029254397188,
+   "reason": "rug-liquidity-collapse",
+   "closed": "2026-10-03 20:53:41",
+   "pnl": -19.46,
+   "mult_net": 0.027
+  },
+  {
+   "ctx": {
+    "mcap": 85158.0,
+    "age_min": 16.1,
+    "launch": {
+     "launch_price": 3.374749391761026e-06,
+     "first_trade_ts": 1791060660,
+     "ath": 8.515e-05,
+     "low": 4.6625729204593764e-05,
+     "candles": 16,
+     "launch_sol": 2.814338864462131e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791060189.0742817,
+     "lp": 2.814338864462131e-08,
+     "cr": "Ee3KUdywb8SHLSwkaBVSdiRsjSAJv16JKXGi5ejzA4V8",
+     "ib": 0.098765431,
+     "m0": 28.14338864462131
+    }
+   },
+   "sym": "Swinu",
+   "addr": "6QfBWvfZwDiJZhsiFFyfDGSUUVVmUqKAryKX1CRvpump",
+   "chain": "solana",
+   "pair": "5anuAJLEG76VWZMBsvirRNb2iYxsaxhQuR4ENwydLcFH",
+   "entry_obs": 8.515e-05,
+   "fill": 8.777285363271664e-05,
+   "liq_entry": 24914.55,
+   "tokens0": 225582.27493494307,
+   "tokens": 0.0,
+   "proceeds": 0.1699311277084926,
+   "peak": 0.0001125,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791061665.9800045,
+   "opened": "2026-10-03 21:07:45",
+   "src": "pumpportal",
+   "h1_change": 72.44,
+   "miss": 0,
+   "liq_last": 2561.07,
+   "last": 2.511e-06,
+   "last_mult": 0.029,
+   "path": [
+    [
+     1791061781,
+     8.865e-05,
+     25474.17
+    ],
+    [
+     1791061901,
+     0.0001125,
+     29001.42
+    ],
+    [
+     1791062021,
+     0.0001042,
+     27868.78
+    ],
+    [
+     1791062141,
+     9.735e-05,
+     26891.87
+    ],
+    [
+     1791062261,
+     2.511e-06,
+     2561.07
+    ]
+   ],
+   "obs_sold": 0.5664370923616421,
+   "reason": "rug-liquidity-collapse",
+   "closed": "2026-10-03 21:17:41",
+   "pnl": -19.83,
+   "mult_net": 0.008
+  },
+  {
+   "ctx": {
+    "mcap": 116963.0,
+    "age_min": 31.5,
+    "launch": {
+     "launch_price": 4.9122409136055955e-05,
+     "first_trade_ts": 1791060240,
+     "ath": 0.0019033236098163918,
+     "low": 4.982305776344767e-05,
+     "candles": 32,
+     "launch_sol": 4.108801681200643e-07
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791060258.0265338,
+     "lp": 4.108801681200643e-07,
+     "cr": "7QxtVchRZmyE9wYhorvBJK8B6JcmbnPJBgyhG3j1Aevy",
+     "ib": 85.005359057,
+     "m0": 410.8801681200643
+    }
+   },
+   "sym": "Van Cleef",
+   "addr": "FK5cnNMR9BUVtAqGSMMWki8ntuoUQfpujKWwGo46zKGw",
+   "chain": "solana",
+   "pair": "59AuduVZYqkRxJwthbbqTgFenHcuNJjRUXGT7ArFyLpo",
+   "entry_obs": 0.0001169,
+   "fill": 0.00012048630961959877,
+   "liq_entry": 29479.4,
+   "tokens0": 164334.02319743103,
+   "tokens": 0.0,
+   "proceeds": 0.10515734144403611,
+   "peak": 0.000155,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791062145.8344646,
+   "opened": "2026-10-03 21:15:45",
+   "src": "pumpportal",
+   "h1_change": 135.0,
+   "miss": 0,
+   "liq_last": 2170.41,
+   "last": 2.133e-06,
+   "last_mult": 0.018,
+   "path": [
+    [
+     1791062261,
+     0.000155,
+     34272.33
+    ],
+    [
+     1791062381,
+     2.133e-06,
+     2170.41
+    ]
+   ],
+   "obs_sold": 0.3505244714801204,
+   "reason": "rug-liquidity-collapse",
+   "closed": "2026-10-03 21:19:41",
+   "pnl": -19.89,
+   "mult_net": 0.005
+  },
+  {
+   "ctx": {
+    "mcap": 5259289723.0,
+    "age_min": 642461.9,
+    "launch": {
+     "launch_price": 2.7958993476234855e-08,
+     "first_trade_ts": 1790992320,
+     "ath": 0.006505286796171432,
+     "low": 0.005355078885355975,
+     "candles": 1000,
+     "launch_sol": 2.7958993476234855e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791056970.8982072,
+     "lp": 2.7958993476234855e-08,
+     "cr": "4xY9T1Q7foJzJsJ6YZDSsfp9zkzeZsXnxd45SixduMmr",
+     "ib": 0.0,
+     "m0": 27.958993476234856
+    }
+   },
+   "sym": "PUMP",
+   "addr": "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn",
+   "chain": "solana",
+   "pair": "2uF4Xh61rDwxnG9woyxsVQP7zuA6kLFpb3NvnRQeoiSd",
+   "entry_obs": 0.006335,
+   "fill": 0.006525054390522406,
+   "liq_entry": 28857613.81,
+   "tokens0": 3034.457464256445,
+   "tokens": 0.0,
+   "proceeds": 17.57593989734578,
+   "peak": 0.006335,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791059865.472002,
+   "opened": "2026-10-03 20:37:45",
+   "src": "pumpportal",
+   "h1_change": 0.65,
+   "miss": 0,
+   "liq_last": 28757130.23,
+   "last": 0.006291,
+   "last_mult": 0.993,
+   "path": [
+    [
+     1791059981,
+     0.006335,
+     28858712.64
+    ],
+    [
+     1791060101,
+     0.006292,
+     28760217.27
+    ],
+    [
+     1791060221,
+     0.006325,
+     28834340.87
+    ],
+    [
+     1791060341,
+     0.006286,
+     28746143.63
+    ],
+    [
+     1791060461,
+     0.006328,
+     28841291.16
+    ],
+    [
+     1791060581,
+     0.00633,
+     28845580.5
+    ],
+    [
+     1791060701,
+     0.006248,
+     28659256.05
+    ],
+    [
+     1791060821,
+     0.006294,
+     28763612.86
+    ],
+    [
+     1791060941,
+     0.006294,
+     28763612.86
+    ],
+    [
+     1791061061,
+     0.006296,
+     28768874.1
+    ],
+    [
+     1791061181,
+     0.006264,
+     28696512.65
+    ],
+    [
+     1791061301,
+     0.0063,
+     28778341.43
+    ],
+    [
+     1791061421,
+     0.00626,
+     28685970.35
+    ],
+    [
+     1791061541,
+     0.00625,
+     28664810.15
+    ],
+    [
+     1791061661,
+     0.006272,
+     28714763.55
+    ],
+    [
+     1791061781,
+     0.006272,
+     28715278.76
+    ],
+    [
+     1791061901,
+     0.006277,
+     28724779.57
+    ],
+    [
+     1791062021,
+     0.006279,
+     28730159.79
+    ],
+    [
+     1791062141,
+     0.006279,
+     28730848.06
+    ],
+    [
+     1791062261,
+     0.006297,
+     28772008.27
+    ],
+    [
+     1791062381,
+     0.006297,
+     28772008.27
+    ],
+    [
+     1791062501,
+     0.006291,
+     28757130.23
+    ],
+    [
+     1791062621,
+     0.006291,
+     28757130.23
+    ]
+   ],
+   "obs_sold": 19.089771907637292,
+   "reason": "no-2x-deadline",
+   "closed": "2026-10-03 21:23:41",
+   "pnl": -2.42,
+   "mult_net": 0.879
+  },
+  {
+   "ctx": {
+    "mcap": 174949.0,
+    "age_min": 53.4,
+    "launch": {
+     "launch_price": 4.301807455690475e-06,
+     "first_trade_ts": 1791059280,
+     "ath": 0.00035919152905924663,
+     "low": 2.969019936985485e-05,
+     "candles": 54,
+     "launch_sol": 3.5911773842808325e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791059215.5556116,
+     "lp": 3.5911773842808325e-08,
+     "cr": "twamXGa9GVEnhEurqZD9w8g6zdSa8sVRBxR8s8DR9hj",
+     "ib": 4.0,
+     "m0": 35.91177384280832
+    }
+   },
+   "sym": "STEVECOIN",
+   "addr": "DUC5LeCefoEWCaKQyH6Gc8Fys4HETpbdGsFDWEJpH6dV",
+   "chain": "solana",
+   "pair": "DA2NaTeg7D2yntNFbBGE9fR3M6uXEKizZPiy8DdJGEiG",
+   "entry_obs": 0.000181,
+   "fill": 0.00018652315239809527,
+   "liq_entry": 38861.05,
+   "tokens0": 106153.04183654893,
+   "tokens": 0.0,
+   "proceeds": 12.737604986901681,
+   "peak": 0.000182,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791062505.5201147,
+   "opened": "2026-10-03 21:21:45",
+   "src": "pumpportal",
+   "h1_change": 272.0,
+   "miss": 0,
+   "liq_last": 32720.01,
+   "last": 0.0001304,
+   "last_mult": 0.72,
+   "path": [
+    [
+     1791062621,
+     0.0001772,
+     38424.72
+    ],
+    [
+     1791062741,
+     0.000182,
+     38992.92
+    ],
+    [
+     1791062861,
+     0.0001304,
+     32720.01
+    ]
+   ],
+   "obs_sold": 13.84235665548598,
+   "reason": "stop",
+   "closed": "2026-10-03 21:27:41",
+   "pnl": -7.26,
+   "mult_net": 0.637
   }
  ],
  "funnel": {
-  "ws_births": 6311,
-  "b_lookups": 66541,
-  "evaluated": 57316,
-  "fail_age": 8176,
-  "b_hot": 60,
-  "fail_liq": 48636,
-  "wait_second_reading": 133,
-  "fail_velocity": 352,
-  "pair_first": 5072,
-  "pair_age_40m+": 560,
-  "pair_age_20-40m": 755,
-  "pair_age_10-20m": 3757,
+  "ws_births": 8361,
+  "b_lookups": 97831,
+  "evaluated": 84544,
+  "fail_age": 12331,
+  "b_hot": 82,
+  "fail_liq": 71389,
+  "wait_second_reading": 208,
+  "fail_velocity": 589,
+  "pair_first": 6892,
+  "pair_age_40m+": 561,
+  "pair_age_20-40m": 756,
+  "pair_age_10-20m": 5575,
   "fail_authority": 13,
-  "opened": 6
+  "opened": 14
  },
  "rules": "BIRTH-1",
  "seen": {
@@ -466,39 +1176,21 @@
   "qptxt4qqsv1rirnzktq6kb9se7e7bdv76cvqjctpump": 1791057325.9942555,
   "6xqyghhqggjwrrp8szesntqbbclftrjeir1yt4lpump": 1791057330.7476277,
   "f5uwatupnqetft2bt2vlg9phhac3w1gz9vwswilwpump": 1791058046.206422,
-  "4szwdvbxc7jiaty5rh5mgc8hjpfav6ssg97qesjspump": 1791059490.528687
+  "4szwdvbxc7jiaty5rh5mgc8hjpfav6ssg97qesjspump": 1791059985.397852,
+  "pumpcmxqmfrsakq5r49wcjnrayyrqmxz6ae8h7h9dfn": 1791059865.3147583,
+  "gdvxfyn43je2q1wybzxwkcrplqzij8oqcfvc8qb4pump": 1791060585.3840113,
+  "6qfbwvfzwdijzhsiffyfdgsuuvvmuqkarykx1crvpump": 1791061665.6455235,
+  "xseqkh7y53dyjzsxmsfoje6drgmxgq14kdfafttpump": 1791061670.4749072,
+  "j6yujlilywr9cugelcdkppjg6ezn3fvjhujmp5jxpump": 1791061905.4399524,
+  "fk5cnnmr9buvtaqgsmmwki8ntuouqfpujkwwgo46zkgw": 1791062145.564531,
+  "duc5lecefoewcakqyh6gc8fys4hetpbdgsfdwejph6dv": 1791062505.4551215
  },
  "snap": {},
  "track": {},
  "hot": {
-  "9vYT1B3DgP1HeHbpQTYDudHcoiW1BKopC6KksKDZVjNk": 1791054542.071001,
-  "4RsfeA3aRqWzApHwsvc6X6RArUXLYbVeB3yBNXBNpump": 1791054662.0711598,
-  "5vtmzJ6BSEip3XUpsD9rpcS1CeAAoCyhEsFxuuKcpump": 1791054782.071261,
-  "EELpmL9pHddnXJq6N3z7zfLMJVbFPkSx2JpJnQgNQa3j": 1791054902.071431,
-  "CJ7yfNktWNqKBJRaCQWNzoAhHPs3eshWY8MqU8wXpump": 1791055022.0715911,
-  "H8mbCUwP4L7v1ZFkN8N9aLzgEVZTFr1vx3s5NKPRpump": 1791055022.0715911,
-  "ZxQ1kbCRKCAtYU1QwQSGt9B5TujinVeiw8j7Hd4ehAM": 1791055022.0715911,
-  "5xPGKUFhGkx4uvsuTcFAcJ9AvM1fxiYmba4r9tPRpump": 1791055022.0715911,
-  "E1agPcX75hHK6LJoK8aDkaXX9DCQeFQgxp9QtTpEpump": 1791055622.0722578,
-  "Dps5AdWLWJhHjeqvXxBuF4jzgpZoyS4oR3zPn2jpump": 1791055622.0722578,
-  "4DCiotfK5EMZFfed8YHMdauGi4bq2fEnHTSHcofdpump": 1791056102.0727587,
-  "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS": 1791056462.0732968,
-  "Fywqd8M5auzyvPfvmdwjKzQfeBpN7wQaU6bjTdLcpump": 1791056462.0732968,
-  "6XQyGHhQgGJwRRP8sZEsntqBbCLfTrjeir1YT4Lpump": 1791056462.0732968,
-  "BwNvw53Uvmmrmsr3owHz3Qw3b8LrBJ4MWWCCTNz1pump": 1791056721.8030446,
-  "BL1ujbX7DM4QHh2fsVcQ5yNeQTgXAiLXRYXz6zLMpump": 1791056961.8032386,
-  "HFS8j3xuh95iUrCxerkaxNPKAd5XMWSjefrDCScvpump": 1791057081.8034036,
-  "38SJYgEnhqe6t5hhaiyHg2f1wFxubQLcs7fprPZpbevi": 1791057201.8035192,
-  "F9x7ZBD7bZD4iKcvd8knRCZx2QKYzHLfLSqjQcXpump": 1791057201.8035192,
-  "J6yUJLiLywR9CugELcdkpPjG6eZN3FVjHUjMP5jXpump": 1791057321.8036582,
-  "5y3QqZsBQCqn69h53wB1wasaKBokMA52fNmPudg8pump": 1791057442.1656613,
-  "BpZsSY5yBUPXHfieancvpXAvKJgbgcBx3LqHKe65pump": 1791057442.1656613,
-  "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn": 1791057681.8240528,
-  "F5UwatuPnqETFt2bT2VLG9PhHac3W1GZ9vWswiLwpump": 1791057801.8245983,
   "FE3AcJaAGP7BcgKQAF4vwJZXD8YNuxHhC66dohHwpump": 1791057921.925366,
   "H4j81uE3Wo4R8xYPVphnw95pjVEsanaNA1VqwMAGpump": 1791057921.925366,
   "CEEVL62rmkcd18cSyTZk3oVpzGZBgCoStZQ2EfVPpump": 1791058161.871802,
-  "4SzWdVbXC7JiAtY5rH5MGc8HJPFAv6sSG97QEsjSpump": 1791058401.879812,
   "Aj9hkSc8kGUFjAqjptbjBRVmWMLWqmK8FCBaiVM7pump": 1791058522.2040794,
   "76diVD3xvxDvwm3XyHgyFUf4QZ7MFrQPoKiMogYQpump": 1791058522.2040794,
   "GY7A9T7Ud3AZeAsFj85atH7G756fKLC6zX7Q1jwWpump": 1791058522.2040794,
@@ -511,10 +1203,32 @@
   "Hqpk81Q53NGNnqPe4NEURuqVCBjPX2J6GKWaLbU5pump": 1791059602.231156,
   "HXAMq5WF7sR8Dih6GDzUczsWJMU6VHPFaNKxfxqwpump": 1791059602.231156,
   "4p5ZcNptHa7gnnySHVTVJsjzGzNwbN9NewVv38ADAUFh": 1791059721.9077888,
-  "HmkiLg8BQnXMexzKJYFsMjbq82sFcqFXXfJ78CYypump": 1791059721.9077888
+  "HmkiLg8BQnXMexzKJYFsMjbq82sFcqFXXfJ78CYypump": 1791059721.9077888,
+  "ABJHVbqwpYeujZ9EULisjsAk4FcFoPkT3tnyLc615kNo": 1791059861.0606825,
+  "3Y1iNt7vsKb6vLUh8pTBRzHMrpX5nBJYvnDn7bgBM85Z": 1791059861.0606825,
+  "DUC5LeCefoEWCaKQyH6Gc8Fys4HETpbdGsFDWEJpH6dV": 1791059861.0606825,
+  "7mxrvFHRHsceeCehZwo9HLNXE1rcc4pUfe9HuAJrpump": 1791059861.0606825,
+  "98S3A9sgLHhdUHUdpviZQrbEGsXFMf4ZXfNRBpeMpump": 1791060341.081245,
+  "F7NtSwuY5jVVNELMtPFDHH7u5S1eiUCKNY8vtXWjqR1j": 1791060461.5265517,
+  "2sD6tbhuNVQq3CFpjA2GCpYuoTacDwHgmzSZ1v3Hpump": 1791060461.5265517,
+  "GDVxFYN43je2q1wyBZXwkcrpLQZij8oqcfvC8Qb4pump": 1791060461.5265517,
+  "D6mx9Auc96FBKY7uE7dbAE59heKoJCWWvP8qfQSpump": 1791060581.0119858,
+  "EHyrfw6W7PHitxWMyUfCpm31eoAFtSuMhpxx6XbUGz9o": 1791060821.5740728,
+  "6QfBWvfZwDiJZhsiFFyfDGSUUVVmUqKAryKX1CRvpump": 1791060821.5740728,
+  "96pmSZftZELjdjJkmHECnFYFhMMBU3hxHK9T2vo2pump": 1791060821.5740728,
+  "XSeqKH7y53dYjzSxmsfojE6dRGmxGQ14kDFaftTpump": 1791060821.5740728,
+  "FK5cnNMR9BUVtAqGSMMWki8ntuoUQfpujKWwGo46zKGw": 1791060941.016334,
+  "HVTyrR8fgesuVUajoXjUgHK7tAeQqeN7hJepu8Vtpump": 1791061061.011592,
+  "3W7Lu5PcsQcyyHR5KU8U4pibovnv2j2RySYYhtRovoBi": 1791061061.011592,
+  "65BvSxzrvoe7FWp4vjA3gZekxy3osEZFiKLZNhjpump": 1791061061.011592,
+  "9DMb5dwF1AnivTwXUcqbr3k97jgx7NgzmqMRkNfQpump": 1791061421.0152912,
+  "XsoCS1TfEyfFhfvj8EtZ528L3CaKBDBRqRapnBbDF2W": 1791062261.5447488,
+  "A3EvQhj9gMWtwXh8gxD96T9Q545m2DN3s6VaxZsmpump": 1791062501.1120708,
+  "3ACM2jHiswZ6Z1FeixRFqv1M1g4vGehtWosWTtenpump": 1791062501.1120708,
+  "GYK9fftiH5F2reEjAVD31A14cwdPWydJNBD6msgjpump": 1791062981.0826712
  },
- "scans": 84,
- "last_hb": 1791049959.8916914,
+ "scans": 112,
+ "last_hb": 1791060824.9250488,
  "last_summary": "2026-10-03",
  "api_fail": 0
 }
