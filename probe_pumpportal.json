@@ -1,0 +1,48 @@
+{
+ "url": "wss://pumpportal.fun/api/data",
+ "connected": true,
+ "error": null,
+ "events": 34,
+ "types": {
+  "Successfully subscribed to token creation events.": 1,
+  "create": 28,
+  "'subscribeTokenTrade' and 'subscribeAccountTrade' methods are only available when connecting with an API key funded with at least 0.02 SOL.": 5
+ },
+ "sample_keys": [
+  "bondingCurveKey",
+  "initialBuy",
+  "is_mayhem_mode",
+  "marketCapSol",
+  "mint",
+  "name",
+  "pool",
+  "signature",
+  "solAmount",
+  "symbol",
+  "traderPublicKey",
+  "txType",
+  "uri",
+  "vSolInBondingCurve",
+  "vTokensInBondingCurve"
+ ],
+ "sample": {
+  "signature": "sjQoft4LrQDYnEPXyWtAkDpWqoMr6b3zG6M8ECUmQDWT33R7bmH3zCtsJJJbqy6NkSkJ9PxLy2jyTycEcWC7iw1",
+  "mint": "EGJgMSzeJfrkFcKMNeyGR5x3HTMe2L1r6rym7dWGpump",
+  "traderPublicKey": "BaJNSTGZbB94NuAaWAchzf7ozgf5ZLqLrz6hRYQBShJE",
+  "txType": "create",
+  "initialBuy": 24170555.050808,
+  "solAmount": 0.691358023,
+  "bondingCurveKey": "6QWS6futxV3GdsrQSBpiy8ebYUArZhsruTsoQzFGFGLV",
+  "vTokensInBondingCurve": 1048829444.949192,
+  "vSolInBondingCurve": 30.691358022999978,
+  "marketCapSol": 29.262487023795128,
+  "name": "brick splace",
+  "symbol": "BRICKS",
+  "is_mayhem_mode": false,
+  "pool": "pump"
+ },
+ "first_event_after_s": 0.3,
+ "trade_events": 0,
+ "seconds": 45,
+ "elapsed_s": 45.7
+}
