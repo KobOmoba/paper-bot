@@ -1,0 +1,31 @@
+name: slow-momentum
+on: workflow_dispatch
+permissions:
+  contents: write
+concurrency:
+  group: us-live
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yfinance
+      - run: python mom_rebalance.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Save report
+        run: |
+          set +e
+          git config user.name "ngx-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -f mom_report.json
+          git diff --cached --quiet && exit 0
+          git commit -m "slow momentum report"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && exit 0; sleep 5; done
+          echo "::error::could not push report"; exit 1
