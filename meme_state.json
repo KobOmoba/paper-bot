@@ -4,14 +4,19 @@
  "closed": [],
  "seen": {},
  "funnel": {
-  "candidates": 498,
-  "evaluated": 496,
-  "fail_age": 110,
-  "fail_liq": 349,
-  "fail_volume": 37
+  "candidates": 1806,
+  "evaluated": 1771,
+  "fail_age": 501,
+  "fail_liq": 1201,
+  "fail_volume": 67,
+  "fail_flow": 2
  },
  "last_summary": "2026-10-03",
  "api_fail": 0,
  "rules": "V5-1",
- "snap": {}
+ "snap": {},
+ "track": {},
+ "hot": {},
+ "scans": 28,
+ "last_hb": 1791049950.452529
 }
