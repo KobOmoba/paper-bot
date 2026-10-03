@@ -141,15 +141,19 @@ def manage(s):
         price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
         pos["peak"] = max(pos["peak"], price)
         prev_liq = pos.get("liq_last", pos["liq_entry"])
-        pos["liq_last"] = liq
+        prev_price = pos.get("price_last", pos["entry_obs"])
+        pos["price_last"] = price
+        pos["liq_last"] = liq if liq > 0 else prev_liq        # a missing/zero liquidity field is not evidence of a rug by itself
         mult, age_h = price / pos["entry_obs"], (time.time() - pos["t_open"]) / 3600
         pos["last"], pos["last_mult"] = price, round(mult, 3)
         pos.setdefault("path", []).append([int(time.time()), price, liq])      # for replaying alternative exit rules later
         pos["path"] = pos["path"][-700:]
         if liq < prev_liq * (1 - RUG_LIQ_DROP):
-            sell(pos, pos["tokens"], price, s, "rug", rug=True)
-            close_out(s, pos, "rug-liquidity-collapse")
-            continue
+            if price <= prev_price * 0.5:                    # real rugs seen so far: liquidity -90% AND price -98% in one step
+                sell(pos, pos["tokens"], price, s, "rug", rug=True)
+                close_out(s, pos, "rug-liquidity-collapse")
+                continue
+            funnel(s, "liq_glitch")                          # liquidity dropped but price did not: data glitch (was booked as a rug before 2026-10-04)
         if not pos["t1"] and mult >= T1:
             pos["t1"] = True
             got = sell(pos, pos["tokens0"] * F_T1, price, s, "t1")
@@ -608,6 +612,9 @@ def scan_birth(s):
               and now - b.get("la", 0) >= SCREEN_EVERY - 10 and now - s["seen"].get(m.lower(), 0) > COOLDOWN_H * 3600]
     screen.sort(key=lambda m: (births[m].get("la", 0), -births[m]["t"]))      # never-tried first, youngest first
     screen = screen[:SCREEN_CAP]
+    for m in list(hot):
+        if now - s["seen"].get(m.lower(), 0) <= COOLDOWN_H * 3600:       # already traded this token: never re-enter it
+            del hot[m]
     look = [m for m in hot if m not in held] + screen
     funnel(s, "b_lookups", len(look))
     for i in range(0, len(look), 30):
@@ -644,6 +651,8 @@ def scan_birth(s):
                     funnel(s, "b_hot")
                 hot[m] = hot.get(m, now)
             if len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
+                continue
+            if now - s["seen"].get(m.lower(), 0) <= COOLDOWN_H * 3600:
                 continue
             feats = None
             if MODE == "loose":
