@@ -36,7 +36,8 @@ TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHA
 # MEME_MODE=accel runs the "Acceleration Gate" variant (separate state file) next to the default V5 rules, to compare them.
 MODE = os.environ.get("MEME_MODE", "v5")
 LABEL = ""
-RPC = os.environ.get("SOLANA_RPC") or "https://api.mainnet-beta.solana.com"   # set repo secret SOLANA_RPC to a keyed (e.g. Helius free) URL
+PUBLIC_RPC = "https://api.mainnet-beta.solana.com"
+RPC = os.environ.get("SOLANA_RPC") or PUBLIC_RPC   # set repo secret SOLANA_RPC to a keyed (e.g. Helius free) URL
 ACCEL_AGE_MIN_H, ACCEL_AGE_MAX_H, ACCEL_MIN_LIQ, ACCEL_VEL, ACCEL_MIN_DELTA = 0.25, 1.5, 15_000, 2.0, 1_000
 if MODE == "accel":
     STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_accel_state.json", {"solana"}, 0.75, "ACCEL-1", "[ACCEL] "
@@ -220,32 +221,46 @@ def authorities_ok(mint):
     """Solana only. True if mint AND freeze authority are both revoked, False if either exists, None if unverifiable."""
     body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "getAccountInfo",
                        "params": [mint, {"encoding": "jsonParsed"}]}).encode()
-    for i in range(2):
-        try:
-            r = json.load(urllib.request.urlopen(urllib.request.Request(
-                RPC, data=body, headers={"Content-Type": "application/json", **UA}), timeout=20))
-            info = r["result"]["value"]["data"]["parsed"]["info"]
-            return info.get("mintAuthority") is None and info.get("freezeAuthority") is None
-        except Exception as e:
-            print("authority check failed:", mint[:8], str(e)[:80])
-            time.sleep(2)
+    urls = [RPC] + ([PUBLIC_RPC] if RPC != PUBLIC_RPC else [])      # keyed RPC first; fall back if it is halted/blocked
+    for url in urls:
+        for i in range(2):
+            try:
+                r = json.load(urllib.request.urlopen(urllib.request.Request(
+                    url, data=body, headers={"Content-Type": "application/json", **UA}), timeout=20))
+                info = r["result"]["value"]["data"]["parsed"]["info"]
+                return info.get("mintAuthority") is None and info.get("freezeAuthority") is None
+            except Exception as e:
+                print("authority check failed:", url.split("?")[0][-30:], mint[:8], str(e)[:80])
+                time.sleep(2)
     return None
 
 
 def vol_velocity(s, addr, v24, age_h):
-    """Track 24h volume locally each scan. Returns (recent_rate, previous_rate) in $ per 15 min, or None until two readings exist.
+    """Track 24h volume locally at every scan (scans may be 5 min apart). Returns (recent, previous) volume in $ per 15 min,
+    or None until a reading at least ~13 min old exists. recent = volume since the latest reading >=13 min ago;
+    previous = the 15-minute-ish window before that (or the token's lifetime average if we have no older reading).
     For tokens under 24h old the 24h volume is lifetime volume, so differences between scans are real new volume."""
     now = time.time()
-    sn = s["snap"].get(addr)
+    h = [x for x in (s["snap"].get(addr) or {}).get("h", []) if now - x[0] < 3600]
+    A = None
+    for x in h:                                     # h is oldest-first; keep the newest reading that is >=13 min old
+        if now - x[0] >= 780:
+            A = x
     out = None
-    if sn:
-        dt = max((now - sn["t"]) / 900.0, 0.2)                 # scan gap in 15-minute units
-        rate = max(v24 - sn["v"], 0.0) / dt
-        prev = sn["rate"] if sn.get("rate") is not None else sn["v"] / max(sn["age_h"] * 4.0, 1.0)  # lifetime average per 15m
-        out = (rate, prev)
-        s["snap"][addr] = {"v": v24, "t": now, "rate": rate, "age_h": age_h}
-    else:
-        s["snap"][addr] = {"v": v24, "t": now, "rate": None, "age_h": age_h}
+    if A:
+        recent = max(v24 - A[1], 0.0) / ((now - A[0]) / 900.0)
+        B = None
+        for x in h:
+            if A[0] - x[0] >= 780:
+                B = x
+        if B:
+            prev = max(A[1] - B[1], 0.0) / ((A[0] - B[0]) / 900.0)
+        else:
+            age_a = max(age_h - (now - A[0]) / 3600.0, 0.05)
+            prev = A[1] / max(age_a * 4.0, 1.0)     # lifetime average per 15 minutes when A was taken
+        out = (recent, prev)
+    h.append([now, v24])
+    s["snap"][addr] = {"h": h, "age_h": age_h, "t": now}
     return out
 
 
@@ -400,8 +415,22 @@ def main():
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception:
-        tg("Meme scanner crashed:\n" + traceback.format_exc()[-1200:])
-        raise
+    # LOOP_MIN>0: keep scanning every SCAN_SEC seconds for that many minutes (GitHub's cron is too unreliable for 15-min scans).
+    loop_min = float(os.environ.get("LOOP_MIN") or 0)
+    scan_sec = float(os.environ.get("SCAN_SEC") or 300)
+    end, crashed = time.time() + loop_min * 60, False
+    while True:
+        t0 = time.time()
+        try:
+            main()
+        except Exception:
+            if loop_min <= 0:
+                tg("Meme scanner crashed:\n" + traceback.format_exc()[-1200:])
+                raise
+            print("scan failed:", traceback.format_exc()[-600:])
+            if not crashed:
+                crashed = True
+                tg("Meme scanner scan error (will keep looping):\n" + traceback.format_exc()[-800:])
+        if time.time() + scan_sec >= end:
+            break
+        time.sleep(max(scan_sec - (time.time() - t0), 5))

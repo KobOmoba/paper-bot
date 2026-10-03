@@ -57,6 +57,14 @@ A token needs two scans before it can qualify, and 15-minute scans plus 45-minut
   To use a keyed RPC (e.g. Helius free tier) the user must create a key and add the full URL as repo secret `SOLANA_RPC` (already wired in `meme_accel.yml`; empty secret falls back to the public RPC). Never commit the URL.
 - First ACCEL paper trade: SCAT on Solana, opened 13:47 UTC, liquidity ~$32.7k, ~25 min old. One trade proves nothing.
 
+### Scheduling change (2026-10-03)
+GitHub's `*/15` cron ran only ~once per few hours (and ~35 min late), which breaks 15-minute scanning. Both meme workflows now run ONE long job
+(`LOOP_MIN=55`, scan every `SCAN_SEC=300` s) started by a `*/30` cron; the concurrency group keeps one running + one queued job so scanning is near-continuous.
+State is committed only at the end of each job (`if: always()` save step), so `meme*_state.json` updates about hourly, not every scan.
+ACCEL volume velocity now uses windows: recent = volume since the newest reading >=13 min old; previous = the window before that (or lifetime average).
+Helius: on 2026-10-03 the user's free Helius dashboard showed 1,000,000/1,000,000 credits used and "Service halted" (resets in ~24 days). Our scanner makes very few RPC calls,
+so something else used that key (UNVERIFIED what). Code now falls back to the public Solana RPC if the keyed one fails. Consider a fresh key and never reusing one key across bots.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
