@@ -1,0 +1,32 @@
+telegram ok: True 
+=== MODE v5 18:08:12
+alive: 1 scans so far | seen 48 tokens | opened 0 | open now 0 | closed 0
+Daily meme summary
+Meme paper scanner | equity $1,000.00 (start $1,000) | cash $1,000.00 | open 0 | closed 0
+Why no trades: age 16, liq 30, volume 1 | seen 48 tokens, 0 opened
+Meme paper scanner | equity $1,000.00 (start $1,000) | cash $1,000.00 | open 0 | closed 0
+--- funnel:
+{'candidates': 48, 'evaluated': 47, 'fail_liq': 30, 'fail_age': 16, 'fail_volume': 1} scans 1
+=== MODE accel 18:08:12
+launch info failed: HTTP Error 429: Too Many Requests
+launch info failed: HTTP Error 429: Too Many Requests
+launch info failed: HTTP Error 429: Too Many Requests
+launch info failed: HTTP Error 429: Too Many Requests
+launch info failed: HTTP Error 429: Too Many Requests
+[ACCEL] alive: 1 scans so far | seen 989 tokens | opened 1 | open now 0 | closed 1
+Meme paper scanner | equity $1,003.07 (start $1,000) | cash $1,003.07 | open 0 | closed 1
+--- funnel:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/diag_accel.json'
+=== MODE birth 18:08:14
+no births file: [Errno 2] No such file or directory: 'meme_births.json'
+[BIRTH] alive: 1 scans so far | seen 4 tokens | opened 0 | open now 0 | closed 0
+[BIRTH] Daily meme summary
+Meme paper scanner | equity $1,000.00 (start $1,000) | cash $1,000.00 | open 0 | closed 0
+Why no trades: b_lookups 0, ws_births 4 | seen 4 tokens, 0 opened
+Meme paper scanner | equity $1,000.00 (start $1,000) | cash $1,000.00 | open 0 | closed 0
+--- funnel:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/diag_birth.json'
