@@ -43,6 +43,10 @@ if MODE == "accel":
     STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_accel_state.json", {"solana"}, 0.75, "ACCEL-1", "[ACCEL] "
 if MODE == "birth":      # Pump.fun launches from PumpPortal's free websocket, then the same exits as ACCEL
     STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_birth_state.json", {"solana"}, 0.75, "BIRTH-1", "[BIRTH] "
+if MODE == "loose":      # research control: buy almost every Pump.fun launch (no age/score/volume/authority gates), small stakes
+    STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_loose_state.json", {"solana"}, 0.75, "LOOSE-1", "[LOOSE] "
+    STAKE, MAX_POS = 5.0, 60
+LOOSE_MIN_LIQ = 300.0        # technical floor only: below this a $5 buy is >1.6% of the pool and the price impact model dominates
 STATE = os.environ.get("MEME_STATE_FILE") or STATE        # diagnostics can use a scratch state file
 
 
@@ -407,14 +411,14 @@ def passes(p, s):
     return True
 
 
-def open_pos(s, p, ch, a, src, birth=None):
+def open_pos(s, p, ch, a, src, birth=None, feats=None):
     """Open one paper position (all modes). birth = dict from PumpPortal (exact launch data) in BIRTH mode."""
     price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
     fill = price * (1 + SLIP_IN + STAKE / max(liq, 1.0))
     tokens = STAKE * (1 - FEE) / fill
     s["cash"] -= STAKE
     s["seen"][a.lower()] = time.time()
-    launch = launch_info(ch, p.get("pairAddress")) or {}
+    launch = ({} if feats is not None else launch_info(ch, p.get("pairAddress"))) or {}
     extra = ""
     if birth:
         pn = f(p.get("priceNative"))
@@ -427,12 +431,23 @@ def open_pos(s, p, ch, a, src, birth=None):
                  f"launch price {birth.get('lp', 0):.4g} SOL | launch mcap {birth.get('m0', 0):.0f} SOL")
     ctx_text, ctx = entry_context(p, price, fill, liq, launch if launch.get("launch_price") else None, VEL.get(a))
     ctx["birth"] = birth
+    if feats is not None:
+        ctx["feats"] = feats
+        feats["x_launch"] = round(price / launch["launch_price"], 2) if launch.get("launch_price") else None
+        ctx_text, extra = "", ""
     s["pos"].append({"ctx": ctx, "sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
                      "chain": ch, "pair": p["pairAddress"], "entry_obs": price, "fill": fill, "liq_entry": liq,
                      "tokens0": tokens, "tokens": tokens, "proceeds": 0.0, "peak": price, "t1": False, "t2": False,
                      "t_open": time.time(), "opened": time.strftime("%F %T"), "src": src or "?",
                      "h1_change": f((p.get("priceChange") or {}).get("h1")), "miss": 0})
     funnel(s, "opened")
+    if feats is not None:
+        au = feats.get("authority_ok")
+        tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} ${STAKE:.0f} | age {feats['age_min']:.0f}m | liq ${liq:,.0f} | "
+           f"mcap ${ctx['mcap']:,.0f} | {feats['x_launch'] or '?'}x launch | authority "
+           f"{'revoked' if au else ('NOT revoked' if au is False else 'unknown')} | creator bought {(birth or {}).get('ib', 0):.2f} SOL\n"
+           f"{p.get('url', '')}")
+        return
     tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} (source {src})\n{ctx_text}{extra}\n{p.get('url', '')}")
 
 
@@ -589,9 +604,9 @@ def scan_birth(s):
         if m not in births or (now - births[m]["t"]) / 60 > SCREEN_MAX:
             del hot[m]
     screen = [m for m, b in births.items()
-              if SCREEN_MIN <= (now - b["t"]) / 60 <= SCREEN_MAX and m not in hot and m not in held
+              if (1 if MODE == "loose" else SCREEN_MIN) <= (now - b["t"]) / 60 <= SCREEN_MAX and m not in hot and m not in held
               and now - b.get("la", 0) >= SCREEN_EVERY - 10 and now - s["seen"].get(m.lower(), 0) > COOLDOWN_H * 3600]
-    screen.sort(key=lambda m: births[m].get("la", 0))
+    screen.sort(key=lambda m: (births[m].get("la", 0), -births[m]["t"]))      # never-tried first, youngest first
     screen = screen[:SCREEN_CAP]
     look = [m for m in hot if m not in held] + screen
     funnel(s, "b_lookups", len(look))
@@ -625,9 +640,17 @@ def scan_birth(s):
                 hot[m] = hot.get(m, now)
             if len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
                 continue
-            if not passes_birth(p, s, m, age_h, vel):
+            feats = None
+            if MODE == "loose":
+                liq = f((p.get("liquidity") or {}).get("usd"))
+                if liq < LOOSE_MIN_LIQ:
+                    funnel(s, "fail_liq")
+                    continue
+                feats = {"age_min": round(age_h * 60, 1), "liq": round(liq), "authority_ok": authorities_ok(m),
+                         "vel": list(vel) if vel else None, "creator_buy_sol": b.get("ib")}
+            elif not passes_birth(p, s, m, age_h, vel):
                 continue
-            open_pos(s, p, "solana", m, "pumpportal", birth={k: b[k] for k in ("t", "lp", "cr", "ib", "m0")})
+            open_pos(s, p, "solana", m, "pumpportal", birth={k: b[k] for k in ("t", "lp", "cr", "ib", "m0")}, feats=feats)
             held.add(m)
     with LOCK:
         for m, b in births.items():
@@ -661,7 +684,18 @@ def summary(s):
     fu = s["funnel"]
     L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_", "b_", "ws_")))
              + f" | seen {fu.get('candidates', 0) or fu.get('ws_births', 0)} tokens, {fu.get('opened', 0)} opened")
-    for x in s["pos"]:
+    if MODE == "loose" and c:
+        def grp(name, key):
+            g = {}
+            for tr in c:
+                g.setdefault(key(tr), []).append(tr["mult_net"])
+            return name + ": " + " | ".join(f"{k}: n={len(v)} avg {sum(v)/len(v):.2f}x win {100*sum(1 for y in v if y > 1)//len(v)}%"
+                                            for k, v in sorted(g.items(), key=lambda kv: str(kv[0])))
+        fe = lambda tr: (tr.get("ctx") or {}).get("feats") or {}
+        L.append(grp("By authority", lambda tr: {True: "revoked", False: "NOT revoked", None: "unknown"}[fe(tr).get("authority_ok")]))
+        L.append(grp("By age at entry", lambda tr: "<10m" if fe(tr).get("age_min", 99) < 10 else ("10-30m" if fe(tr).get("age_min", 99) < 30 else "30m+")))
+        L.append(grp("By liquidity", lambda tr: "<$2k" if fe(tr).get("liq", 0) < 2000 else ("$2-10k" if fe(tr).get("liq", 0) < 10000 else "$10k+")))
+    for x in s["pos"][:15]:
         L.append(f"  {x['sym']} ({x['chain']}) {x.get('last_mult', 1):.2f}x")
     return "\n".join(L)
 
@@ -670,7 +704,7 @@ def main():
     s = load()
     try:
         manage(s)
-        scan_birth(s) if MODE == "birth" else scan(s)
+        scan_birth(s) if MODE in ("birth", "loose") else scan(s)
         s["scans"] += 1
         s["api_fail"] = 0
     except RuntimeError as e:
@@ -698,7 +732,7 @@ if __name__ == "__main__":
     loop_min = float(os.environ.get("LOOP_MIN") or 0)
     scan_sec = float(os.environ.get("SCAN_SEC") or 300)
     end, crashed = time.time() + loop_min * 60, False
-    if MODE == "birth":
+    if MODE in ("birth", "loose"):
         births_start()
         time.sleep(3)
     while True:

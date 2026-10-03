@@ -111,6 +111,15 @@ The old `*/30` cron only ran about every 5 hours.
 - BIRTH listener received 4 PumpPortal launches in ~3 s from Actions (works).
 - `diag.yml` can be re-run any time (workflow_dispatch); it uses scratch state files (`MEME_STATE_FILE`) and does not send trade alerts.
 
+### LOOSE-1 research control (2026-10-03, user request)
+`MEME_MODE=loose` (`meme_loose.yml`, state `meme_loose_state.json`, tag `[LOOSE]`): buys almost every Pump.fun launch from the PumpPortal feed the first time it has a DexScreener pair
+(youngest tokens looked up first, from 1 min old to 100 min). NO age, volume, velocity, score or authority gate. Only technical floor: liquidity >= $300 (a $5 buy is then <= 1.7% impact).
+Stake $5, max 60 positions, bank $1,000. Exits identical to ACCEL/BIRTH (stop -25% before 2x, 50% at 2x, 30% at 4x, 12% trail on the last 20%, exit all if no 2x within 45 min, rug rule).
+At entry it records `ctx.feats` = age, liquidity, authority_ok (mint+freeze revoked, may be None), creator's first buy, volume velocity (if available), multiple vs launch price, so results can be split by trait.
+The daily summary prints average multiple and win rate by authority / age at entry / liquidity.
+CAVEAT: paper trading cannot model tokens you cannot sell (honeypots, frozen tokens); loose results will look better than reality for those. Per-position price lookups run one DexScreener call each per scan (60 positions = slow scans).
+Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
