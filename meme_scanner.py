@@ -78,7 +78,7 @@ def load():
     s.setdefault("cash", BANK); s.setdefault("pos", []); s.setdefault("closed", [])
     if s.get("rules") != RULES:
         s["funnel"] = {}; s["rules"] = RULES
-    s.setdefault("seen", {}); s.setdefault("snap", {}); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
+    s.setdefault("seen", {}); s.setdefault("snap", {}); s.setdefault("track", {}); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
     return s
 
 
@@ -137,6 +137,8 @@ def manage(s):
         pos["liq_last"] = liq
         mult, age_h = price / pos["entry_obs"], (time.time() - pos["t_open"]) / 3600
         pos["last"], pos["last_mult"] = price, round(mult, 3)
+        pos.setdefault("path", []).append([int(time.time()), price, liq])      # for replaying alternative exit rules later
+        pos["path"] = pos["path"][-700:]
         if liq < prev_liq * (1 - RUG_LIQ_DROP):
             sell(pos, pos["tokens"], price, s, "rug", rug=True)
             close_out(s, pos, "rug-liquidity-collapse")
@@ -264,6 +266,40 @@ def vol_velocity(s, addr, v24, age_h):
     return out
 
 
+TRACK_MAX_AGE_H, TRACK_START_AGE_H, TRACK_MIN_LIQ, TRACKS = 3.0, 1.5, 5_000, "meme_tracks.jsonl"
+
+
+def track_update(s, a, p):
+    """RESEARCH LOG (no effect on trading): record price/liquidity/volume of every young token from first sighting until it is
+    3h old, so we can later replay 'what if we had entered at 15/30/45/60 min, with exit rule X' on real data."""
+    now = time.time()
+    created = f(p.get("pairCreatedAt")) / 1000
+    age_h = (now - created) / 3600 if created else -1
+    liq, price = f((p.get("liquidity") or {}).get("usd")), f(p.get("priceUsd"))
+    tr = s["track"].get(a)
+    if age_h <= 0 or price <= 0:
+        return
+    if tr is None:
+        if age_h > TRACK_START_AGE_H or liq < TRACK_MIN_LIQ or len(s["track"]) >= 150:
+            return
+        tr = s["track"][a] = {"sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
+                              "created": int(created), "pts": []}
+    if age_h <= TRACK_MAX_AGE_H:
+        tr["pts"].append([int(now), price, liq, f((p.get("volume") or {}).get("h24"))])
+
+
+def archive_tracks(s):
+    now, done = time.time(), []
+    for a, tr in s["track"].items():
+        last = tr["pts"][-1][0] if tr["pts"] else tr["created"]
+        if (now - tr["created"]) / 3600 > TRACK_MAX_AGE_H or now - last > 3600:
+            done.append(a)
+    if done:
+        with open(TRACKS, "a") as fh:
+            for a in done:
+                fh.write(json.dumps(s["track"].pop(a)) + "\n")
+
+
 def passes_accel(p, s, addr):
     liq = f((p.get("liquidity") or {}).get("usd"))
     created = f(p.get("pairCreatedAt")) / 1000
@@ -312,6 +348,9 @@ def passes(p, s):
 def scan(s):
     held = {x["addr"].lower() for x in s["pos"]}
     cand = candidates(s)
+    if MODE == "accel":
+        for tr in s["track"].values():
+            cand.setdefault(("solana", tr["addr"]), "track")
     funnel(s, "candidates", len(cand))
     by_chain = {}
     for (ch, addr), src in cand.items():
@@ -336,6 +375,8 @@ def scan(s):
                 if not p:
                     continue
                 funnel(s, "evaluated")
+                if MODE == "accel":
+                    track_update(s, a, p)
                 if MODE != "accel" and (len(s["pos"]) >= MAX_POS or s["cash"] < STAKE):
                     funnel(s, "no_slot")
                     continue
@@ -359,6 +400,8 @@ def scan(s):
                 funnel(s, "opened")
                 tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} @ ${price:.8g} | liq ${liq:,.0f} | "
                    f"1h {f((p.get('priceChange') or {}).get('h1')):+.0f}% | source {src_of.get(a)}\n{p.get('url', '')}")
+    if MODE == "accel":
+        archive_tracks(s)
     s["snap"] = {k: v for k, v in s["snap"].items() if time.time() - v["t"] < 3 * 3600}
     cut = time.time() - 7 * 86400
     s["seen"] = {k: v for k, v in s["seen"].items() if v > cut}

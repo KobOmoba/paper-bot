@@ -65,6 +65,13 @@ ACCEL volume velocity now uses windows: recent = volume since the newest reading
 Helius: on 2026-10-03 the user's free Helius dashboard showed 1,000,000/1,000,000 credits used and "Service halted" (resets in ~24 days). Our scanner makes very few RPC calls,
 so something else used that key (UNVERIFIED what). Code now falls back to the public Solana RPC if the keyed one fails. Consider a fresh key and never reusing one key across bots.
 
+### Research logging added 2026-10-03 (no effect on trading)
+- Every position now stores its observed `path` ([unix time, price, liquidity]) so alternative exit rules can be replayed on identical entries.
+- ACCEL mode appends `meme_tracks.jsonl`: price/liquidity/24h-volume of young Solana tokens (first seen <=1.5h old, liquidity >=$5k) every scan until 3h old.
+  Purpose: test the user's hypothesis that entering earlier would have worked better, and test exit variants (e.g. trailing stop after 2x), BEFORE changing live rules.
+  A replay script (`replay.py`) is NOT written yet; write it once a few days of tracks exist. Treat one trade (SCAT) as an anecdote.
+- SCAT facts (from state): entered 13:47 UTC; next scan 14:11 UTC saw 2.6x so half sold at 2.6x; rug caught 14:24 UTC; net +15%. The scheduling gap helped that exit (sold at 2.6x not 2.0x).
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
