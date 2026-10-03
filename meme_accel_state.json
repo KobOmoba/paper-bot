@@ -1,0 +1,102 @@
+{
+ "cash": 1000.0,
+ "pos": [],
+ "closed": [],
+ "funnel": {
+  "candidates": 33,
+  "evaluated": 32,
+  "fail_age": 5,
+  "wait_second_reading": 2,
+  "fail_liq": 7
+ },
+ "rules": "ACCEL-1",
+ "seen": {},
+ "snap": {
+  "8oezj8zg9bnxfccewqfstwje8aoetjdwzacdww6dpump": {
+   "v": 19873.38,
+   "t": 1791033924.2235556,
+   "rate": null,
+   "age_h": 0.14422876470618778
+  },
+  "fgvqvsqktc1gyzayrjknwqmo8pn5svvay59wucwepump": {
+   "v": 12560.48,
+   "t": 1791033924.2235665,
+   "rate": null,
+   "age_h": 0.04367321252822876
+  },
+  "72wwksa1khkjjzpzssz4vtuv7yk1sjgmrptfmhwup16e": {
+   "v": 19646.83,
+   "t": 1791033924.223575,
+   "rate": null,
+   "age_h": 0.13950654837820264
+  },
+  "7y9gmcqpwuvn6hfpf9m6j6qu74gla1urlgrkxeytpump": {
+   "v": 251490.68,
+   "t": 1791033924.2235796,
+   "rate": null,
+   "age_h": 0.5400621053245332
+  },
+  "3oymqxve9mpquqendlsbqedw3nehdfbd7tbrmz5qxr6m": {
+   "v": 29094.96,
+   "t": 1791033924.2235863,
+   "rate": null,
+   "age_h": 0.30895099606778886
+  },
+  "ggzpugrpk6a2lmqtq4vd3olrj8ffxvydexxtbhvdpump": {
+   "v": 257092.97,
+   "t": 1791033924.22359,
+   "rate": null,
+   "age_h": 0.15117321928342184
+  },
+  "ftqzz7qfcvax5nkk8nn19z3grxxjmctkpnlussqhpump": {
+   "v": 26667.31,
+   "t": 1791033924.2235947,
+   "rate": null,
+   "age_h": 1.4692287762297525
+  },
+  "ggzv9wbjju7zyyqzo1ree3mk1ybcxixzo39uah9pump": {
+   "v": 99960.79,
+   "t": 1791033924.2235997,
+   "rate": null,
+   "age_h": 0.5078398886654112
+  },
+  "fpudkqbamyvzbg7rmfr83bvtukoz7yoghlqzlvmvfsc7": {
+   "v": 486173.64,
+   "t": 1791033924.2236023,
+   "rate": null,
+   "age_h": 0.6481176671716902
+  },
+  "48teaplqfqbr9wf4fqhpxw2jmfnm8fcqrrrrlivmpump": {
+   "v": 183173.87,
+   "t": 1791033924.2236054,
+   "rate": null,
+   "age_h": 0.8020065569215351
+  },
+  "c2fjfn3satrgwcpdyctp7smqhlkqel9egl6zmyvpump": {
+   "v": 54782.05,
+   "t": 1791033924.223609,
+   "rate": null,
+   "age_h": 0.36867322464783986
+  },
+  "8o1abebfpeeqwqwwutl8uhyqxavzvvgyh3uku6uhzudc": {
+   "v": 76644.9,
+   "t": 1791033924.2236142,
+   "rate": null,
+   "age_h": 1.1375621149275037
+  },
+  "5vz954erdogbmvq2xsexwd78uzdhp65szqtztq2zpump": {
+   "v": 88208.74,
+   "t": 1791033924.2236183,
+   "rate": null,
+   "age_h": 1.1642287827862634
+  },
+  "xjgaru2wh8m3shm13qne7eyx1pnqtqq4dqd2me9pump": {
+   "v": 2607806.1,
+   "t": 1791033924.2236354,
+   "rate": null,
+   "age_h": 1.8081176763772964
+  }
+ },
+ "last_summary": "2026-10-03",
+ "api_fail": 0
+}
