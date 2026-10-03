@@ -79,6 +79,14 @@ so something else used that key (UNVERIFIED what). Code now falls back to the pu
   entry multiple vs launch, peak multiple so far, % below peak, 5m/1h price change, 5m/1h buys vs sells, and (ACCEL) 15-minute volume now vs before. Stored in each position's `ctx`.
 - `meme_tracks.jsonl` entries carry `launch_price` and `first_trade_ts`. Launch price is only reliable for tokens under ~16h old (candle cap 1000 minutes); it is the first TRADE price, not the pool-creation price.
 
+### PumpPortal probe (verified from GitHub Actions, 2026-10-03; result in `probe_pumpportal.json`, script `probe_pumpportal.py`, workflow `probe.yml`)
+- `wss://pumpportal.fun/api/data` connects from Actions with no key. `{"method":"subscribeNewToken"}` streams Pump.fun token CREATE events in real time:
+  28 creates in 45 s (~37/min), first event 0.3 s after connecting. Fields: mint, name, symbol, traderPublicKey (creator), initialBuy, solAmount, bondingCurveKey,
+  vTokensInBondingCurve, vSolInBondingCurve (launch price in SOL = vSol / vTokens), marketCapSol, pool, signature.
+- `subscribeTokenTrade` (per-token trades) is REFUSED without an API key funded with >= 0.02 SOL. We do not fund anything (paper only), so no free trade stream.
+- NOT built yet: using this stream as the ACCEL discovery source. Design sketch: hold the websocket during the sleep between scans; persist births between jobs with actions/cache
+  (state file would get too big); two-stage polling (cheap liquidity screen every ~5 min via DexScreener 30 mints/call, then a small hot list every scan). Awaiting user's go-ahead.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
