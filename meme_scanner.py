@@ -36,7 +36,7 @@ TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHA
 # MEME_MODE=accel runs the "Acceleration Gate" variant (separate state file) next to the default V5 rules, to compare them.
 MODE = os.environ.get("MEME_MODE", "v5")
 LABEL = ""
-RPC = os.environ.get("SOLANA_RPC", "https://api.mainnet-beta.solana.com")
+RPC = os.environ.get("SOLANA_RPC") or "https://api.mainnet-beta.solana.com"   # set repo secret SOLANA_RPC to a keyed (e.g. Helius free) URL
 ACCEL_AGE_MIN_H, ACCEL_AGE_MAX_H, ACCEL_MIN_LIQ, ACCEL_VEL, ACCEL_MIN_DELTA = 0.25, 1.5, 15_000, 2.0, 1_000
 if MODE == "accel":
     STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_accel_state.json", {"solana"}, 0.75, "ACCEL-1", "[ACCEL] "
@@ -167,8 +167,45 @@ def funnel(s, key, n=1):
     s["funnel"][key] = s["funnel"].get(key, 0) + n
 
 
-def candidates():
+def get_url(url):
+    return json.load(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30))
+
+
+def raw_new_tokens(s):
+    """ACCEL mode discovery: newest Solana pools straight from GeckoTerminal (free, no key) and, if reachable, Pump.fun's
+    own coin list. Every source is counted in the funnel (xx_ok / xx_fail) so we can SEE which ones actually work from Actions."""
     out = {}
+    for page in (1, 2):
+        try:
+            d = get_url(f"https://api.geckoterminal.com/api/v2/networks/solana/new_pools?page={page}")
+            n = 0
+            for r in d.get("data", []):
+                bid = ((r.get("relationships") or {}).get("base_token") or {}).get("data", {}).get("id", "")
+                if bid.startswith("solana_"):
+                    out[("solana", bid[len("solana_"):])] = "geckoterminal"
+                    n += 1
+            funnel(s, "gt_ok" if n else "gt_empty")
+        except Exception as e:
+            funnel(s, "gt_fail")
+            print("geckoterminal failed:", str(e)[:100])
+    try:
+        d = get_url("https://frontend-api.pump.fun/coins?offset=0&limit=50&sort=created_timestamp&order=DESC&includeNsfw=false")
+        n = 0
+        for r in d if isinstance(d, list) else []:
+            if r.get("mint"):
+                out[("solana", r["mint"])] = "pumpfun"
+                n += 1
+        funnel(s, "pf_ok" if n else "pf_empty")
+    except Exception as e:
+        funnel(s, "pf_fail")
+        print("pump.fun failed:", str(e)[:100])
+    return out
+
+
+def candidates(s=None):
+    out = {}
+    if MODE == "accel" and s is not None:
+        out.update(raw_new_tokens(s))
     for path in ("/token-profiles/latest/v1", "/token-boosts/latest/v1"):
         try:
             for r in get(path):
@@ -259,7 +296,7 @@ def passes(p, s):
 
 def scan(s):
     held = {x["addr"].lower() for x in s["pos"]}
-    cand = candidates()
+    cand = candidates(s)
     funnel(s, "candidates", len(cand))
     by_chain = {}
     for (ch, addr), src in cand.items():
@@ -334,7 +371,7 @@ def summary(s):
         rug = sum(1 for t in c if t["reason"].startswith("rug") or t["reason"] == "vanished")
         L.append(f"Rugs/vanished: {rug} of {len(c)}")
     fu = s["funnel"]
-    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_")))
+    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_")))
              + f" | seen {fu.get('candidates', 0)} candidates, {fu.get('opened', 0)} opened")
     for x in s["pos"]:
         L.append(f"  {x['sym']} ({x['chain']}) {x.get('last_mult', 1):.2f}x")
