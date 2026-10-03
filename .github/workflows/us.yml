@@ -8,6 +8,9 @@ on:
       dataset:
         description: us, crypto or small
         default: 'us'
+      token_costs:
+        description: tokenized-stock costs
+        default: 'false'
 permissions:
   contents: write
 concurrency:
@@ -27,6 +30,7 @@ jobs:
         env:
           FULL: ${{ inputs.full }}
           DATASET: ${{ inputs.dataset }}
+          TOKEN_COSTS: ${{ inputs.token_costs }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       - name: Save report

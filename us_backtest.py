@@ -56,7 +56,11 @@ import os
 FULL = os.environ.get("FULL") == "true"
 if FULL:
     b.MAX_POS = 10          # pre-registered change: 10 x 10% = fully invested (was 5 x 10% = half)
-OUT = f"{DATASET}_backtest_full_report.json" if FULL else f"{DATASET}_backtest_report.json"
+TOKEN = os.environ.get("TOKEN_COSTS") == "true"
+if TOKEN:
+    b.FEE, b.SLIP = 0.005, 0.01       # tokenized-stock costs: 0.5% fee + 1% slippage per side
+TAG = DATASET + ("_token" if TOKEN else "")
+OUT = f"{TAG}_backtest_full_report.json" if FULL else f"{TAG}_backtest_report.json"
 LABEL = DATASET + (" fully-invested" if FULL else "")
 b.tg = lambda t: print(t)           # capture summary text, send once at the end
 import io, contextlib
@@ -112,5 +116,5 @@ for name, cv in curves.items():
         "smaller_drawdown_pct": round(100 * sum(1 for r in res if r[2] > r[3]) / len(res), 1),
         "worst_window_strategy_pct": round(100 * min(r[0] for r in res), 1),
         "worst_window_bench_pct": round(100 * min(r[1] for r in res), 1)}
-json.dump(roll, open(f"{DATASET}_rolling_report.json", "w"), indent=1)
+json.dump(roll, open(f"{TAG}_rolling_report.json", "w"), indent=1)
 print(json.dumps(roll, indent=1)[:3000])

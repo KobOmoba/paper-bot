@@ -48,6 +48,7 @@ def tg(text):
 
 
 def norm(k): return re.sub(r"[^a-z0-9]", "", str(k).lower())
+CUR = "N"
 def n(x): return f"{x:,.2f}"
 def avg(xs): return sum(xs) / len(xs) if xs else 0.0
 
@@ -261,7 +262,7 @@ def fill_pending(a, q, name, say):
             a["cash"] -= shares * price * (1 + FEE)
             a["pos"].append({"sym": o["sym"], "entry": round(price, 4), "shares": shares,
                              "mark": r["close"], "days": 0, "opened": o["date"]})
-            say(f"[{name}] PAPER BUY {o['sym']} {shares} sh @ N{n(price)}")
+            say(f"[{name}] PAPER BUY {o['sym']} {shares} sh @ {CUR}{n(price)}")
         else:
             p = next((x for x in a["pos"] if x["sym"] == o["sym"]), None)
             if not p:
@@ -274,7 +275,7 @@ def fill_pending(a, q, name, say):
             p.update(exit=round(price, 4), pnl=round(proceeds - cost, 2), cost=round(cost, 2),
                      reason=o["reason"], closed=o["date"])
             a["closed"].append(p)
-            say(f"[{name}] PAPER SELL {o['sym']} ({o['reason']}) P&L N{n(p['pnl'])} ({p['pnl']/cost*100:+.1f}%)")
+            say(f"[{name}] PAPER SELL {o['sym']} ({o['reason']}) P&L {CUR}{n(p['pnl'])} ({p['pnl']/cost*100:+.1f}%)")
     a["pending"] = keep
 
 
@@ -307,7 +308,7 @@ def run_signals(a, name, q, hist, date, say, ctx):
             cands.append((ratio, sym, r))
     for ratio, sym, r in sorted(cands, reverse=True)[:slots]:
         a["pending"].append({"side": "BUY", "sym": sym, "ref": r["close"], "date": date})
-        say(f"[{name}] BUY SIGNAL {sym} @ N{n(r['close'])} - fills at next open")
+        say(f"[{name}] BUY SIGNAL {sym} @ {CUR}{n(r['close'])} - fills at next open")
 
 
 def update_history(s, q, date):
