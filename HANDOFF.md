@@ -125,3 +125,12 @@ Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
 3. Polymarket scoreboard review once >=30 resolved forecasts.
 4. Cleanup option: 8 `__pycache__` files are tracked in git; `.gitignore` now blocks new ones.
+
+## Update 2026-10-04 (evening, Lagos)
+- Results after ~5h (paper): V5-1 3 opened/1 closed (+$0.32); ACCEL-1 47 closed, 17% win, 0.65x avg; BIRTH-1 16 closed, 1 win, 0.54x; LOOSE-1 375 closed, 5.6% win, 0.69x avg, 0.87x median. Costs alone ~10-13% per round trip (probably pessimistic for deep-liquidity tokens).
+- Bugs found+fixed (commit "Fix false rug exits..."): (1) missing/zero liquidity read as a rug -> now needs liquidity collapse AND price <=50% of previous reading; (2) hot tokens bypassed cooldown -> 279 repeat buys in LOOSE (434 entries / 155 unique), 2 in BIRTH. Pre-fix LOOSE/BIRTH/ACCEL stats are distorted; treat as unreliable.
+- DexScreener listing delay: 78% of listed launches appear within 5 min.
+- Reach rates in LOOSE (375): 5.3% hit 2x, 1.6% hit 5x, 0.3% hit 10x (2-min sampling undercounts).
+- Free public Solana RPC has been adequate: no `rpc_error` in any funnel. Do not create extra provider accounts to dodge limits.
+- `replay.py` replays exit variants on recorded paths (paths end at baseline exit, so longer-hold variants are blind). On 343 trades: baseline 0.81x (actual ~0.69x, so replay is optimistic); Ascending Shave 0.78x; only 1 path reached 10x. No exit variant turns this positive; sample is tiny.
+- Pasted "SniperV5.py" is live-trading code needing private keys: out of scope, paper only. Its "guarantee" claim is unsupported.
