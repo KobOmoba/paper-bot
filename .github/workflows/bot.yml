@@ -1,28 +1,53 @@
 name: paper-bot
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/30 * * * *"      # backup only: GitHub runs this far less often than every 30 minutes
   workflow_dispatch:
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: paper-bot
   cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 62
     steps:
       - uses: actions/checkout@v4
+      - run: echo "T0=$(date +%s)" >> $GITHUB_ENV
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python bot.py
+      - name: Run bot every 25 minutes for ~50 minutes
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      - run: |
+        run: |
+          set +e
           git config user.name "paper-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add state.json
-          git diff --cached --quiet || (git commit -m "update state" && git pull --rebase && git push)
+          END=$(( $(date +%s) + 3300 ))
+          while true; do
+            python bot.py
+            git add state.json
+            if ! git diff --cached --quiet; then
+              git commit -q -m "update state"
+              for i in 1 2 3 4; do git pull -q --rebase --autostash && git push -q && break; sleep 6; done
+            fi
+            [ $(( $(date +%s) + 1500 )) -ge $END ] && break
+            sleep 1500
+          done
+      - name: Start next job
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GitHub's cron is unreliable on this repo, so every job starts its own successor (never faster than once per 10 min).
+          E=$(( $(date +%s) - T0 ))
+          [ "$E" -lt 600 ] && sleep $(( 600 - E ))
+          for i in 1 2 3; do
+            gh api -X POST repos/${{ github.repository }}/actions/workflows/bot.yml/dispatches -f ref=main && exit 0
+            sleep 10
+          done
+          echo "::error::could not start next job"

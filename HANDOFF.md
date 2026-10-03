@@ -100,6 +100,10 @@ so something else used that key (UNVERIFIED what). Code now falls back to the pu
   per-token trade stream not available without a funded key; most tokens never get a DexScreener pair (looked up once per 5 min until 100 min old).
 - Three experiments now run in parallel: V5-1 (`meme_state.json`), ACCEL-1 (`meme_accel_state.json`), BIRTH-1 (`meme_birth_state.json`).
 
+### Polymarket bot scheduler (2026-10-03)
+`bot.yml` now runs `bot.py` three times per job (0, 25, 50 min, committing `state.json` after each run) and the job dispatches its own successor, like the meme loops.
+The old `*/30` cron only ran about every 5 hours.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
