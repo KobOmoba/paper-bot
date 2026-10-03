@@ -4,11 +4,11 @@
  "closed": [],
  "seen": {},
  "funnel": {
-  "candidates": 72,
-  "evaluated": 70,
-  "fail_age": 17,
-  "fail_liq": 49,
-  "fail_volume": 4
+  "candidates": 498,
+  "evaluated": 496,
+  "fail_age": 110,
+  "fail_liq": 349,
+  "fail_volume": 37
  },
  "last_summary": "2026-10-03",
  "api_fail": 0,
