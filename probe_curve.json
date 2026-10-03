@@ -1,0 +1,85 @@
+{
+ "events": 6,
+ "checked": [
+  {
+   "mint": "8FBDdZAGi6bWEbr4ASVZLVN2FidjCzs9TyhBSVpZXmgj",
+   "event_vSol": 34.99999999999999,
+   "event_vTok": 919714285.714286,
+   "rpc_s": 0.16,
+   "len": 141,
+   "vTok_decoded": 1073000000.0,
+   "vSol_decoded": 30.000000002,
+   "realSol": 2e-09,
+   "complete": false,
+   "price_sol_decoded": 2.7958993478098787e-08,
+   "price_sol_event": 3.805529667598631e-08
+  },
+  {
+   "mint": "7vcFDRYWWzKCU2cNwnr8qch5eUEhYtBLdSbmeFWtWEfw",
+   "event_vSol": 34.99999999999999,
+   "event_vTok": 919714285.714286,
+   "rpc_s": 0.18,
+   "len": 141,
+   "vTok_decoded": 1073000000.0,
+   "vSol_decoded": 30.000000002,
+   "realSol": 2e-09,
+   "complete": false,
+   "price_sol_decoded": 2.7958993478098787e-08,
+   "price_sol_event": 3.805529667598631e-08
+  },
+  {
+   "mint": "DUE5Nqpk7Q7ssaYdFcaE9hPnmaTpm8omdWbBY45yAEJg",
+   "event_vSol": 34.99999999999999,
+   "event_vTok": 919714285.714286,
+   "rpc_s": 0.14,
+   "len": 141,
+   "vTok_decoded": 1073000000.0,
+   "vSol_decoded": 30.000000002,
+   "realSol": 2e-09,
+   "complete": false,
+   "price_sol_decoded": 2.7958993478098787e-08,
+   "price_sol_event": 3.805529667598631e-08
+  },
+  {
+   "mint": "44CcBmACmHJ9XT5VPmTzmMTxgjSgaXCvErJcTEoe1EtS",
+   "event_vSol": 34.99999999999999,
+   "event_vTok": 919714285.714286,
+   "rpc_s": 0.14,
+   "len": 141,
+   "vTok_decoded": 1073000000.0,
+   "vSol_decoded": 30.000000001,
+   "realSol": 1e-09,
+   "complete": false,
+   "price_sol_decoded": 2.7958993477166823e-08,
+   "price_sol_event": 3.805529667598631e-08
+  },
+  {
+   "mint": "5ojpV3moFkzmS3pqCprVEeH7uaJQjh3hbPiwn6hj6PE",
+   "event_vSol": 30.444444441999977,
+   "event_vTok": 1057335766.508254,
+   "rpc_s": 0.18,
+   "len": 141,
+   "vTok_decoded": 1072461599.731157,
+   "vSol_decoded": 30.015060695,
+   "realSol": 0.015060695,
+   "complete": false,
+   "price_sol_decoded": 2.798707263973286e-08,
+   "price_sol_event": 2.8793544497732938e-08
+  },
+  {
+   "mint": "dM5LbZ43bQ3XqTiBzDcqPvRuT8Ymwea91RRcD5mveZh",
+   "event_vSol": 34.99999999999999,
+   "event_vTok": 919714285.714286,
+   "rpc_s": 0.21,
+   "len": 141,
+   "vTok_decoded": 1073000000.0,
+   "vSol_decoded": 30.000000001,
+   "realSol": 1e-09,
+   "complete": false,
+   "price_sol_decoded": 2.7958993477166823e-08,
+   "price_sol_event": 3.805529667598631e-08
+  }
+ ],
+ "error": null,
+ "multi_ok": true
+}
