@@ -4,11 +4,11 @@
  "closed": [],
  "seen": {},
  "funnel": {
-  "candidates": 1806,
-  "evaluated": 1771,
-  "fail_age": 501,
-  "fail_liq": 1201,
-  "fail_volume": 67,
+  "candidates": 3036,
+  "evaluated": 2996,
+  "fail_age": 754,
+  "fail_liq": 2137,
+  "fail_volume": 103,
   "fail_flow": 2
  },
  "last_summary": "2026-10-03",
@@ -17,6 +17,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 28,
+ "scans": 56,
  "last_hb": 1791049950.452529
 }
