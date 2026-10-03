@@ -50,6 +50,13 @@ Honest limits: "top wallet is not the bonding curve" is NOT implemented (no hold
 Public Solana RPC may rate-limit or block Actions (funnel key `rpc_error` would show it; override with env `SOLANA_RPC`). Only tokens that appear in DexScreener latest-profiles/boosts are ever seen.
 A token needs two scans before it can qualify, and 15-minute scans plus 45-minute deadline give coarse fills.
 
+### ACCEL-1 data feeds (verified from GitHub Actions, 2026-10-03)
+- GeckoTerminal `new_pools` (free, no key): WORKS. Candidates per run rose from ~33 to ~97. Counters `gt_ok`/`gt_fail` in `meme_accel_state.json`.
+- Pump.fun `frontend-api.pump.fun/coins`: REFUSED from Actions (`pf_fail`). Do not rely on it.
+- Public Solana RPC authority check: worked on first real use (one trade, SCAT, passed it). Under heavier load it may rate-limit (`rpc_error`).
+  To use a keyed RPC (e.g. Helius free tier) the user must create a key and add the full URL as repo secret `SOLANA_RPC` (already wired in `meme_accel.yml`; empty secret falls back to the public RPC). Never commit the URL.
+- First ACCEL paper trade: SCAT on Solana, opened 13:47 UTC, liquidity ~$32.7k, ~25 min old. One trade proves nothing.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
