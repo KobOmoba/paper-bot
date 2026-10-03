@@ -173,8 +173,24 @@ def funnel(s, key, n=1):
     s["funnel"][key] = s["funnel"].get(key, 0) + n
 
 
+GT_LAST = [0.0]
+
+
 def get_url(url):
-    return json.load(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30))
+    """GeckoTerminal's free tier answers 429 when called too fast (seen in the diagnostic run): space calls >= 2.3 s apart
+    and retry once after a pause."""
+    gt = "geckoterminal" in url
+    for attempt in range(2):
+        if gt:
+            time.sleep(max(0.0, GT_LAST[0] + 2.3 - time.time()))
+            GT_LAST[0] = time.time()
+        try:
+            return json.load(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30))
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and gt and attempt == 0:
+                time.sleep(6)
+                continue
+            raise
 
 
 def raw_new_tokens(s):
@@ -322,7 +338,7 @@ def track_update(s, a, p):
     if age_h <= 0 or price <= 0:
         return
     if tr is None:
-        if age_h > TRACK_START_AGE_H or liq < TRACK_MIN_LIQ or len(s["track"]) >= 150 or NEW_TRACKS[0] >= 8:
+        if age_h > TRACK_START_AGE_H or liq < TRACK_MIN_LIQ or len(s["track"]) >= 150 or NEW_TRACKS[0] >= 3:
             return
         NEW_TRACKS[0] += 1
         li = launch_info("solana", p.get("pairAddress"))

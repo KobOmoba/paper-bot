@@ -104,6 +104,13 @@ so something else used that key (UNVERIFIED what). Code now falls back to the pu
 `bot.yml` now runs `bot.py` three times per job (0, 25, 50 min, committing `state.json` after each run) and the job dispatches its own successor, like the meme loops.
 The old `*/30` cron only ran about every 5 hours.
 
+### Diagnostic findings (2026-10-03 ~18:08 UTC; workflow `diag.yml`, output `diag_output.txt`)
+- Telegram works from Actions. All three scanner modes run. The loop jobs are healthy but only commit state when a job ends (~55 min), so the repo looks quiet in between.
+- V5-1 funnel in one scan: 48 tokens seen, 0 opened (30 failed liquidity, 16 failed age, 1 volume). Entry rules are strict, so alerts are rare by design; the `alive:` Telegram line (every ~3h) is the proof of life.
+- GeckoTerminal returned HTTP 429 (rate limit) on launch-price lookups: `get_url` now spaces GeckoTerminal calls >= 2.3 s apart, retries once, and new tracks are capped at 3 per scan.
+- BIRTH listener received 4 PumpPortal launches in ~3 s from Actions (works).
+- `diag.yml` can be re-run any time (workflow_dispatch); it uses scratch state files (`MEME_STATE_FILE`) and does not send trade alerts.
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
