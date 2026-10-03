@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  actions: write
 concurrency:
   group: meme-accel
   cancel-in-progress: false
@@ -14,6 +15,7 @@ jobs:
     timeout-minutes: 62
     steps:
       - uses: actions/checkout@v4
+      - run: echo "T0=$(date +%s)" >> $GITHUB_ENV
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -37,3 +39,16 @@ jobs:
           git commit -m "meme accel state"
           for i in 1 2 3 4; do git pull --rebase --autostash && git push && exit 0; sleep 6; done
           echo "::error::could not push state"; exit 1
+      - name: Start next job
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # GitHub's cron is unreliable on this repo, so every job starts its own successor (never faster than once per 10 min).
+          E=$(( $(date +%s) - T0 ))
+          [ "$E" -lt 600 ] && sleep $(( 600 - E ))
+          for i in 1 2 3; do
+            gh api -X POST repos/${{ github.repository }}/actions/workflows/meme_accel.yml/dispatches -f ref=main && exit 0
+            sleep 10
+          done
+          echo "::error::could not start next job"

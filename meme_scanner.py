@@ -41,6 +41,8 @@ RPC = os.environ.get("SOLANA_RPC") or PUBLIC_RPC   # set repo secret SOLANA_RPC 
 ACCEL_AGE_MIN_H, ACCEL_AGE_MAX_H, ACCEL_MIN_LIQ, ACCEL_VEL, ACCEL_MIN_DELTA = 0.25, 1.5, 15_000, 2.0, 1_000
 if MODE == "accel":
     STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_accel_state.json", {"solana"}, 0.75, "ACCEL-1", "[ACCEL] "
+if MODE == "birth":      # Pump.fun launches from PumpPortal's free websocket, then the same exits as ACCEL
+    STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_birth_state.json", {"solana"}, 0.75, "BIRTH-1", "[BIRTH] "
 
 
 def get(path):
@@ -78,7 +80,7 @@ def load():
     s.setdefault("cash", BANK); s.setdefault("pos", []); s.setdefault("closed", [])
     if s.get("rules") != RULES:
         s["funnel"] = {}; s["rules"] = RULES
-    s.setdefault("seen", {}); s.setdefault("snap", {}); s.setdefault("track", {}); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
+    s.setdefault("seen", {}); s.setdefault("snap", {}); s.setdefault("track", {}); s.setdefault("hot", {}); s.setdefault("scans", 0); s.setdefault("last_hb", 0); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
     return s
 
 
@@ -226,30 +228,34 @@ def authorities_ok(mint):
     return None
 
 
-def vol_velocity(s, addr, v24, age_h):
-    """Track 24h volume locally at every scan (scans may be 5 min apart). Returns (recent, previous) volume in $ per 15 min,
-    or None until a reading at least ~13 min old exists. recent = volume since the latest reading >=13 min ago;
-    previous = the 15-minute-ish window before that (or the token's lifetime average if we have no older reading).
-    For tokens under 24h old the 24h volume is lifetime volume, so differences between scans are real new volume."""
-    now = time.time()
-    h = [x for x in (s["snap"].get(addr) or {}).get("h", []) if now - x[0] < 3600]
+def velocity_calc(h, now, v24, age_h):
+    """h = oldest-first list of [time, 24h volume] readings. Returns (recent, previous) volume in $ per 15 min, or None until a
+    reading at least ~13 min old exists. recent = volume since the newest reading >=13 min old; previous = the window before that
+    (or the token's lifetime average if there is no older reading). For tokens under 24h old, 24h volume is lifetime volume."""
     A = None
-    for x in h:                                     # h is oldest-first; keep the newest reading that is >=13 min old
+    for x in h:
         if now - x[0] >= 780:
             A = x
-    out = None
-    if A:
-        recent = max(v24 - A[1], 0.0) / ((now - A[0]) / 900.0)
-        B = None
-        for x in h:
-            if A[0] - x[0] >= 780:
-                B = x
-        if B:
-            prev = max(A[1] - B[1], 0.0) / ((A[0] - B[0]) / 900.0)
-        else:
-            age_a = max(age_h - (now - A[0]) / 3600.0, 0.05)
-            prev = A[1] / max(age_a * 4.0, 1.0)     # lifetime average per 15 minutes when A was taken
-        out = (recent, prev)
+    if not A:
+        return None
+    recent = max(v24 - A[1], 0.0) / ((now - A[0]) / 900.0)
+    B = None
+    for x in h:
+        if A[0] - x[0] >= 780:
+            B = x
+    if B:
+        prev = max(A[1] - B[1], 0.0) / ((A[0] - B[0]) / 900.0)
+    else:
+        age_a = max(age_h - (now - A[0]) / 3600.0, 0.05)
+        prev = A[1] / max(age_a * 4.0, 1.0)
+    return (recent, prev)
+
+
+def vol_velocity(s, addr, v24, age_h):
+    """Track 24h volume locally at every scan; results as velocity_calc. Stores readings in s["snap"] (kept 1h)."""
+    now = time.time()
+    h = [x for x in (s["snap"].get(addr) or {}).get("h", []) if now - x[0] < 3600]
+    out = velocity_calc(h, now, v24, age_h)
     h.append([now, v24])
     s["snap"][addr] = {"h": h, "age_h": age_h, "t": now}
     return out
@@ -384,6 +390,35 @@ def passes(p, s):
     return True
 
 
+def open_pos(s, p, ch, a, src, birth=None):
+    """Open one paper position (all modes). birth = dict from PumpPortal (exact launch data) in BIRTH mode."""
+    price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
+    fill = price * (1 + SLIP_IN + STAKE / max(liq, 1.0))
+    tokens = STAKE * (1 - FEE) / fill
+    s["cash"] -= STAKE
+    s["seen"][a.lower()] = time.time()
+    launch = launch_info(ch, p.get("pairAddress")) or {}
+    extra = ""
+    if birth:
+        pn = f(p.get("priceNative"))
+        usd_per_sol = price / pn if pn > 0 else 0.0
+        if birth.get("lp", 0) > 0 and usd_per_sol > 0:
+            launch["launch_price"] = birth["lp"] * usd_per_sol           # exact bonding-curve price at creation, in USD
+            launch["ath"] = max(launch.get("ath", 0.0), price)
+            launch["launch_sol"] = birth["lp"]
+        extra = (f"\nPump.fun launch: creator {str(birth.get('cr'))[:6]}.. bought {birth.get('ib', 0):.2f} SOL at creation | "
+                 f"launch price {birth.get('lp', 0):.4g} SOL | launch mcap {birth.get('m0', 0):.0f} SOL")
+    ctx_text, ctx = entry_context(p, price, fill, liq, launch if launch.get("launch_price") else None, VEL.get(a))
+    ctx["birth"] = birth
+    s["pos"].append({"ctx": ctx, "sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
+                     "chain": ch, "pair": p["pairAddress"], "entry_obs": price, "fill": fill, "liq_entry": liq,
+                     "tokens0": tokens, "tokens": tokens, "proceeds": 0.0, "peak": price, "t1": False, "t2": False,
+                     "t_open": time.time(), "opened": time.strftime("%F %T"), "src": src or "?",
+                     "h1_change": f((p.get("priceChange") or {}).get("h1")), "miss": 0})
+    funnel(s, "opened")
+    tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} (source {src})\n{ctx_text}{extra}\n{p.get('url', '')}")
+
+
 def scan(s):
     held = {x["addr"].lower() for x in s["pos"]}
     cand = candidates(s)
@@ -427,26 +462,162 @@ def scan(s):
                         continue
                 elif not passes(p, s):
                     continue
-                price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
-                fill = price * (1 + SLIP_IN + STAKE / max(liq, 1.0))
-                tokens = STAKE * (1 - FEE) / fill
-                s["cash"] -= STAKE
-                s["seen"][a] = time.time()
-                launch = launch_info(ch, p["pairAddress"])
-                ctx_text, ctx = entry_context(p, price, fill, liq, launch, VEL.get(a))
-                s["pos"].append({"ctx": ctx, "sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
-                                 "chain": ch, "pair": p["pairAddress"], "entry_obs": price, "fill": fill, "liq_entry": liq,
-                                 "tokens0": tokens, "tokens": tokens, "proceeds": 0.0, "peak": price, "t1": False, "t2": False,
-                                 "t_open": time.time(), "opened": time.strftime("%F %T"), "src": src_of.get(a, "?"),
-                                 "h1_change": f((p.get("priceChange") or {}).get("h1")), "miss": 0})
-                funnel(s, "opened")
-                tg(f"MEME PAPER BUY {p['baseToken'].get('symbol')} on {ch} ${STAKE:.0f} (source {src_of.get(a)})\n"
-                   f"{ctx_text}\n{p.get('url', '')}")
+                open_pos(s, p, ch, a, src_of.get(a))
     if MODE == "accel":
         archive_tracks(s)
     s["snap"] = {k: v for k, v in s["snap"].items() if time.time() - v["t"] < 3 * 3600}
     cut = time.time() - 7 * 86400
     s["seen"] = {k: v for k, v in s["seen"].items() if v > cut}
+
+
+# ---------------------------------------------------------------- BIRTH mode (PumpPortal websocket) ----------------------------
+import threading
+WS_URL = "wss://pumpportal.fun/api/data"
+BIRTHS_FILE = "meme_births.json"                   # NOT committed; handed between jobs with actions/cache
+BIRTHS, LOCK, WS_COUNT, WS_LAST = {}, threading.Lock(), [0], [0]
+BIRTH_KEEP_MIN, SCREEN_MIN, SCREEN_MAX, SCREEN_EVERY, SCREEN_CAP, HOT_LIQ = 105, 10, 100, 300, 1500, 8_000
+BIRTH_AGE_MIN, BIRTH_AGE_MAX, BIRTH_MAX_STORED = 15.0, 90.0, 6000
+
+
+def births_load():
+    try:
+        d = json.load(open(BIRTHS_FILE))
+        with LOCK:
+            for m, b in d.items():
+                BIRTHS.setdefault(m, b)
+        print("births loaded:", len(d))
+    except Exception as e:
+        print("no births file:", str(e)[:60])
+
+
+def births_save():
+    with LOCK:
+        snap = {m: b for m, b in BIRTHS.items()}
+    tmp = BIRTHS_FILE + ".tmp"
+    json.dump(snap, open(tmp, "w"), separators=(",", ":"))
+    os.replace(tmp, BIRTHS_FILE)
+
+
+def ws_loop():
+    import asyncio, websockets
+
+    async def run():
+        wait = 1
+        while True:
+            try:
+                async with websockets.connect(WS_URL, open_timeout=15, ping_interval=20) as ws:
+                    await ws.send(json.dumps({"method": "subscribeNewToken"}))
+                    wait = 1
+                    async for msg in ws:
+                        try:
+                            d = json.loads(msg)
+                        except Exception:
+                            continue
+                        vt = f(d.get("vTokensInBondingCurve"))
+                        if d.get("txType") == "create" and d.get("mint") and vt > 0:
+                            with LOCK:
+                                BIRTHS[d["mint"]] = {"t": time.time(), "lp": f(d.get("vSolInBondingCurve")) / vt,
+                                                     "cr": d.get("traderPublicKey"), "ib": f(d.get("solAmount")),
+                                                     "m0": f(d.get("marketCapSol")), "h": [], "la": 0}
+                            WS_COUNT[0] += 1
+            except Exception as e:
+                print("ws error:", str(e)[:100], "- reconnecting in", wait, "s")
+            await asyncio.sleep(wait)
+            wait = min(wait * 2, 30)
+
+    asyncio.run(run())
+
+
+def births_start():
+    births_load()
+    threading.Thread(target=ws_loop, daemon=True).start()
+
+
+def passes_birth(p, s, m, age_h, vel):
+    liq = f((p.get("liquidity") or {}).get("usd"))
+    if not (BIRTH_AGE_MIN <= age_h * 60 <= BIRTH_AGE_MAX):
+        funnel(s, "fail_age"); return False
+    if liq < ACCEL_MIN_LIQ:
+        funnel(s, "fail_liq"); return False
+    if vel is None:
+        funnel(s, "wait_second_reading"); return False
+    rate, prev = vel
+    if rate < ACCEL_MIN_DELTA or rate < ACCEL_VEL * max(prev, 1.0):
+        funnel(s, "fail_velocity"); return False
+    VEL[m.lower()] = (rate, prev)
+    ok = authorities_ok(m)
+    if ok is None:
+        funnel(s, "rpc_error"); return False
+    if not ok:
+        funnel(s, "fail_authority"); return False
+    return True
+
+
+def scan_birth(s):
+    now = time.time()
+    delta = WS_COUNT[0] - WS_LAST[0]
+    WS_LAST[0] = WS_COUNT[0]
+    if delta > 0:
+        funnel(s, "ws_births", delta)
+    with LOCK:
+        for m in [m for m, b in BIRTHS.items() if now - b["t"] > BIRTH_KEEP_MIN * 60]:
+            del BIRTHS[m]
+        if len(BIRTHS) > BIRTH_MAX_STORED:
+            for m in sorted(BIRTHS, key=lambda k: BIRTHS[k]["t"])[:len(BIRTHS) - BIRTH_MAX_STORED]:
+                del BIRTHS[m]
+        births = dict(BIRTHS)
+    held = {x["addr"] for x in s["pos"]}
+    hot = s["hot"]
+    for m in list(hot):
+        if m not in births or (now - births[m]["t"]) / 60 > SCREEN_MAX:
+            del hot[m]
+    screen = [m for m, b in births.items()
+              if SCREEN_MIN <= (now - b["t"]) / 60 <= SCREEN_MAX and m not in hot and m not in held
+              and now - b.get("la", 0) >= SCREEN_EVERY - 10 and now - s["seen"].get(m.lower(), 0) > COOLDOWN_H * 3600]
+    screen.sort(key=lambda m: births[m].get("la", 0))
+    screen = screen[:SCREEN_CAP]
+    look = [m for m in hot if m not in held] + screen
+    funnel(s, "b_lookups", len(look))
+    for i in range(0, len(look), 30):
+        chunk = look[i:i + 30]
+        for m in chunk:
+            births[m]["la"] = now
+        try:
+            pairs = get(f"/tokens/v1/solana/{','.join(chunk)}")
+        except Exception as e:
+            print("pairs fetch failed:", e)
+            continue
+        groups = {}
+        for p in pairs if isinstance(pairs, list) else []:
+            m = (p.get("baseToken") or {}).get("address") or ""
+            if m in births:
+                groups.setdefault(m, []).append(p)
+        for m, plist in groups.items():
+            p = best_pair(plist)
+            if not p:
+                continue
+            b = births[m]
+            funnel(s, "evaluated")
+            age_h = (now - b["t"]) / 3600
+            v24 = f((p.get("volume") or {}).get("h24"))
+            vel = velocity_calc(b["h"], now, v24, age_h)
+            b["h"] = [x for x in b["h"] if now - x[0] < 2700] + [[now, v24]]
+            if f((p.get("liquidity") or {}).get("usd")) >= HOT_LIQ:
+                if m not in hot:
+                    funnel(s, "b_hot")
+                hot[m] = hot.get(m, now)
+            if len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
+                continue
+            if not passes_birth(p, s, m, age_h, vel):
+                continue
+            open_pos(s, p, "solana", m, "pumpportal", birth={k: b[k] for k in ("t", "lp", "cr", "ib", "m0")})
+            held.add(m)
+    with LOCK:
+        for m, b in births.items():
+            if m in BIRTHS:
+                BIRTHS[m]["h"], BIRTHS[m]["la"] = b["h"], b["la"]
+    births_save()
+    s["seen"] = {k: v for k, v in s["seen"].items() if v > now - 7 * 86400}
 
 
 def net_mult(t, slip_mult):
@@ -471,8 +642,8 @@ def summary(s):
         rug = sum(1 for t in c if t["reason"].startswith("rug") or t["reason"] == "vanished")
         L.append(f"Rugs/vanished: {rug} of {len(c)}")
     fu = s["funnel"]
-    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_")))
-             + f" | seen {fu.get('candidates', 0)} candidates, {fu.get('opened', 0)} opened")
+    L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_", "b_", "ws_")))
+             + f" | seen {fu.get('candidates', 0) or fu.get('ws_births', 0)} tokens, {fu.get('opened', 0)} opened")
     for x in s["pos"]:
         L.append(f"  {x['sym']} ({x['chain']}) {x.get('last_mult', 1):.2f}x")
     return "\n".join(L)
@@ -482,13 +653,19 @@ def main():
     s = load()
     try:
         manage(s)
-        scan(s)
+        scan_birth(s) if MODE == "birth" else scan(s)
+        s["scans"] += 1
         s["api_fail"] = 0
     except RuntimeError as e:
         s["api_fail"] += 1
         print("api problem:", e)
         if s["api_fail"] == 8:
             tg("Meme scanner: DexScreener has failed for 8 runs in a row. " + str(e)[:200])
+    if time.time() - s["last_hb"] > 3 * 3600:               # proof of life in Telegram every ~3h even when nothing trades
+        s["last_hb"] = time.time()
+        fu = s["funnel"]
+        tg(f"alive: {s['scans']} scans so far | seen {fu.get('candidates', fu.get('ws_births', 0))} tokens | opened "
+           f"{fu.get('opened', 0)} | open now {len(s['pos'])} | closed {len(s['closed'])}")
     now = time.gmtime()
     today = time.strftime("%F", now)
     if now.tm_hour >= SUMMARY_HOUR_UTC and s["last_summary"] != today:
@@ -504,6 +681,9 @@ if __name__ == "__main__":
     loop_min = float(os.environ.get("LOOP_MIN") or 0)
     scan_sec = float(os.environ.get("SCAN_SEC") or 300)
     end, crashed = time.time() + loop_min * 60, False
+    if MODE == "birth":
+        births_start()
+        time.sleep(3)
     while True:
         t0 = time.time()
         try:

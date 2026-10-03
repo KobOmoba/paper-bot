@@ -87,6 +87,19 @@ so something else used that key (UNVERIFIED what). Code now falls back to the pu
 - NOT built yet: using this stream as the ACCEL discovery source. Design sketch: hold the websocket during the sleep between scans; persist births between jobs with actions/cache
   (state file would get too big); two-stage polling (cheap liquidity screen every ~5 min via DexScreener 30 mints/call, then a small hot list every scan). Awaiting user's go-ahead.
 
+### BIRTH-1 scanner + scheduler fix (2026-10-03 evening)
+- CRON FAILURE (my mistake): the `*/30` cron did not restart the loop jobs; nothing ran from 15:09 UTC until 17:50 UTC. GitHub's cron on this repo fires only every few hours
+  (bot.yml, the 30-minute Polymarket cron, also runs only about every 5 hours). Fix: each meme loop job now ends by dispatching its own successor via
+  `workflow_dispatch` with the built-in token (needs `permissions: actions: write`; dispatch events are exempt from the no-recursion rule). Never faster than once per 10 min. Cron stays as backup.
+  Telegram now also gets an "alive:" line every ~3h per scanner.
+- New mode `MEME_MODE=birth` (`meme_birth.yml`, state `meme_birth_state.json`, tag `[BIRTH]`, rules BIRTH-1): listens to PumpPortal `subscribeNewToken` for the whole job; every new Pump.fun
+  token is stored (mint, birth time, launch price in SOL = vSol/vTokens, creator, creator's first buy, launch mcap) in `meme_births.json` (cached between jobs with actions/cache, NOT in git).
+  Stage 1: every ~5 min look up tokens 10-100 min old on DexScreener (30 mints per call, max 1500 per scan). Stage 2: tokens with liquidity >= $8k ("hot") are polled every scan.
+  Entry gates are the same as ACCEL (age 15-90 min using the TRUE birth time, liquidity >= $15k, 15-min volume >= 2x previous and >= $1k, mint+freeze authority revoked). Same exits, 45-min deadline.
+  Launch price in alerts is exact (bonding curve at creation, converted to USD with DexScreener's USD/SOL). Limits: tokens missed while no job is listening (handover gaps, seconds to minutes);
+  per-token trade stream not available without a funded key; most tokens never get a DexScreener pair (looked up once per 5 min until 100 min old).
+- Three experiments now run in parallel: V5-1 (`meme_state.json`), ACCEL-1 (`meme_accel_state.json`), BIRTH-1 (`meme_birth_state.json`).
+
 ## Open items
 1. DONE 2026-10-03: `us_live.py` switched to quarterly rebalance (user approved). Watch the first rebalance after the 2026-10-05 close.
 2. Watch both meme funnels (`meme_state.json`, `meme_accel_state.json`) and compare V5-1 vs ACCEL-1; report win rate and the 1x/2x/3x slippage stress lines.
