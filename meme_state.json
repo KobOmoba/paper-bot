@@ -1,0 +1,15 @@
+{
+ "cash": 1000.0,
+ "pos": [],
+ "closed": [],
+ "seen": {},
+ "funnel": {
+  "candidates": 43,
+  "evaluated": 41,
+  "fail_volume": 2,
+  "fail_liq": 37,
+  "fail_age": 2
+ },
+ "last_summary": "2026-10-03",
+ "api_fail": 0
+}
