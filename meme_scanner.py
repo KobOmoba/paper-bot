@@ -37,6 +37,7 @@ TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHA
 MODE = os.environ.get("MEME_MODE", "v5")
 LABEL = ""
 PUBLIC_RPC = "https://api.mainnet-beta.solana.com"
+STATE = os.environ.get("MEME_STATE_FILE") or STATE        # diagnostics can use a scratch state file
 RPC = os.environ.get("SOLANA_RPC") or PUBLIC_RPC   # set repo secret SOLANA_RPC to a keyed (e.g. Helius free) URL
 ACCEL_AGE_MIN_H, ACCEL_AGE_MAX_H, ACCEL_MIN_LIQ, ACCEL_VEL, ACCEL_MIN_DELTA = 0.25, 1.5, 15_000, 2.0, 1_000
 if MODE == "accel":
