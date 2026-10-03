@@ -1,6 +1,152 @@
 {
- "cash": 980.0287,
- "pos": [],
+ "cash": 914.3322,
+ "pos": [
+  {
+   "ctx": {
+    "mcap": 757577.0,
+    "age_min": 75.3,
+    "launch": {
+     "launch_price": 4.9196812059268734e-05,
+     "first_trade_ts": 1791052800,
+     "ath": 0.0013327518706024283,
+     "low": 4.982461714699662e-05,
+     "candles": 76,
+     "launch_sol": 4.108801681200643e-07
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791052807.3109043,
+     "lp": 4.108801681200643e-07,
+     "cr": "9zcotTy2kBvvW1BgcVxmXWiMkYpj27hpCNmABjzywBcy",
+     "ib": 85.005359057,
+     "m0": 410.8801681200643
+    }
+   },
+   "sym": "MrBeast",
+   "addr": "qptxT4qQsv1RirnZKtQ6Kb9se7e7bDv76CvQjcTpump",
+   "chain": "solana",
+   "pair": "24ocgcokv8jikURvmzPqgC1KLdBrPY7tG4ygj4oBFM5A",
+   "entry_obs": 0.0007596,
+   "fill": 0.0007825819702721918,
+   "liq_entry": 78321.28,
+   "tokens0": 25300.864001649967,
+   "tokens": 25300.864001649967,
+   "proceeds": 0.0,
+   "peak": 0.0009478,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791057326.1907005,
+   "opened": "2026-10-03 19:55:26",
+   "src": "pumpportal",
+   "h1_change": -3.62,
+   "miss": 0,
+   "liq_last": 75347.08,
+   "last": 0.0006984,
+   "last_mult": 0.919,
+   "path": [
+    [
+     1791057441,
+     0.0008434,
+     82664.65
+    ],
+    [
+     1791057561,
+     0.0008608,
+     83514.53
+    ],
+    [
+     1791057681,
+     0.0008434,
+     82670.16
+    ],
+    [
+     1791057801,
+     0.0009478,
+     87848.85
+    ],
+    [
+     1791057921,
+     0.0009179,
+     86447.3
+    ],
+    [
+     1791058041,
+     0.000769,
+     78971.2
+    ],
+    [
+     1791058161,
+     0.0008108,
+     81170.41
+    ],
+    [
+     1791058281,
+     0.0007311,
+     76982.3
+    ],
+    [
+     1791058401,
+     0.0007514,
+     78075.37
+    ],
+    [
+     1791058521,
+     0.0007444,
+     77705.82
+    ],
+    [
+     1791058641,
+     0.000771,
+     79143.13
+    ],
+    [
+     1791058761,
+     0.0007237,
+     76613.19
+    ],
+    [
+     1791058881,
+     0.0006265,
+     71154.08
+    ],
+    [
+     1791059001,
+     0.0008126,
+     81340.64
+    ],
+    [
+     1791059121,
+     0.0008032,
+     80910.81
+    ],
+    [
+     1791059241,
+     0.0007681,
+     79089.1
+    ],
+    [
+     1791059361,
+     0.0008018,
+     80858.48
+    ],
+    [
+     1791059481,
+     0.0006876,
+     74741.92
+    ],
+    [
+     1791059601,
+     0.0006979,
+     75314.31
+    ],
+    [
+     1791059721,
+     0.0006984,
+     75347.08
+    ]
+   ]
+  }
+ ],
  "closed": [
   {
    "ctx": {
@@ -56,48 +202,275 @@
    "closed": "2026-10-03 19:39:02",
    "pnl": -19.97,
    "mult_net": 0.001
+  },
+  {
+   "ctx": {
+    "mcap": 58567.0,
+    "age_min": 16.0,
+    "launch": {
+     "launch_price": 3.5744219321373667e-06,
+     "first_trade_ts": 1791056340,
+     "ath": 5.973949005229887e-05,
+     "low": 2.5030180276951606e-05,
+     "candles": 16,
+     "launch_sol": 2.985399192295741e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791054743.2651405,
+     "lp": 2.985399192295741e-08,
+     "cr": "Aet8jZoVrL8B9asPjqYPWzRgpqeEpsVWw476tkzbgrGQ",
+     "ib": 1.0,
+     "m0": 29.853991922957412
+    }
+   },
+   "sym": "AGENDA",
+   "addr": "6XQyGHhQgGJwRRP8sZEsntqBbCLfTrjeir1YT4Lpump",
+   "chain": "solana",
+   "pair": "EdddmB3ZJjDqwHEe1RmaBKxsYKFpB9NheeCtVQkzxNHP",
+   "entry_obs": 5.856e-05,
+   "fill": 6.0374852476226594e-05,
+   "liq_entry": 20174.85,
+   "tokens0": 327951.111893756,
+   "tokens": 0.0,
+   "proceeds": 7.703444548750763,
+   "peak": 5.856e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791057330.7699833,
+   "opened": "2026-10-03 19:55:30",
+   "src": "pumpportal",
+   "h1_change": 17.74,
+   "miss": 0,
+   "liq_last": 12623.31,
+   "last": 2.554e-05,
+   "last_mult": 0.436,
+   "path": [
+    [
+     1791057441,
+     2.554e-05,
+     12623.31
+    ]
+   ],
+   "obs_sold": 8.37587139776653,
+   "reason": "stop",
+   "closed": "2026-10-03 19:57:21",
+   "pnl": -12.3,
+   "mult_net": 0.385
+  },
+  {
+   "ctx": {
+    "mcap": 37678.0,
+    "age_min": 5.7,
+    "launch": {
+     "launch_price": 3.623292222442504e-06,
+     "first_trade_ts": 1791057660,
+     "ath": 5.445877878471786e-05,
+     "low": 2.2972096853043926e-05,
+     "candles": 6,
+     "launch_sol": 3.021173578628061e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791054621.803291,
+     "lp": 3.021173578628061e-08,
+     "cr": "8K8cDqh9GJeWCAZkYDUh68GQD3hwCcBtAs5PGZYVyVVi",
+     "ib": 1.185185184,
+     "m0": 30.211735786280613
+    }
+   },
+   "sym": "AGENTRIX",
+   "addr": "F5UwatuPnqETFt2bT2VLG9PhHac3W1GZ9vWswiLwpump",
+   "chain": "solana",
+   "pair": "CBmVq8uperRH2X17BfA644xh45CzBfJJsVYot4cmq915",
+   "entry_obs": 3.767e-05,
+   "fill": 3.884789668328829e-05,
+   "liq_entry": 15762.6,
+   "tokens0": 509680.10344090586,
+   "tokens": 0.0,
+   "proceeds": 4.4378526385526085,
+   "peak": 4.114e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791058046.453002,
+   "opened": "2026-10-03 20:07:26",
+   "src": "pumpportal",
+   "h1_change": -23.5,
+   "miss": 0,
+   "liq_last": 6848.7,
+   "last": 9.47e-06,
+   "last_mult": 0.251,
+   "path": [
+    [
+     1791058161,
+     3.876e-05,
+     16020.25
+    ],
+    [
+     1791058281,
+     4.114e-05,
+     16570.08
+    ],
+    [
+     1791058401,
+     2.886e-05,
+     13520.24
+    ],
+    [
+     1791058521,
+     9.47e-06,
+     6848.7
+    ]
+   ],
+   "obs_sold": 4.826670579585379,
+   "reason": "stop",
+   "closed": "2026-10-03 20:15:21",
+   "pnl": -15.56,
+   "mult_net": 0.222
+  },
+  {
+   "ctx": {
+    "mcap": 66418.0,
+    "age_min": 17.5,
+    "launch": {
+     "launch_price": 3.5509674002377895e-06,
+     "first_trade_ts": 1791058200,
+     "ath": 0.00012629835984590015,
+     "low": 3.818937358058453e-05,
+     "candles": 17,
+     "launch_sol": 2.9590503829115987e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791055554.5062392,
+     "lp": 2.9590503829115987e-08,
+     "cr": "Af3ZzWVXNKL68BHyxiu7v1AUKe9jisj5AstiJPm9M13a",
+     "ib": 0.862895494,
+     "m0": 29.59050382911599
+    }
+   },
+   "sym": "Minds",
+   "addr": "4SzWdVbXC7JiAtY5rH5MGc8HJPFAv6sSG97QEsjSpump",
+   "chain": "solana",
+   "pair": "5Sp2E7NFbLpkRtMUgo3BfXQGuHLGXrXdh8CXRtt3zCF5",
+   "entry_obs": 6.641e-05,
+   "fill": 6.846287974478239e-05,
+   "liq_entry": 21924.82,
+   "tokens0": 289207.8170508008,
+   "tokens": 0.0,
+   "proceeds": 10.938432256575698,
+   "peak": 8.305e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791059250.2867763,
+   "opened": "2026-10-03 20:27:30",
+   "src": "pumpportal",
+   "h1_change": 34.65,
+   "miss": 0,
+   "liq_last": 16793.76,
+   "last": 4.112e-05,
+   "last_mult": 0.619,
+   "path": [
+    [
+     1791059361,
+     8.305e-05,
+     24724.44
+    ],
+    [
+     1791059481,
+     4.112e-05,
+     16793.76
+    ]
+   ],
+   "obs_sold": 11.892225437128928,
+   "reason": "stop",
+   "closed": "2026-10-03 20:31:21",
+   "pnl": -9.06,
+   "mult_net": 0.547
+  },
+  {
+   "ctx": {
+    "mcap": 41130.0,
+    "age_min": 21.5,
+    "launch": {
+     "launch_price": 3.5505150786496916e-06,
+     "first_trade_ts": 1791058200,
+     "ath": 0.00012629835984590015,
+     "low": 3.225531671997495e-05,
+     "candles": 21,
+     "launch_sol": 2.9590503829115987e-08
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791055554.5062392,
+     "lp": 2.9590503829115987e-08,
+     "cr": "Af3ZzWVXNKL68BHyxiu7v1AUKe9jisj5AstiJPm9M13a",
+     "ib": 0.862895494,
+     "m0": 29.59050382911599
+    }
+   },
+   "sym": "Minds",
+   "addr": "4SzWdVbXC7JiAtY5rH5MGc8HJPFAv6sSG97QEsjSpump",
+   "chain": "solana",
+   "pair": "5Sp2E7NFbLpkRtMUgo3BfXQGuHLGXrXdh8CXRtt3zCF5",
+   "entry_obs": 4.112e-05,
+   "fill": 4.240257057002124e-05,
+   "liq_entry": 16793.76,
+   "tokens0": 466952.8222894738,
+   "tokens": 0.0,
+   "proceeds": 11.223808174287381,
+   "peak": 4.112e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791059490.5929203,
+   "opened": "2026-10-03 20:31:30",
+   "src": "pumpportal",
+   "h1_change": -16.62,
+   "miss": 0,
+   "liq_last": 12967.0,
+   "last": 2.614e-05,
+   "last_mult": 0.636,
+   "path": [
+    [
+     1791059601,
+     2.614e-05,
+     12967.0
+    ]
+   ],
+   "obs_sold": 12.206146774646845,
+   "reason": "stop",
+   "closed": "2026-10-03 20:33:21",
+   "pnl": -8.78,
+   "mult_net": 0.561
   }
  ],
  "funnel": {
-  "ws_births": 4303,
-  "b_lookups": 34271,
-  "evaluated": 29047,
-  "fail_age": 3943,
-  "b_hot": 33,
-  "fail_liq": 24844,
-  "wait_second_reading": 80,
-  "fail_velocity": 173,
-  "pair_first": 3412,
+  "ws_births": 6311,
+  "b_lookups": 66541,
+  "evaluated": 57316,
+  "fail_age": 8176,
+  "b_hot": 60,
+  "fail_liq": 48636,
+  "wait_second_reading": 133,
+  "fail_velocity": 352,
+  "pair_first": 5072,
   "pair_age_40m+": 560,
   "pair_age_20-40m": 755,
-  "pair_age_10-20m": 2097,
-  "fail_authority": 6,
-  "opened": 1
+  "pair_age_10-20m": 3757,
+  "fail_authority": 13,
+  "opened": 6
  },
  "rules": "BIRTH-1",
  "seen": {
-  "5vtmzj6bseip3xupsd9rpcs1ceaaocyhesfxuukcpump": 1791056226.319246
+  "5vtmzj6bseip3xupsd9rpcs1ceaaocyhesfxuukcpump": 1791056226.319246,
+  "qptxt4qqsv1rirnzktq6kb9se7e7bdv76cvqjctpump": 1791057325.9942555,
+  "6xqyghhqggjwrrp8szesntqbbclftrjeir1yt4lpump": 1791057330.7476277,
+  "f5uwatupnqetft2bt2vlg9phhac3w1gz9vwswilwpump": 1791058046.206422,
+  "4szwdvbxc7jiaty5rh5mgc8hjpfav6ssg97qesjspump": 1791059490.528687
  },
  "snap": {},
  "track": {},
  "hot": {
-  "4GtW1prwLTBRzk4DuMk8ZMEMB8aJrGYGKsxbH3zK4r6H": 1791051279.8927574,
-  "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh": 1791051279.8927574,
-  "AzNCYAUNME2Xc1v5odJt1TLZhhvkXY8tfaGGQKGYiFkd": 1791051879.8933406,
-  "J9YnEDijKzrDy3MMPj19idRRbesJf7vPcujbUh8ipump": 1791051999.8934813,
-  "AUqUAQVUiJg3SjGUm7G18Xk4GhoDWeVj6Z4KRY4Cpump": 1791052359.8938143,
-  "65vQ9m5ihYkwbijwj3Qg245ULCc8YJ68Hwk9vnfPEN9e": 1791052359.8938143,
-  "5JRqyzG74y2SZDCTjaMNepUJYHQBCwVPMoix1WXFpump": 1791052839.8942864,
-  "5GW96f3c39qYYhLfWpXQa3yAExtC6BjyrR92BMTPpump": 1791052959.8944664,
-  "6fm4qZKbybAF5ckAytGgijKnM5PU9EkvoDPKfd2spump": 1791052959.8944664,
-  "hjDh7hGwBbDHWdtvKphbQf1zyBpi4KiovXGQLaepump": 1791053079.8945794,
-  "9e8tVmFusz1hRQvfGLy9N8o9V1FfoDqdV4ppBRdepump": 1791053079.8945794,
-  "rNSSAF3hnhNhNfcawDKeWCKqbHvMhxskxWqo1WVpump": 1791053079.8945794,
-  "DEXuMNMjPDUbwXxoo2pM4wdLEmuWxznyqut94naDHPEk": 1791053199.8947375,
-  "61UXjkT1B3gr9yrGFbrG7Lb8XHuTN9e8YGb6XfyTpump": 1791053462.0697477,
-  "qptxT4qQsv1RirnZKtQ6Kb9se7e7bDv76CvQjcTpump": 1791053462.0697477,
-  "8XmaDUw5zmvot3e6qNtCULCK5ETAQcviLdnwQZVWpump": 1791054062.0704443,
-  "6QmzEW11w8WjZRhZnnXgYEoH7yR6rfD2XX9hF5YdAQp4": 1791054302.070674,
   "9vYT1B3DgP1HeHbpQTYDudHcoiW1BKopC6KksKDZVjNk": 1791054542.071001,
   "4RsfeA3aRqWzApHwsvc6X6RArUXLYbVeB3yBNXBNpump": 1791054662.0711598,
   "5vtmzJ6BSEip3XUpsD9rpcS1CeAAoCyhEsFxuuKcpump": 1791054782.071261,
@@ -111,9 +484,36 @@
   "4DCiotfK5EMZFfed8YHMdauGi4bq2fEnHTSHcofdpump": 1791056102.0727587,
   "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS": 1791056462.0732968,
   "Fywqd8M5auzyvPfvmdwjKzQfeBpN7wQaU6bjTdLcpump": 1791056462.0732968,
-  "6XQyGHhQgGJwRRP8sZEsntqBbCLfTrjeir1YT4Lpump": 1791056462.0732968
+  "6XQyGHhQgGJwRRP8sZEsntqBbCLfTrjeir1YT4Lpump": 1791056462.0732968,
+  "BwNvw53Uvmmrmsr3owHz3Qw3b8LrBJ4MWWCCTNz1pump": 1791056721.8030446,
+  "BL1ujbX7DM4QHh2fsVcQ5yNeQTgXAiLXRYXz6zLMpump": 1791056961.8032386,
+  "HFS8j3xuh95iUrCxerkaxNPKAd5XMWSjefrDCScvpump": 1791057081.8034036,
+  "38SJYgEnhqe6t5hhaiyHg2f1wFxubQLcs7fprPZpbevi": 1791057201.8035192,
+  "F9x7ZBD7bZD4iKcvd8knRCZx2QKYzHLfLSqjQcXpump": 1791057201.8035192,
+  "J6yUJLiLywR9CugELcdkpPjG6eZN3FVjHUjMP5jXpump": 1791057321.8036582,
+  "5y3QqZsBQCqn69h53wB1wasaKBokMA52fNmPudg8pump": 1791057442.1656613,
+  "BpZsSY5yBUPXHfieancvpXAvKJgbgcBx3LqHKe65pump": 1791057442.1656613,
+  "pumpCmXqMfrsAkQ5r49WcJnRayYRqmXz6ae8H7H9Dfn": 1791057681.8240528,
+  "F5UwatuPnqETFt2bT2VLG9PhHac3W1GZ9vWswiLwpump": 1791057801.8245983,
+  "FE3AcJaAGP7BcgKQAF4vwJZXD8YNuxHhC66dohHwpump": 1791057921.925366,
+  "H4j81uE3Wo4R8xYPVphnw95pjVEsanaNA1VqwMAGpump": 1791057921.925366,
+  "CEEVL62rmkcd18cSyTZk3oVpzGZBgCoStZQ2EfVPpump": 1791058161.871802,
+  "4SzWdVbXC7JiAtY5rH5MGc8HJPFAv6sSG97QEsjSpump": 1791058401.879812,
+  "Aj9hkSc8kGUFjAqjptbjBRVmWMLWqmK8FCBaiVM7pump": 1791058522.2040794,
+  "76diVD3xvxDvwm3XyHgyFUf4QZ7MFrQPoKiMogYQpump": 1791058522.2040794,
+  "GY7A9T7Ud3AZeAsFj85atH7G756fKLC6zX7Q1jwWpump": 1791058522.2040794,
+  "CAjq2M8bFd4VnWf4mT4Vdh9vyssouRvYeTW7XTfuDtQX": 1791058641.8415775,
+  "FvujKLhFE8gvDib2jeAvA5c167mt1ancs2kcFX6pump": 1791059121.8347914,
+  "9Wk2t4XkqaP76e8Mu26sHQipM47XFLS4ShAiLZVQpJEL": 1791059361.854051,
+  "Dkt6WZ3aMEU2Az5zwg2UmZv9U1UAnUJkNQA5y5ppump": 1791059361.854051,
+  "FiS2HEDwMjtBcHJswqk4Mbooq6S7PMSEUBFVGZEVpump": 1791059361.854051,
+  "Ad3gZohCg75FMfvGTgggotp5YrK8QcVQAMp93zFqpump": 1791059482.1941323,
+  "Hqpk81Q53NGNnqPe4NEURuqVCBjPX2J6GKWaLbU5pump": 1791059602.231156,
+  "HXAMq5WF7sR8Dih6GDzUczsWJMU6VHPFaNKxfxqwpump": 1791059602.231156,
+  "4p5ZcNptHa7gnnySHVTVJsjzGzNwbN9NewVv38ADAUFh": 1791059721.9077888,
+  "HmkiLg8BQnXMexzKJYFsMjbq82sFcqFXXfJ78CYypump": 1791059721.9077888
  },
- "scans": 56,
+ "scans": 84,
  "last_hb": 1791049959.8916914,
  "last_summary": "2026-10-03",
  "api_fail": 0
