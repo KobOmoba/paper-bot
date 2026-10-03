@@ -1,0 +1,40 @@
+{
+ "cash": 1000.0,
+ "pos": [],
+ "closed": [],
+ "funnel": {
+  "ws_births": 2181,
+  "b_lookups": 7083,
+  "evaluated": 5875,
+  "fail_age": 1529,
+  "b_hot": 15,
+  "fail_liq": 4298,
+  "wait_second_reading": 25,
+  "fail_velocity": 23
+ },
+ "rules": "BIRTH-1",
+ "seen": {},
+ "snap": {},
+ "track": {},
+ "hot": {
+  "Ess3RMgtp4ZmsGzjwmsTcW84j3RMubboVDhtT5B4R5iS": 1791050799.8923283,
+  "FyYmoWG6V1Qb2d3RcvZdDmv4En9AhGDDKtZiNt9wpump": 1791051039.8925328,
+  "4GtW1prwLTBRzk4DuMk8ZMEMB8aJrGYGKsxbH3zK4r6H": 1791051279.8927574,
+  "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh": 1791051279.8927574,
+  "AzNCYAUNME2Xc1v5odJt1TLZhhvkXY8tfaGGQKGYiFkd": 1791051879.8933406,
+  "J9YnEDijKzrDy3MMPj19idRRbesJf7vPcujbUh8ipump": 1791051999.8934813,
+  "AUqUAQVUiJg3SjGUm7G18Xk4GhoDWeVj6Z4KRY4Cpump": 1791052359.8938143,
+  "65vQ9m5ihYkwbijwj3Qg245ULCc8YJ68Hwk9vnfPEN9e": 1791052359.8938143,
+  "5JRqyzG74y2SZDCTjaMNepUJYHQBCwVPMoix1WXFpump": 1791052839.8942864,
+  "5GW96f3c39qYYhLfWpXQa3yAExtC6BjyrR92BMTPpump": 1791052959.8944664,
+  "6fm4qZKbybAF5ckAytGgijKnM5PU9EkvoDPKfd2spump": 1791052959.8944664,
+  "hjDh7hGwBbDHWdtvKphbQf1zyBpi4KiovXGQLaepump": 1791053079.8945794,
+  "9e8tVmFusz1hRQvfGLy9N8o9V1FfoDqdV4ppBRdepump": 1791053079.8945794,
+  "rNSSAF3hnhNhNfcawDKeWCKqbHvMhxskxWqo1WVpump": 1791053079.8945794,
+  "DEXuMNMjPDUbwXxoo2pM4wdLEmuWxznyqut94naDHPEk": 1791053199.8947375
+ },
+ "scans": 28,
+ "last_hb": 1791049959.8916914,
+ "last_summary": "2026-10-03",
+ "api_fail": 0
+}
