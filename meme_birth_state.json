@@ -1,24 +1,86 @@
 {
- "cash": 1000.0,
+ "cash": 980.0287,
  "pos": [],
- "closed": [],
+ "closed": [
+  {
+   "ctx": {
+    "mcap": 434660.0,
+    "age_min": 34.2,
+    "launch": {
+     "launch_price": 4.920598541333148e-05,
+     "first_trade_ts": 1791054120,
+     "ath": 0.0011487286154833912,
+     "low": 1.901503654670585e-05,
+     "candles": 36,
+     "launch_sol": 4.108801681200643e-07
+    },
+    "vel": null,
+    "birth": {
+     "t": 1791054175.3559566,
+     "lp": 4.108801681200643e-07,
+     "cr": "APoZjmCP3Abzb9ERy3w8JkWpF9DGPWeeV1nZftsRMeDM",
+     "ib": 85.005359057,
+     "m0": 410.8801681200643
+    }
+   },
+   "sym": "TikTok",
+   "addr": "5vtmzJ6BSEip3XUpsD9rpcS1CeAAoCyhEsFxuuKcpump",
+   "chain": "solana",
+   "pair": "DciBFvB9CpR9SDdyFVuF7VZVFzb9nkqEN4TFB6NMxXU",
+   "entry_obs": 0.0004346,
+   "fill": 0.00044778604643262086,
+   "liq_entry": 58711.31,
+   "tokens0": 44217.54576262648,
+   "tokens": 0.0,
+   "proceeds": 0.028745826500283476,
+   "peak": 0.0004346,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791056226.4647725,
+   "opened": "2026-10-03 19:37:06",
+   "src": "pumpportal",
+   "h1_change": 773.0,
+   "miss": 0,
+   "liq_last": 2194.42,
+   "last": 2.167e-06,
+   "last_mult": 0.005,
+   "path": [
+    [
+     1791056342,
+     2.167e-06,
+     2194.42
+    ]
+   ],
+   "obs_sold": 0.09581942166761159,
+   "reason": "rug-liquidity-collapse",
+   "closed": "2026-10-03 19:39:02",
+   "pnl": -19.97,
+   "mult_net": 0.001
+  }
+ ],
  "funnel": {
-  "ws_births": 2181,
-  "b_lookups": 7083,
-  "evaluated": 5875,
-  "fail_age": 1529,
-  "b_hot": 15,
-  "fail_liq": 4298,
-  "wait_second_reading": 25,
-  "fail_velocity": 23
+  "ws_births": 4303,
+  "b_lookups": 34271,
+  "evaluated": 29047,
+  "fail_age": 3943,
+  "b_hot": 33,
+  "fail_liq": 24844,
+  "wait_second_reading": 80,
+  "fail_velocity": 173,
+  "pair_first": 3412,
+  "pair_age_40m+": 560,
+  "pair_age_20-40m": 755,
+  "pair_age_10-20m": 2097,
+  "fail_authority": 6,
+  "opened": 1
  },
  "rules": "BIRTH-1",
- "seen": {},
+ "seen": {
+  "5vtmzj6bseip3xupsd9rpcs1ceaaocyhesfxuukcpump": 1791056226.319246
+ },
  "snap": {},
  "track": {},
  "hot": {
-  "Ess3RMgtp4ZmsGzjwmsTcW84j3RMubboVDhtT5B4R5iS": 1791050799.8923283,
-  "FyYmoWG6V1Qb2d3RcvZdDmv4En9AhGDDKtZiNt9wpump": 1791051039.8925328,
   "4GtW1prwLTBRzk4DuMk8ZMEMB8aJrGYGKsxbH3zK4r6H": 1791051279.8927574,
   "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh": 1791051279.8927574,
   "AzNCYAUNME2Xc1v5odJt1TLZhhvkXY8tfaGGQKGYiFkd": 1791051879.8933406,
@@ -31,9 +93,27 @@
   "hjDh7hGwBbDHWdtvKphbQf1zyBpi4KiovXGQLaepump": 1791053079.8945794,
   "9e8tVmFusz1hRQvfGLy9N8o9V1FfoDqdV4ppBRdepump": 1791053079.8945794,
   "rNSSAF3hnhNhNfcawDKeWCKqbHvMhxskxWqo1WVpump": 1791053079.8945794,
-  "DEXuMNMjPDUbwXxoo2pM4wdLEmuWxznyqut94naDHPEk": 1791053199.8947375
+  "DEXuMNMjPDUbwXxoo2pM4wdLEmuWxznyqut94naDHPEk": 1791053199.8947375,
+  "61UXjkT1B3gr9yrGFbrG7Lb8XHuTN9e8YGb6XfyTpump": 1791053462.0697477,
+  "qptxT4qQsv1RirnZKtQ6Kb9se7e7bDv76CvQjcTpump": 1791053462.0697477,
+  "8XmaDUw5zmvot3e6qNtCULCK5ETAQcviLdnwQZVWpump": 1791054062.0704443,
+  "6QmzEW11w8WjZRhZnnXgYEoH7yR6rfD2XX9hF5YdAQp4": 1791054302.070674,
+  "9vYT1B3DgP1HeHbpQTYDudHcoiW1BKopC6KksKDZVjNk": 1791054542.071001,
+  "4RsfeA3aRqWzApHwsvc6X6RArUXLYbVeB3yBNXBNpump": 1791054662.0711598,
+  "5vtmzJ6BSEip3XUpsD9rpcS1CeAAoCyhEsFxuuKcpump": 1791054782.071261,
+  "EELpmL9pHddnXJq6N3z7zfLMJVbFPkSx2JpJnQgNQa3j": 1791054902.071431,
+  "CJ7yfNktWNqKBJRaCQWNzoAhHPs3eshWY8MqU8wXpump": 1791055022.0715911,
+  "H8mbCUwP4L7v1ZFkN8N9aLzgEVZTFr1vx3s5NKPRpump": 1791055022.0715911,
+  "ZxQ1kbCRKCAtYU1QwQSGt9B5TujinVeiw8j7Hd4ehAM": 1791055022.0715911,
+  "5xPGKUFhGkx4uvsuTcFAcJ9AvM1fxiYmba4r9tPRpump": 1791055022.0715911,
+  "E1agPcX75hHK6LJoK8aDkaXX9DCQeFQgxp9QtTpEpump": 1791055622.0722578,
+  "Dps5AdWLWJhHjeqvXxBuF4jzgpZoyS4oR3zPn2jpump": 1791055622.0722578,
+  "4DCiotfK5EMZFfed8YHMdauGi4bq2fEnHTSHcofdpump": 1791056102.0727587,
+  "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS": 1791056462.0732968,
+  "Fywqd8M5auzyvPfvmdwjKzQfeBpN7wQaU6bjTdLcpump": 1791056462.0732968,
+  "6XQyGHhQgGJwRRP8sZEsntqBbCLfTrjeir1YT4Lpump": 1791056462.0732968
  },
- "scans": 28,
+ "scans": 56,
  "last_hb": 1791049959.8916914,
  "last_summary": "2026-10-03",
  "api_fail": 0
