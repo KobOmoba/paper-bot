@@ -1,15 +1,106 @@
 {
- "cash": 1000.0,
- "pos": [],
+ "cash": 960.0,
+ "pos": [
+  {
+   "ctx": {
+    "mcap": 10868.0,
+    "age_min": 61.5,
+    "launch": {
+     "launch_price": 6.135756086701711e-06,
+     "first_trade_ts": 1791055680,
+     "ath": 1.9867067428293937e-05,
+     "low": 5.800482341378817e-06,
+     "candles": 39
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "Tvis",
+   "addr": "9C6yF9yAXeAjTFDoT7csVxtcnhakcfFM4hGxyybi9Dte",
+   "chain": "solana",
+   "pair": "DREJ3ikHXv9HbXvMA4RTdfaJ6GWco1AhZej2xZvDgK82",
+   "entry_obs": 1.086e-05,
+   "fill": 1.1205240903948328e-05,
+   "liq_entry": 11172.32,
+   "tokens0": 1767030.2825013949,
+   "tokens": 1767030.2825013949,
+   "proceeds": 0.0,
+   "peak": 1.19e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791059341.1123497,
+   "opened": "2026-10-03 20:29:01",
+   "src": "token-profiles",
+   "h1_change": 83.61,
+   "miss": 0,
+   "liq_last": 11697.63,
+   "last": 1.19e-05,
+   "last_mult": 1.096,
+   "path": [
+    [
+     1791059460,
+     1.188e-05,
+     11686.85
+    ],
+    [
+     1791059580,
+     1.188e-05,
+     11686.85
+    ],
+    [
+     1791059700,
+     1.19e-05,
+     11697.63
+    ]
+   ]
+  },
+  {
+   "ctx": {
+    "mcap": 14338.0,
+    "age_min": 61.3,
+    "launch": {
+     "launch_price": 4.14894645463051e-06,
+     "first_trade_ts": 1791056040,
+     "ath": 1.90769211391963e-05,
+     "low": 4.14894645463051e-06,
+     "candles": 51
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "TOSHI",
+   "addr": "0x964773008eF033351F76477EF13bfB423F4FFA01",
+   "chain": "base",
+   "pair": "0xb6b5b355e79fbdf3c14f2f998abde62c0f4379b05aae095056f7d1d4ba2c6ae9",
+   "entry_obs": 1.433e-05,
+   "fill": 1.4785557690951054e-05,
+   "liq_entry": 11170.14,
+   "tokens0": 1339144.6175965245,
+   "tokens": 1339144.6175965245,
+   "proceeds": 0.0,
+   "peak": 1.433e-05,
+   "t1": false,
+   "t2": false,
+   "t_open": 1791059701.6178277,
+   "opened": "2026-10-03 20:35:01",
+   "src": "token-boosts",
+   "h1_change": 211.0,
+   "miss": 0
+  }
+ ],
  "closed": [],
- "seen": {},
+ "seen": {
+  "9c6yf9yaxeajtfdot7csvxtcnhakcffm4hgxyybi9dte": 1791059340.660619,
+  "0x964773008ef033351f76477ef13bfb423f4ffa01": 1791059701.131671
+ },
  "funnel": {
-  "candidates": 3036,
-  "evaluated": 2996,
-  "fail_age": 754,
-  "fail_liq": 2137,
-  "fail_volume": 103,
-  "fail_flow": 2
+  "candidates": 4279,
+  "evaluated": 4219,
+  "fail_age": 1041,
+  "fail_liq": 3049,
+  "fail_volume": 125,
+  "fail_flow": 2,
+  "opened": 2
  },
  "last_summary": "2026-10-03",
  "api_fail": 0,
@@ -17,6 +108,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 56,
+ "scans": 84,
  "last_hb": 1791049950.452529
 }
