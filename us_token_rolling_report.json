@@ -1,0 +1,68 @@
+{
+ "benchmark": "SPY",
+ "horizon_sessions": 756,
+ "step": 21,
+ "strategies": {
+  "breakout": {
+   "windows": 222,
+   "beats_bench_pct": 0.0,
+   "median_strategy_ret_pct": -48.7,
+   "median_bench_ret_pct": 40.8,
+   "median_excess_pts": -90.7,
+   "smaller_drawdown_pct": 0.0,
+   "worst_window_strategy_pct": -67.1,
+   "worst_window_bench_pct": -42.5
+  },
+  "dip": {
+   "windows": 222,
+   "beats_bench_pct": 0.0,
+   "median_strategy_ret_pct": -22.7,
+   "median_bench_ret_pct": 40.8,
+   "median_excess_pts": -65.6,
+   "smaller_drawdown_pct": 55.9,
+   "worst_window_strategy_pct": -51.0,
+   "worst_window_bench_pct": -42.5
+  },
+  "trend": {
+   "windows": 222,
+   "beats_bench_pct": 0.0,
+   "median_strategy_ret_pct": -48.7,
+   "median_bench_ret_pct": 40.8,
+   "median_excess_pts": -89.0,
+   "smaller_drawdown_pct": 5.4,
+   "worst_window_strategy_pct": -71.9,
+   "worst_window_bench_pct": -42.5
+  },
+  "regime_breakout": {
+   "windows": 222,
+   "beats_bench_pct": 0.0,
+   "median_strategy_ret_pct": -41.8,
+   "median_bench_ret_pct": 40.8,
+   "median_excess_pts": -86.7,
+   "smaller_drawdown_pct": 15.3,
+   "worst_window_strategy_pct": -63.9,
+   "worst_window_bench_pct": -42.5
+  },
+  "momentum": {
+   "windows": 222,
+   "beats_bench_pct": 5.4,
+   "median_strategy_ret_pct": -8.0,
+   "median_bench_ret_pct": 40.8,
+   "median_excess_pts": -45.4,
+   "smaller_drawdown_pct": 23.0,
+   "worst_window_strategy_pct": -41.7,
+   "worst_window_bench_pct": -42.5
+  },
+  "momo_regime": {
+   "windows": 222,
+   "beats_bench_pct": 0.5,
+   "median_strategy_ret_pct": -28.9,
+   "median_bench_ret_pct": 40.8,
+   "median_excess_pts": -71.2,
+   "smaller_drawdown_pct": 18.9,
+   "worst_window_strategy_pct": -46.3,
+   "worst_window_bench_pct": -42.5
+  }
+ },
+ "note": "Windows start after a 60-session warm-up. Measures an investor joining an already-running strategy."
+}
