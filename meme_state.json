@@ -4,12 +4,13 @@
  "closed": [],
  "seen": {},
  "funnel": {
-  "candidates": 43,
-  "evaluated": 41,
-  "fail_volume": 2,
-  "fail_liq": 37,
-  "fail_age": 2
+  "candidates": 35,
+  "evaluated": 34,
+  "fail_age": 6,
+  "fail_liq": 24,
+  "fail_volume": 4
  },
  "last_summary": "2026-10-03",
- "api_fail": 0
+ "api_fail": 0,
+ "rules": "V5-1"
 }
