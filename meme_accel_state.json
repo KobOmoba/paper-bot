@@ -1,5 +1,5 @@
 {
- "cash": 980.0,
+ "cash": 1002.9836,
  "pos": [
   {
    "sym": "SCAT",
@@ -10,29 +10,33 @@
    "fill": 0.00014469774229067492,
    "liq_entry": 32749.3,
    "tokens0": 136836.96570900828,
-   "tokens": 136836.96570900828,
-   "proceeds": 0.0,
-   "peak": 0.0001404,
-   "t1": false,
+   "tokens": 68418.48285450414,
+   "proceeds": 22.98360426864576,
+   "peak": 0.0003651,
+   "t1": true,
    "t2": false,
    "t_open": 1791035241.818745,
    "opened": "2026-10-03 13:47:21",
    "src": "token-profiles",
    "h1_change": 182.0,
-   "miss": 0
+   "miss": 0,
+   "liq_last": 55596.05,
+   "last": 0.0003651,
+   "last_mult": 2.6,
+   "obs_sold": 24.97958809017946
   }
  ],
  "closed": [],
  "funnel": {
-  "candidates": 97,
-  "evaluated": 90,
-  "fail_age": 33,
+  "candidates": 167,
+  "evaluated": 157,
+  "fail_age": 67,
   "wait_second_reading": 2,
-  "fail_liq": 17,
-  "gt_ok": 2,
-  "pf_fail": 1,
+  "fail_liq": 26,
+  "gt_ok": 4,
+  "pf_fail": 2,
   "opened": 1,
-  "fail_velocity": 2
+  "fail_velocity": 6
  },
  "rules": "ACCEL-1",
  "seen": {
@@ -40,10 +44,10 @@
  },
  "snap": {
   "8oezj8zg9bnxfccewqfstwje8aoetjdwzacdww6dpump": {
-   "v": 56268.69,
-   "t": 1791035241.7476814,
-   "rate": 24861.61608596864,
-   "age_h": 0.5102076892058055
+   "v": 67311.16,
+   "t": 1791036720.2725449,
+   "rate": 6721.715167236488,
+   "age_h": 0.26202015115155114
   },
   "fgvqvsqktc1gyzayrjknwqmo8pn5svvay59wucwepump": {
    "v": 211986.45,
@@ -53,27 +57,27 @@
   },
   "72wwksa1khkjjzpzssz4vtuv7yk1sjgmrptfmhwup16e": {
    "v": 19681.5,
-   "t": 1791035242.1287754,
-   "rate": 23.676209786747332,
-   "age_h": 0.5055913258923425
+   "t": 1791036720.2725523,
+   "rate": 0.0,
+   "age_h": 0.9161868200037214
   },
   "7y9gmcqpwuvn6hfpf9m6j6qu74gla1urlgrkxeytpump": {
-   "v": 322850.4,
-   "t": 1791035242.1287875,
-   "rate": 48731.689970086714,
-   "age_h": 0.9061468852228588
+   "v": 397811.17,
+   "t": 1791036720.2725568,
+   "rate": 45641.4960458021,
+   "age_h": 1.3167423768175972
   },
   "3oymqxve9mpquqendlsbqedw3nehdfbd7tbrmz5qxr6m": {
-   "v": 30352.16,
-   "t": 1791035242.128799,
-   "rate": 858.544293737779,
-   "age_h": 0.6750357772906621
+   "v": 31608.4,
+   "t": 1791036720.2725635,
+   "rate": 764.8890636734652,
+   "age_h": 1.0856312675608528
   },
   "ggzpugrpk6a2lmqtq4vd3olrj8ffxvydexxtbhvdpump": {
-   "v": 347062.87,
-   "t": 1791035242.1288157,
-   "rate": 61440.616834709814,
-   "age_h": 0.5172580041488012
+   "v": 369849.62,
+   "t": 1791036720.2725673,
+   "rate": 13874.20876860352,
+   "age_h": 0.9278534907764858
   },
   "ftqzz7qfcvax5nkk8nn19z3grxxjmctkpnlussqhpump": {
    "v": 33551.69,
@@ -82,22 +86,22 @@
    "age_h": 1.835313561823633
   },
   "ggzv9wbjju7zyyqzo1ree3mk1ybcxixzo39uah9pump": {
-   "v": 131294.6,
-   "t": 1791035242.1288304,
-   "rate": 21397.918713567364,
-   "age_h": 0.8739246749877929
+   "v": 158609.58,
+   "t": 1791036720.272577,
+   "rate": 16631.32023276224,
+   "age_h": 1.2845201602247027
   },
   "fpudkqbamyvzbg7rmfr83bvtukoz7yoghlqzlvmvfsc7": {
-   "v": 648938.92,
-   "t": 1791035242.1288364,
-   "rate": 111152.72040042507,
-   "age_h": 1.0142024543550279
+   "v": 858441.05,
+   "t": 1791036720.2725806,
+   "rate": 127559.93301462481,
+   "age_h": 1.4247979389958911
   },
   "48teaplqfqbr9wf4fqhpxw2jmfnm8fcqrrrrlivmpump": {
-   "v": 183190.22,
-   "t": 1791035242.1288419,
-   "rate": 11.165446188891663,
-   "age_h": 1.168091344833374
+   "v": 183197.59,
+   "t": 1791036720.2725847,
+   "rate": 4.487384959890446,
+   "age_h": 1.5786868290106455
   },
   "c2fjfn3satrgwcpdyctp7smqhlkqel9egl6zmyvpump": {
    "v": 55131.57,
@@ -274,22 +278,238 @@
    "age_h": 0.020480484631326464
   },
   "35vyccynuhcozuzt7iutdujxpy36zcpklfha31e9yv5y": {
-   "v": 116581.0,
-   "t": 1791035241.7476592,
-   "rate": null,
-   "age_h": 0.2621521271599664
+   "v": 163925.31,
+   "t": 1791036720.272523,
+   "rate": 28819.183258639532,
+   "age_h": 0.67285347852442
   },
   "14qpkuzggiv9xyu8oa13847n37flykgjx723fqnny2u6": {
-   "v": 100214.91,
-   "t": 1791035241.7476716,
-   "rate": null,
-   "age_h": 0.30298546420203315
+   "v": 100337.22,
+   "t": 1791036720.2725346,
+   "rate": 74.4519099775525,
+   "age_h": 0.7136868150366678
   },
   "auxp5nvebw2wjncyspcjbr4lqb4pwkknwgmu5y54dtcb": {
-   "v": 43242.15,
-   "t": 1791035241.7476761,
+   "v": 43916.61,
+   "t": 1791036720.27254,
+   "rate": 410.55379912575836,
+   "age_h": 0.7275757054487865
+  },
+  "qm8obvyr3zfinnfuc49hvoh9eja2s84wnjutqkqxsxg": {
+   "v": 9287.04,
+   "t": 1791036720.0888247,
    "rate": null,
-   "age_h": 0.3168743543492423
+   "age_h": 0.016413561503092446
+  },
+  "dghayejeemwrt4spitysruc9dynhpfh4vwuwfjqapump": {
+   "v": 80.07,
+   "t": 1791036720.0888472,
+   "rate": null,
+   "age_h": 0.018635790414280363
+  },
+  "edfwvg5kyt4jfoerw7cykrhy615rww7bjrybfkaupump": {
+   "v": 541.15,
+   "t": 1791036720.0888536,
+   "rate": null,
+   "age_h": 0.018913570245107016
+  },
+  "afhdgs1lqch2riifptbfxsd9fivmljgncg6x5n9wgyfn": {
+   "v": 8637.93,
+   "t": 1791036720.088859,
+   "rate": null,
+   "age_h": 0.01891357183456421
+  },
+  "mvyrmphji9ahngeif62qhauqw746t9lvqynakifpump": {
+   "v": 972.6,
+   "t": 1791036720.0888643,
+   "rate": null,
+   "age_h": 0.019191351069344414
+  },
+  "8aqwlxgi6qp3y97qschkv5dswua6v1gb3jyyvrdepump": {
+   "v": 138.27,
+   "t": 1791036720.0888693,
+   "rate": null,
+   "age_h": 0.019746908015675014
+  },
+  "2ztnuhsxrnogyp76nhpxrqelzi7enghn4kjzkpvxbonk": {
+   "v": 12389.22,
+   "t": 1791036720.088873,
+   "rate": null,
+   "age_h": 0.023080242342419094
+  },
+  "4rznciukxgjlnjmdtddpwmrxecjcattgskd4a6qwpump": {
+   "v": 923.5,
+   "t": 1791036720.0888777,
+   "rate": null,
+   "age_h": 0.020580243666966758
+  },
+  "b8frrzelfivzpojmtubzwntk9qewkbv6aamnpf2lip1w": {
+   "v": 1644.64,
+   "t": 1791036720.0888822,
+   "rate": null,
+   "age_h": 0.11308024499151442
+  },
+  "a4gy1en4xeztssz8wab4zwnhaatasal568vgguszpump": {
+   "v": 9251.19,
+   "t": 1791036720.088887,
+   "rate": null,
+   "age_h": 0.02169135742717319
+  },
+  "7vays9fsrumltrap6jjp78wyhnvzao4tmzdpn1euvdsy": {
+   "v": 456.78,
+   "t": 1791036720.0888917,
+   "rate": null,
+   "age_h": 0.02196913652949863
+  },
+  "hykyltwz4ybksces6gr5qeqffvvgvdkjwqts96xlpump": {
+   "v": 0.0,
+   "t": 1791036720.0888965,
+   "rate": null,
+   "age_h": 0.023635804454485574
+  },
+  "hoghv4cdlgesdbwdgjcjaccwocktye7xcz2aehicpump": {
+   "v": 1648.78,
+   "t": 1791036720.0889015,
+   "rate": null,
+   "age_h": 0.023080250289705066
+  },
+  "eyodvypef13bssqjnphhsxixawdi6b72agkuqkhwpump": {
+   "v": 152.99,
+   "t": 1791036720.0889063,
+   "rate": null,
+   "age_h": 0.02308025168048011
+  },
+  "gimncfs2gxvj6zd6ken1mtzt7wr8yxatrdsihzgdpump": {
+   "v": 52.92,
+   "t": 1791036720.0889108,
+   "rate": null,
+   "age_h": 0.023913586205906338
+  },
+  "7hdsc6ducovtrm29cuggywesveimjxb7fx4835bcpump": {
+   "v": 7.07,
+   "t": 1791036720.088915,
+   "rate": null,
+   "age_h": 0.031413587464226615
+  },
+  "796ua4ux1ks2kirxzsz3gcbavjpt9rzkdjkcaxrnd2rc": {
+   "v": 15647.36,
+   "t": 1791036720.0889206,
+   "rate": null,
+   "age_h": 0.03169136669900682
+  },
+  "8ywxypiyv2lf8mesgwdl3lkpl8m2pheu8xjqm7udg13f": {
+   "v": 8627.71,
+   "t": 1791036720.08893,
+   "rate": null,
+   "age_h": 0.03252470268143548
+  },
+  "55nrvcrkjta1xl1nm365jhypz1w2vfhsx7vd61dipump": {
+   "v": 530.93,
+   "t": 1791036720.0889385,
+   "rate": null,
+   "age_h": 0.033635816176732385
+  },
+  "3xsw2o3cemgpyexcnv9h9sw5pt5tjtncjql7pnwxpump": {
+   "v": 1646.63,
+   "t": 1791036720.0889428,
+   "rate": null,
+   "age_h": 0.035302484035491945
+  },
+  "jkanu32ld4wpjt9iqiu9gmipotf7elcs2xsuahknkfs": {
+   "v": 73258.62,
+   "t": 1791036720.0889459,
+   "rate": null,
+   "age_h": 0.035580262674225704
+  },
+  "71ah74yxvvhf1br9wpzrxxbn8fzvbcqpgtqbk68ebutp": {
+   "v": 15.49,
+   "t": 1791036720.0889506,
+   "rate": null,
+   "age_h": 0.035580263866318594
+  },
+  "gnrhr8xe3xgrx25ic5fz3fvkadivvjuy1bwhjr8jtvx": {
+   "v": 205.64,
+   "t": 1791036720.088955,
+   "rate": null,
+   "age_h": 0.03669137630197737
+  },
+  "9hfucwwoet15fp5sfednqvrq5wwmvgamg5zgwdwofusq": {
+   "v": 706.01,
+   "t": 1791036720.0889595,
+   "rate": null,
+   "age_h": 0.03696915527184804
+  },
+  "4gl3fcwubkak7vk8waqc7fauahhdqqjp3fthfemppump": {
+   "v": 1474.29,
+   "t": 1791036720.0889637,
+   "rate": null,
+   "age_h": 0.03724693424171872
+  },
+  "hat5raap3dhifvnoqunvudyurdw52w4oicyv2a3wwzjt": {
+   "v": 440.89,
+   "t": 1791036720.2724679,
+   "rate": null,
+   "age_h": 0.03729790727297465
+  },
+  "2rmfxsqwfboqu68tmwduyxttgeucvenquelv8yqbhhxt": {
+   "v": 2781.01,
+   "t": 1791036720.272477,
+   "rate": null,
+   "age_h": 0.0375756878985299
+  },
+  "apa9aclnheh7h5eb9yyefbskck2nnfcm1qsaeabpump": {
+   "v": 74951.65,
+   "t": 1791036720.272481,
+   "rate": null,
+   "age_h": 0.03840902242395613
+  },
+  "87uuzgrbsi4hlozjnswwmhiyprwaewkzmyethnybpump": {
+   "v": 0.0,
+   "t": 1791036720.2724862,
+   "rate": null,
+   "age_h": 0.04007569048139784
+  },
+  "hwqzdwouhqbrednysvq85jiwcxa4dyoyreycxqzurjxt": {
+   "v": 5361.34,
+   "t": 1791036720.2724912,
+   "rate": null,
+   "age_h": 0.051186802983284
+  },
+  "5uggybagdq7dmjkmjlsnhzkxtmahzhkxqzvyw4zepump": {
+   "v": 41079.3,
+   "t": 1791036720.272496,
+   "rate": null,
+   "age_h": 0.03952013764116499
+  },
+  "fkyboofr2weqkchlnn7jjq3vkbp3a2cthotgmq8opump": {
+   "v": 19302.52,
+   "t": 1791036720.2725003,
+   "rate": null,
+   "age_h": 0.4361868055661519
+  },
+  "dljuevgqkbqddekpm5dq2xf1kqpn3ct4twdkj1q6pump": {
+   "v": 54098.8,
+   "t": 1791036720.2725067,
+   "rate": null,
+   "age_h": 0.22146458513206907
+  },
+  "8ttzwvy5xdzbq2ujv4dr3bk9vajus9my5zznfjo4s8tt": {
+   "v": 165466.89,
+   "t": 1791036720.2725098,
+   "rate": null,
+   "age_h": 0.314797919260131
+  },
+  "ashzn3rzlublmu7ftefdhrmu1rjbatfvx7yrfevbred": {
+   "v": 122073.43,
+   "t": 1791036720.272515,
+   "rate": null,
+   "age_h": 0.3875756984949112
+  },
+  "ct5truec2bz49zpdh3uk4ksduh6hy1dtyzmzamti7yey": {
+   "v": 16689.94,
+   "t": 1791036720.2725184,
+   "rate": null,
+   "age_h": 1.8147979216443169
   }
  },
  "last_summary": "2026-10-03",
