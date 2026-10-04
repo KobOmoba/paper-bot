@@ -187,6 +187,14 @@ def manage(s):
             close_out(s, pos, why)
 
 
+def slots_used(s):
+    """ACCEL: positions that already sold 50% at 2x (principal back, moon bag riding) do not use a slot, so a token stuck between
+    2x and 4x cannot block new entries (user request 2026-10-04). Other modes count every open position."""
+    if MODE == "accel":
+        return sum(1 for p in s["pos"] if not p.get("t1"))
+    return len(s["pos"])
+
+
 def funnel(s, key, n=1):
     s["funnel"][key] = s["funnel"].get(key, 0) + n
 
@@ -553,9 +561,9 @@ def scan(s):
                     funnel(s, "no_slot")
                     continue
                 if MODE == "accel":
-                    if len(s["pos"]) < MAX_POS and s["cash"] >= STAKE and not passes_accel(p, s, a):
+                    if slots_used(s) < MAX_POS and s["cash"] >= STAKE and not passes_accel(p, s, a):
                         continue
-                    elif len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
+                    elif slots_used(s) >= MAX_POS or s["cash"] < STAKE:
                         continue
                 elif not passes(p, s):
                     continue
