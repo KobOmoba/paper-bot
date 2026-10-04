@@ -42,7 +42,7 @@ jobs:
           set +e
           git config user.name "v7-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add v7_state.json
+          git add v7_state.json v7_positions.csv
           git diff --cached --quiet && exit 0
           git commit -m "v7 state"
           for i in 1 2 3 4; do git pull --rebase --autostash && git push && exit 0; sleep 6; done

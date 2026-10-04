@@ -16,7 +16,7 @@ Multiples are measured on CAPITAL INVESTED (what the whole original position wou
 fees and the Jito tip, divided by what was put in), as instructed.
 After the curve completes (graduation) the price comes from DexScreener (priceNative, in SOL).
 """
-import asyncio, base64, json, os, struct, threading, time, urllib.request, statistics
+import asyncio, base64, csv, json, os, struct, threading, time, urllib.request, statistics
 
 STATE = os.environ.get("V7_STATE_FILE", "v7_state.json")
 WS_URL = "wss://pumpportal.fun/api/data"
@@ -40,6 +40,11 @@ ENTRY_DELAY_S = 2.0         # first curve read after the birth event
 AMM_SLIP, AMM_FEE = 0.05, 0.01   # exit model after graduation
 BANK = 100000.0             # paper SOL: large on purpose so cash never blocks a buy
 MAX_TRACKED = 30000
+SUPPLY = 1e9                # Pump.fun tokens: 1,000,000,000 supply -> market cap = price x 1e9
+SOL_USD = [float(os.environ.get('V7_SOL_USD', '0') or 0)]
+CSV_FILE = os.environ.get('V7_CSV_FILE', 'v7_positions.csv')
+# display labels only (not trading rules)
+LBL_RUG_M, LBL_MOON_M, LBL_DEAD_S = 0.20, 2.0, 1200
 
 
 def f(x, d=0.0):
@@ -192,6 +197,18 @@ def dex_prices(mints):
     return out
 
 
+def fetch_sol_usd():
+    if SOL_USD[0] > 0:
+        return
+    try:
+        req = urllib.request.Request("https://api.dexscreener.com/tokens/v1/solana/So11111111111111111111111111111111111111112",
+                                     headers={"User-Agent": "paper-v7"})
+        best = max(json.load(urllib.request.urlopen(req, timeout=15)), key=lambda p: f((p.get("liquidity") or {}).get("usd")))
+        SOL_USD[0] = f(best.get("priceUsd"))
+    except Exception as e:
+        print("SOL price fetch failed:", str(e)[:80])
+
+
 def ws_thread():
     import websockets
 
@@ -224,7 +241,8 @@ def new_birth(t, d):
         funnel("skip_capacity"); return
     ST["tok"][d["mint"]] = {"mint": d["mint"], "curve": d["bondingCurveKey"], "sym": (d.get("symbol") or "?")[:12], "born": t,
                             "due": t + ENTRY_DELAY_S, "tries": 0, "pos": None, "grad": False,
-                            "feat": {"creator_buy_sol": f(d.get("solAmount")), "mcap0_sol": f(d.get("marketCapSol"))}}
+                            "feat": {"creator_buy_sol": f(d.get("solAmount")), "mcap0_sol": f(d.get("marketCapSol"))},
+                            "launch_price": f(d.get("vSolInBondingCurve")) / max(f(d.get("vTokensInBondingCurve")), 1e-18)}
 
 
 def interval(tk, now):
@@ -255,9 +273,42 @@ def open_position(tk, c, now):
     ST["cash"] -= cost
     tk["pos"] = {"status": "OPEN", "tokens0": toks, "tokens": toks, "cost": cost, "proceeds": 0.0, "entry_mid": vs / vt, "ath": vs / vt,
                  "entry_t": now, "prev_liq": c["real_sol"], "fill_ratio": avg / (vs / vt)}
+    p = tk["pos"]
+    p.update({"entry_price": avg, "entry_mc_sol": (vs / vt) * SUPPLY, "curve_sol_entry": c["real_sol"], "last_price": vs / vt,
+              "last_move": now, "sol_usd": SOL_USD[0]})
     tk["feat"]["curve_sol"] = round(c["real_sol"], 3)
     tk["due"] = now + interval(tk, now)
     funnel("entries")
+
+
+def status_label(p, now):
+    """RUGGED / MOONING / ACTIVE / DEAD from the last readings (display only)."""
+    m = p.get("m_now", 1.0)
+    if p.get("reason") == "rug-liquidity-collapse" or m <= LBL_RUG_M:
+        return "RUGGED"
+    if p.get("peak_m", 0.0) >= LBL_MOON_M:
+        return "MOONING"
+    if now - p.get("last_move", now) >= LBL_DEAD_S:
+        return "DEAD"
+    return "ACTIVE"
+
+
+def iso(t):
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(t)) if t else ""
+
+
+def row(tk, now):
+    p, su = tk["pos"], (tk["pos"].get("sol_usd") or SOL_USD[0] or 0.0)
+    return {"address": tk["mint"], "symbol": tk["sym"], "status": status_label(p, now),
+            "launch_price_sol": f"{tk.get('launch_price', 0):.4e}", "entry_price_sol": f"{p.get('entry_price', 0):.4e}",
+            "launch_mc_sol": round(tk["feat"].get("mcap0_sol", 0), 2), "entry_mc_sol": round(p.get("entry_mc_sol", 0), 2),
+            "entry_mc_usd": round(p.get("entry_mc_sol", 0) * su),
+            "curve_sol_entry": round(p.get("curve_sol_entry", 0), 3), "liquidity_usd_entry": round(p.get("curve_sol_entry", 0) * su, 2),
+            "born_utc": iso(tk["born"]), "entry_utc": iso(p["entry_t"]), "age_min": round((now - tk["born"]) / 60, 1),
+            "last_price_sol": f"{p.get('last_price', 0):.4e}", "curve_sol_now": round(p.get("prev_liq") or 0, 3),
+            "current_x": round(p.get("m_now", 0), 2), "peak_x": round(p.get("peak_m", 0), 2), "tier_state": p["status"],
+            "closed_reason": p.get("reason", ""), "stake_sol": TRADE_SIZE_SOL, "proceeds_sol": round(p.get("proceeds", 0), 5),
+            "result_x": round(p["proceeds"] / p["cost"], 3) if p["status"] == "CLOSED" else ""}
 
 
 def record(tk, now):
@@ -273,7 +324,7 @@ def record(tk, now):
         if pk >= k:
             a["reach"][str(k)] = a["reach"].get(str(k), 0) + 1
     ST["closed"].append({"sym": tk["sym"], "mint": tk["mint"], "mult": round(mu, 3), "reason": p["reason"], "peak_m": round(pk, 2),
-                         "held_min": round((now - p["entry_t"]) / 60, 1), "feat": tk["feat"]})
+                         "held_min": round((now - p["entry_t"]) / 60, 1), "feat": tk["feat"], "row": row(tk, now)})
     del ST["closed"][:-6000]
     ST["tok"].pop(tk["mint"], None)
 
@@ -282,6 +333,9 @@ def drive(tk, mid, liq, sell_fn, now):
     p = tk["pos"]
     last = tk.get("last_mid")
     tk["flat_reads"] = tk.get("flat_reads", 0) + 1 if (last and abs(mid / last - 1) < 0.001) else 0
+    if not (last and abs(mid / last - 1) < 0.001):
+        p["last_move"] = now
+    p["last_price"] = mid
     tk["last_mid"] = mid
     for kind, val in act(p, mid, liq, sell_fn, now):
         if kind == "shave" or (kind == "tier" and val >= 4):
@@ -350,7 +404,19 @@ def tick(now, fetch=rpc_multi, dexfn=dex_prices):
 
 
 # ---------------- persistence / reporting ----------------
+def write_csv(now=None):
+    now = now or time.time()
+    rows = [c["row"] for c in ST["closed"] if c.get("row")] + [row(t, now) for t in ST["tok"].values() if t["pos"]]
+    if not rows:
+        return
+    with open(CSV_FILE + ".tmp", "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w.writeheader(); w.writerows(rows)
+    os.replace(CSV_FILE + ".tmp", CSV_FILE)
+
+
 def save():
+    write_csv()
     d = {"ST": {k: ST[k] for k in ("funnel", "ws", "agg", "closed", "cash")}, "tok": ST["tok"], "saved": time.strftime("%F %T"), "schema": "v7-spec-1"}
     json.dump(d, open(STATE + ".tmp", "w"), separators=(",", ":"))
     os.replace(STATE + ".tmp", STATE)
@@ -376,6 +442,14 @@ def summary():
     stc = {}
     for t in op:
         stc[t["pos"]["status"]] = stc.get(t["pos"]["status"], 0) + 1
+    now = time.time()
+    lab = {}
+    for t in op:
+        k = status_label(t["pos"], now); lab[k] = lab.get(k, 0) + 1
+    if lab:
+        L.append("market status of open positions: " + ", ".join(f"{k} {lab.get(k, 0)}" for k in ("MOONING", "ACTIVE", "DEAD", "RUGGED")))
+        top = sorted(op, key=lambda t: -t["pos"].get("m_now", 0))[:5]
+        L.append("top 5 now: " + " | ".join(f"{t['sym']} {t['pos'].get('m_now', 0):.1f}x" for t in top))
     if stc:
         L.append("open by state: " + ", ".join(f"{k} {v}" for k, v in sorted(stc.items())))
     if a["n"]:
@@ -392,6 +466,7 @@ def summary():
 def main():
     loop_min = float(os.environ.get("LOOP_MIN", "0"))
     load()
+    fetch_sol_usd()
     threading.Thread(target=ws_thread, daemon=True).start()
     t0 = last_save = last_sum = last_alive = time.time()
     tg(f"V7 sniper job started (paper only) | {TRADE_SIZE_SOL} SOL per trade | gate: authorities null + curve >= {MIN_CURVE_SOL} SOL | "
