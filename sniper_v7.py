@@ -17,6 +17,7 @@ BANK = 5000.0                                              # paper SOL per strat
 FEE = 0.01                                                 # pump.fun fee, both sides
 LAND_SLIP = 0.03                                           # extra adverse move while a real order would land
 ENTRY_DELAY_S = 2.0
+MIN_CURVE_SOL = float(os.environ.get("V7_MIN_CURVE_SOL", "2.0"))   # birth filter: real SOL sitting in the bonding curve (not USD liquidity)
 TRACK_MIN = 90                                             # follow a token this long, then force-close
 MAX_TRACKED = 800
 SHAVE_MIN_USD = float(os.environ.get("V7_SHAVE_MIN_USD", "1000"))   # shaving only once the bag is worth this much
@@ -55,7 +56,7 @@ def decode_curve(raw):
     vt, vs, rt, rs, sup = struct.unpack_from("<5Q", raw, 8)
     if vt <= 0 or vs <= 0:
         return None
-    return {"vt": vt / 1e6, "vs": vs / 1e9, "complete": bool(raw[48])}
+    return {"vt": vt / 1e6, "vs": vs / 1e9, "real_sol": rs / 1e9, "complete": bool(raw[48])}
 
 
 # ---------------- state machine (pure) ----------------
@@ -367,6 +368,9 @@ def on_curve_read(tk, c, now):
     if not tk["legs"] and tk["entry_mid"] is None:
         if c["complete"]:
             funnel("skip_born_complete"); ST["tok"].pop(tk["mint"], None); return
+        if c["real_sol"] < MIN_CURVE_SOL:
+            funnel("skip_curve_sol"); ST["tok"].pop(tk["mint"], None); return
+        tk["feat"]["curve_sol"] = round(c["real_sol"], 3)
         open_legs(tk, vs, vt, now)
     if c["complete"]:
         tk["grad"], tk["due"] = True, now
