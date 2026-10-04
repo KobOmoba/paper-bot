@@ -20,7 +20,7 @@ STATE = os.environ.get("V7_STATE_FILE", "v7_state.json")
 WS_URL = "wss://pumpportal.fun/api/data"
 PUBLIC_RPC = "https://api.mainnet-beta.solana.com"
 STAKE = float(os.environ.get("V7_STAKE_SOL", "0.25"))     # SOL per strategy per token
-BANK = 300.0                                               # paper SOL per strategy
+BANK = 5000.0                                              # paper SOL per strategy (large on purpose: never starve a strategy of cash)
 FEE = 0.01                                                 # pump.fun fee, both sides
 LAND_SLIP = 0.03                                           # extra adverse move while a real order would land
 ENTRY_DELAY_S = 2.0
@@ -311,6 +311,11 @@ def record(tk, l, now=None):
         return
     l.rec = True
     s["cash"] += l.proceeds
+    mu = l.proceeds / l.cost
+    a = s.setdefault("agg", {"n": 0, "sum": 0.0, "wins": 0, "best": 0.0, "pnl": 0.0, "reasons": {}, "mults": []})
+    a["n"] += 1; a["sum"] += mu; a["wins"] += mu > 1; a["best"] = max(a["best"], mu); a["pnl"] += (mu - 1) * l.cost
+    a["reasons"][l.reason] = a["reasons"].get(l.reason, 0) + 1
+    a["mults"].append(round(mu, 3)); del a["mults"][:-20000]
     s["closed"].append({"sym": tk["sym"], "mint": tk["mint"], "mult": round(l.proceeds / l.cost, 3), "reason": l.reason,
                         "peak": round(l.peak / l.entry_mid, 2), "stage": l.stage, "held_min": round(((now or time.time()) - l.t0) / 60, 1)})
     del s["closed"][:-4000]
@@ -399,7 +404,7 @@ def drive(tk, mid, sell_fn, now):
 
 # ---------------- persistence / reporting ----------------
 def save():
-    d = {"strat": ST["strat"], "funnel": ST["funnel"], "ws": ST["ws"], "done": ST["done"][-4000:], "saved": time.strftime("%F %T"),
+    d = {"strat": ST["strat"], "funnel": ST["funnel"], "ws": ST["ws"], "done": ST["done"][-4000:], "saved": time.strftime("%F %T"), "bank_v": 2,
          "tok": {m: {**{k: v for k, v in tk.items() if k != "legs"}, "legs": {n: l.to_d() for n, l in tk["legs"].items()}}
                  for m, tk in ST["tok"].items()}}
     json.dump(d, open(STATE + ".tmp", "w"))
@@ -412,6 +417,9 @@ def load():
     except Exception:
         return
     ST["strat"], ST["funnel"], ST["ws"], ST["done"] = d.get("strat", {}), d.get("funnel", {}), d.get("ws", 0), d.get("done", [])
+    if d.get("bank_v") != 2:                                  # one-time paper top-up when the bank was raised from 300 to 5000
+        for n in ST["strat"]:
+            ST["strat"][n]["cash"] += 4700.0
     for m, tk in d.get("tok", {}).items():
         tk["legs"] = {n: Leg.from_d(l) for n, l in tk["legs"].items()}
         tk["due"] = 0
@@ -419,15 +427,21 @@ def load():
 
 
 def summary():
-    L = [f"V7 SNIPER paper | births seen {ST['ws']} | tracking {len(ST['tok'])} | tokens finished {len(ST['done'])}"]
+    L = [f"V7 SNIPER paper | births seen {ST['ws']} | tracking {len(ST['tok'])} | tokens in peak sample {len(ST['done'])}"]
     for n in STRATS:
         s = strat_state(n)
-        c = s["closed"]
-        if not c:
+        a = s.get("agg")
+        if not a:                                             # old state without running totals: seed from the capped list
+            c = s["closed"]
+            a = {"n": len(c), "sum": sum(x["mult"] for x in c), "wins": sum(x["mult"] > 1 for x in c), "best": max([x["mult"] for x in c] or [0]),
+                 "pnl": sum((x["mult"] - 1) * STAKE for x in c), "reasons": {}, "mults": [x["mult"] for x in c]}
+            s["agg"] = a
+        if not a["n"]:
             L.append(f"{n}: no closed trades"); continue
-        mu = [x["mult"] for x in c]
-        L.append(f"{n}: {len(c)} closed | avg {sum(mu) / len(mu):.2f}x | median {statistics.median(mu):.2f}x | win {100 * sum(m > 1 for m in mu) / len(mu):.1f}% "
-                 f"| best {max(mu):.1f}x | P&L {sum((m - 1) * STAKE for m in mu):+.1f} SOL")
+        md = statistics.median(a["mults"])
+        rs = ", ".join(f"{k} {v}" for k, v in sorted(a["reasons"].items(), key=lambda kv: -kv[1]))
+        L.append(f"{n}: {a['n']} closed | avg {a['sum'] / a['n']:.2f}x | median {md:.2f}x | win {100 * a['wins'] / a['n']:.1f}% "
+                 f"| best {a['best']:.1f}x | P&L {a['pnl']:+.1f} SOL | exits: {rs}")
     dn = ST["done"]
     if dn:
         pk = [x["peak_mult"] for x in dn]
