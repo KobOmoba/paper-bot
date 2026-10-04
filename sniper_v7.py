@@ -405,19 +405,28 @@ def tick(now, fetch=rpc_multi, dexfn=dex_prices):
 
 
 # ---------------- persistence / reporting ----------------
+CSV_FIELDS = ["address", "symbol", "status", "launch_price_sol", "entry_price_sol", "launch_mc_sol", "launch_mc_usd", "entry_mc_sol",
+              "entry_mc_usd", "present_mc_sol", "present_mc_usd", "curve_sol_entry", "liquidity_usd_entry", "born_utc", "entry_utc",
+              "age_min", "last_price_sol", "curve_sol_now", "current_x", "peak_x", "tier_state", "closed_reason", "stake_sol",
+              "proceeds_sol", "result_x"]
+
+
 def write_csv(now=None):
     now = now or time.time()
     rows = [c["row"] for c in ST["closed"] if c.get("row")] + [row(t, now) for t in ST["tok"].values() if t["pos"]]
     if not rows:
         return
     with open(CSV_FILE + ".tmp", "w", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w = csv.DictWriter(fh, fieldnames=CSV_FIELDS, extrasaction="ignore", restval="")
         w.writeheader(); w.writerows(rows)
     os.replace(CSV_FILE + ".tmp", CSV_FILE)
 
 
 def save():
-    write_csv()
+    try:
+        write_csv()
+    except Exception as e:
+        funnel("csv_error"); print("csv write failed (state still saved):", repr(e)[:200])
     d = {"ST": {k: ST[k] for k in ("funnel", "ws", "agg", "closed", "cash")}, "tok": ST["tok"], "saved": time.strftime("%F %T"), "schema": "v7-spec-1"}
     json.dump(d, open(STATE + ".tmp", "w"), separators=(",", ":"))
     os.replace(STATE + ".tmp", STATE)
@@ -481,7 +490,11 @@ def main():
         if now - last_save > 120:
             save(); last_save = now
         if now - last_sum > 3600:
-            tg(summary()); last_sum = now
+            try:
+                tg(summary())
+            except Exception as e:
+                print("summary failed:", repr(e)[:200])
+            last_sum = now
         if now - last_alive > 3 * 3600:
             tg(f"alive: births {ST['ws']}"); last_alive = now
         if loop_min and now - t0 > loop_min * 60:
