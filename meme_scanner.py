@@ -31,7 +31,7 @@ F_T1, F_T2 = 0.50, 0.30
 RULES = 'V5-1'
 SLIP_IN, SLIP_OUT, FEE, RUG_LIQ_DROP, RUG_PAYOUT = 0.03, 0.07, 0.01, 0.60, 0.30
 COOLDOWN_H, SUMMARY_HOUR_UTC = 24.0, 8
-ACCEL_NO4X_H = 2.0                 # ACCEL only: after the 2x sale, close the rest if 4x is not reached within this many hours
+ACCEL_NO4X_H = 0.0                 # ACCEL only: 2h no-4x exit is PAUSED (0 = off) at the user's request; set to 2.0 to re-enable
 ACCEL_FORCE_CLOSE_BEFORE = 1791142122   # one-time (2026-10-04, user request): ACCEL positions opened before this moment are closed at the live price
 TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHAT_ID", "")
 
@@ -178,7 +178,7 @@ def manage(s):
             why = "trail"
         elif not pos["t1"] and age_h >= T1_DEADLINE_H:
             why = "no-2x-deadline"
-        elif MODE == "accel" and pos["t1"] and not pos["t2"] and pos.get("t1_time") and time.time() - pos["t1_time"] >= ACCEL_NO4X_H * 3600:
+        elif MODE == "accel" and ACCEL_NO4X_H > 0 and pos["t1"] and not pos["t2"] and pos.get("t1_time") and time.time() - pos["t1_time"] >= ACCEL_NO4X_H * 3600:
             why = "no-4x-2h"
         elif age_h >= MAX_HOLD_H:
             why = "time"
