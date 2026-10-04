@@ -1,17 +1,10 @@
 """V7 SNIPER (PAPER ONLY - no keys, no wallet, no orders).
 
-Event engine + state machine:
-  PumpPortal websocket (subscribeNewToken)  ->  BIRTH event
-  after ENTRY_DELAY_S read the Pump.fun bonding-curve account over RPC  ->  paper FILL priced with the real
-  constant-product curve (price impact + 1% fee + landing-slippage cushion)
-  every tick: re-read curves in batches (getMultipleAccounts), feed the price to every strategy's state machine.
-  Several exit strategies run on the SAME entries, so they are compared on identical price paths.
-
-Strategies (exit rules; entry is loose by design, features are logged):
-  SHAVE   : "Ascending Shave" - sell half of what is left at 10x/25x/100x/300x, trail the rest.
-  LADDER  : the exit used by the other scanners (-25% stop, 50% @2x, 30% @4x, 12% trail).
-  SHAVE_NS: Ascending Shave with no stop-loss (shows what the stop costs/saves).
-  FLIP    : quick flip - all out at 1.5x, -20% stop, 15 min deadline.
+One idea: catch every Pump.fun launch the moment it is born (websocket, no DexScreener), paper-buy it,
+and sell only with the Ascending Shave (half of what is left at 10x/25x/100x/300x on capital invested,
+shaving only once the bag is worth >= $1000; below that, once capital has doubled, a trailing exit).
+  PumpPortal websocket (subscribeNewToken) -> after ENTRY_DELAY_S read the bonding-curve account -> paper fill priced
+  with the real curve (impact + 1% fee + landing cushion) -> re-read curves in batches -> state machine per position.
 After the curve completes (token graduates) price comes from DexScreener (priceNative, in SOL).
 """
 import asyncio, base64, json, os, struct, sys, threading, time, urllib.request, statistics
@@ -31,11 +24,8 @@ SOL_USD = [float(os.environ.get("V7_SOL_USD", "0") or 0)]          # filled from
 AMM_SLIP, AMM_FEE = 0.05, 0.01                             # exit model after graduation
 STAGNANT_MIN = 20                                          # price frozen this long -> stop polling, close
 
-STRATS = {
-    "SHAVE":    dict(stop=-0.35, deadline_min=45, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15, gate=True),
-    "LADDER":   dict(stop=-0.25, deadline_min=45, shaves=[(2, .5), (4, .6)], trail_mid=0.12, trail_final=0.12),
-    "SHAVE_NS": dict(stop=None,  deadline_min=None, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15, gate=True),
-    "FLIP":     dict(stop=-0.20, deadline_min=15, shaves=[(1.5, 1.0)], trail_mid=None, trail_final=None),
+STRATS = {   # ONE strategy: buy at birth, hold, sell only by the Ascending Shave. No stop-loss, no deadline.
+    "SHAVE": dict(stop=None, deadline_min=None, shaves=[(10, .5), (25, .5), (100, .5), (300, .5)], trail_mid=0.30, trail_final=0.15, gate=True),
 }
 
 
@@ -421,7 +411,7 @@ def load():
         for n in ST["strat"]:
             ST["strat"][n]["cash"] += 4700.0
     for m, tk in d.get("tok", {}).items():
-        tk["legs"] = {n: Leg.from_d(l) for n, l in tk["legs"].items()}
+        tk["legs"] = {n: Leg.from_d(l) for n, l in tk["legs"].items() if n in STRATS}   # drop legs of removed strategies
         tk["due"] = 0
         ST["tok"][m] = tk
 
