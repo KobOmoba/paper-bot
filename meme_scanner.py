@@ -31,6 +31,8 @@ F_T1, F_T2 = 0.50, 0.30
 RULES = 'V5-1'
 SLIP_IN, SLIP_OUT, FEE, RUG_LIQ_DROP, RUG_PAYOUT = 0.03, 0.07, 0.01, 0.60, 0.30
 COOLDOWN_H, SUMMARY_HOUR_UTC = 24.0, 8
+ACCEL_NO4X_H = 2.0                 # ACCEL only: after the 2x sale, close the rest if 4x is not reached within this many hours
+ACCEL_FORCE_CLOSE_BEFORE = 1791142122   # one-time (2026-10-04, user request): ACCEL positions opened before this moment are closed at the live price
 TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHAT_ID", "")
 
 # MEME_MODE=accel runs the "Acceleration Gate" variant (separate state file) next to the default V5 rules, to compare them.
@@ -146,6 +148,10 @@ def manage(s):
         pos["price_last"] = price
         pos["liq_last"] = liq if liq > 0 else prev_liq        # a missing/zero liquidity field is not evidence of a rug by itself
         mult, age_h = price / pos["entry_obs"], (time.time() - pos["t_open"]) / 3600
+        if MODE == "accel" and pos["t_open"] < ACCEL_FORCE_CLOSE_BEFORE:
+            sell(pos, pos["tokens"], price, s, "manual-close")
+            close_out(s, pos, "manual-close-2026-10-04")
+            continue
         pos["last"], pos["last_mult"] = price, round(mult, 3)
         pos.setdefault("path", []).append([int(time.time()), price, liq])      # for replaying alternative exit rules later
         pos["path"] = pos["path"][-700:]
@@ -157,6 +163,7 @@ def manage(s):
             funnel(s, "liq_glitch")                          # liquidity dropped but price did not: data glitch (was booked as a rug before 2026-10-04)
         if not pos["t1"] and mult >= T1:
             pos["t1"] = True
+            pos["t1_time"] = time.time()
             got = sell(pos, pos["tokens0"] * F_T1, price, s, "t1")
             tg(f"MEME {pos['sym']} hit {T1:.0f}x: sold 50% (+${got:.2f})")
         if pos["t1"] and not pos["t2"] and mult >= T2 and pos["tokens"] > 0:
@@ -171,6 +178,8 @@ def manage(s):
             why = "trail"
         elif not pos["t1"] and age_h >= T1_DEADLINE_H:
             why = "no-2x-deadline"
+        elif MODE == "accel" and pos["t1"] and not pos["t2"] and pos.get("t1_time") and time.time() - pos["t1_time"] >= ACCEL_NO4X_H * 3600:
+            why = "no-4x-2h"
         elif age_h >= MAX_HOLD_H:
             why = "time"
         if why:
