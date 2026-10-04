@@ -46,6 +46,7 @@ if MODE == "birth":      # Pump.fun launches from PumpPortal's free websocket, t
 if MODE == "loose":      # research control: buy almost every Pump.fun launch (no age/score/volume/authority gates), small stakes
     STATE, CHAINS, T1_DEADLINE_H, RULES, LABEL = "meme_loose_state.json", {"solana"}, 0.75, "LOOSE-1", "[LOOSE] "
     STAKE, MAX_POS = 5.0, 60
+LOOSE_MAX_AGE_MIN = float(os.environ.get("LOOSE_MAX_AGE_MIN", "5"))   # LOOSE = fresh launches only: never buy a token older than this
 LOOSE_MIN_LIQ = 300.0        # technical floor only: below this a $5 buy is >1.6% of the pool and the price impact model dominates
 STATE = os.environ.get("MEME_STATE_FILE") or STATE        # diagnostics can use a scratch state file
 
@@ -605,10 +606,10 @@ def scan_birth(s):
     held = {x["addr"] for x in s["pos"]}
     hot = s["hot"]
     for m in list(hot):
-        if m not in births or (now - births[m]["t"]) / 60 > SCREEN_MAX:
+        if m not in births or (now - births[m]["t"]) / 60 > (min(SCREEN_MAX, LOOSE_MAX_AGE_MIN) if MODE == "loose" else SCREEN_MAX):
             del hot[m]
     screen = [m for m, b in births.items()
-              if (1 if MODE == "loose" else SCREEN_MIN) <= (now - b["t"]) / 60 <= SCREEN_MAX and m not in hot and m not in held
+              if (1 if MODE == "loose" else SCREEN_MIN) <= (now - b["t"]) / 60 <= (min(SCREEN_MAX, LOOSE_MAX_AGE_MIN) if MODE == "loose" else SCREEN_MAX) and m not in hot and m not in held
               and now - b.get("la", 0) >= SCREEN_EVERY - 10 and now - s["seen"].get(m.lower(), 0) > COOLDOWN_H * 3600]
     screen.sort(key=lambda m: (births[m].get("la", 0), -births[m]["t"]))      # never-tried first, youngest first
     screen = screen[:SCREEN_CAP]
@@ -657,6 +658,9 @@ def scan_birth(s):
             feats = None
             if MODE == "loose":
                 liq = f((p.get("liquidity") or {}).get("usd"))
+                if age_h * 60 > LOOSE_MAX_AGE_MIN:
+                    funnel(s, "fail_age_loose")
+                    continue
                 if liq < LOOSE_MIN_LIQ:
                     funnel(s, "fail_liq")
                     continue
