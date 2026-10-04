@@ -254,6 +254,61 @@ def authorities_ok(mint):
     return None
 
 
+SIM_SELL_MIN_RATIO = 0.70      # sell quote must return >= 70% of the DexScreener-implied value (V5 defense stack; threshold is mine)
+DEFENSE_MIN_SOL = 10.0         # V5 defense stack: at least 10 SOL on the SOL side of the pool (Solana)
+JUP_QUOTE = "https://lite-api.jup.ag/swap/v1/quote"
+WSOL = "So11111111111111111111111111111111111111112"
+
+
+def simulate_sell(p, mint):
+    """Jupiter sell quote for ~STAKE dollars of the token -> SOL. True = sellable at a sane price, False = no route / bad price,
+    None = could not check. A quote is a proxy for a real sell simulation: it does not catch every honeypot."""
+    try:
+        price, pn = f(p.get("priceUsd")), f(p.get("priceNative"))
+        if price <= 0 or pn <= 0:
+            return None
+        body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "getAccountInfo", "params": [mint, {"encoding": "jsonParsed"}]}).encode()
+        dec = None
+        for url in [RPC] + ([PUBLIC_RPC] if RPC != PUBLIC_RPC else []):
+            try:
+                r = json.load(urllib.request.urlopen(urllib.request.Request(url, data=body, headers={"Content-Type": "application/json", **UA}), timeout=20))
+                dec = int(r["result"]["value"]["data"]["parsed"]["info"]["decimals"]); break
+            except Exception:
+                continue
+        if dec is None:
+            return None
+        tokens = STAKE / price
+        q = json.load(urllib.request.urlopen(urllib.request.Request(
+            JUP_QUOTE + "?" + urllib.parse.urlencode({"inputMint": mint, "outputMint": WSOL, "amount": int(tokens * 10 ** dec), "slippageBps": 1000}),
+            headers=UA), timeout=20))
+        out_sol = int(q["outAmount"]) / 1e9
+        return out_sol >= SIM_SELL_MIN_RATIO * tokens * pn
+    except urllib.error.HTTPError as e:
+        return False if e.code in (400, 404) else None        # Jupiter answers 400/404 when there is no route
+    except Exception as e:
+        print("simulate_sell failed:", mint[:8], str(e)[:80])
+        return None
+
+
+def defense_stack(p, ch, mint, s):
+    """V5 Entry Defense Stack (Solana only): >= 10 SOL in the pool and a passing sell simulation."""
+    if ch != "solana":
+        return True
+    quote_sym = ((p.get("quoteToken") or {}).get("symbol") or "").upper()
+    if quote_sym in ("SOL", "WSOL") and f((p.get("liquidity") or {}).get("quote")) < DEFENSE_MIN_SOL:
+        funnel(s, "fail_liq10sol")
+        return False
+    ok = simulate_sell(p, mint)
+    if ok is False:
+        funnel(s, "fail_sim_sell")
+        return False
+    if ok is None:
+        funnel(s, "sim_sell_unavailable")        # fail-open so a Jupiter outage cannot silently stop V5; counted in the funnel
+    else:
+        funnel(s, "sim_sell_ok")
+    return True
+
+
 def velocity_calc(h, now, v24, age_h):
     """h = oldest-first list of [time, 24h volume] readings. Returns (recent, previous) volume in $ per 15 min, or None until a
     reading at least ~13 min old exists. recent = volume since the newest reading >=13 min old; previous = the window before that
@@ -498,6 +553,8 @@ def scan(s):
                     elif len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
                         continue
                 elif not passes(p, s):
+                    continue
+                elif MODE == "v5" and not defense_stack(p, ch, a, s):
                     continue
                 open_pos(s, p, ch, a, src_of.get(a))
     if MODE == "accel":
