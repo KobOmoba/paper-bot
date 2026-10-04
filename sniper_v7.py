@@ -301,8 +301,9 @@ def row(tk, now):
     p, su = tk["pos"], (tk["pos"].get("sol_usd") or SOL_USD[0] or 0.0)
     return {"address": tk["mint"], "symbol": tk["sym"], "status": status_label(p, now),
             "launch_price_sol": f"{tk.get('launch_price', 0):.4e}", "entry_price_sol": f"{p.get('entry_price', 0):.4e}",
-            "launch_mc_sol": round(tk["feat"].get("mcap0_sol", 0), 2), "entry_mc_sol": round(p.get("entry_mc_sol", 0), 2),
-            "entry_mc_usd": round(p.get("entry_mc_sol", 0) * su),
+            "launch_mc_sol": round(tk["feat"].get("mcap0_sol", 0), 2), "launch_mc_usd": round(tk["feat"].get("mcap0_sol", 0) * su),
+            "entry_mc_sol": round(p.get("entry_mc_sol", 0), 2), "entry_mc_usd": round(p.get("entry_mc_sol", 0) * su),
+            "present_mc_sol": round(p.get("last_price", 0) * SUPPLY, 2), "present_mc_usd": round(p.get("last_price", 0) * SUPPLY * (SOL_USD[0] or su)),
             "curve_sol_entry": round(p.get("curve_sol_entry", 0), 3), "liquidity_usd_entry": round(p.get("curve_sol_entry", 0) * su, 2),
             "born_utc": iso(tk["born"]), "entry_utc": iso(p["entry_t"]), "age_min": round((now - tk["born"]) / 60, 1),
             "last_price_sol": f"{p.get('last_price', 0):.4e}", "curve_sol_now": round(p.get("prev_liq") or 0, 3),

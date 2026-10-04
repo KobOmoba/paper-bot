@@ -254,8 +254,7 @@ def authorities_ok(mint):
     return None
 
 
-SIM_SELL_MIN_RATIO = 0.70      # sell quote must return >= 70% of the DexScreener-implied value (V5 defense stack; threshold is mine)
-DEFENSE_MIN_SOL = 10.0         # V5 defense stack: at least 10 SOL on the SOL side of the pool (Solana)
+SIM_SELL_MIN_RATIO = 0.95      # defense stack: the sell quote must return >= 95% of the DexScreener-implied value (user's setting)
 JUP_QUOTE = "https://lite-api.jup.ag/swap/v1/quote"
 WSOL = "So11111111111111111111111111111111111111112"
 
@@ -291,19 +290,16 @@ def simulate_sell(p, mint):
 
 
 def defense_stack(p, ch, mint, s):
-    """V5 Entry Defense Stack (Solana only): >= 10 SOL in the pool and a passing sell simulation."""
+    """Entry Defense Stack (V5 and ACCEL, Solana only): the Jupiter sell-quote check. (The 10 SOL rule was dropped: the $8k+
+    liquidity floors are already stricter.) Fails open if Jupiter or the RPC cannot answer, and counts that in the funnel."""
     if ch != "solana":
         return True
-    quote_sym = ((p.get("quoteToken") or {}).get("symbol") or "").upper()
-    if quote_sym in ("SOL", "WSOL") and f((p.get("liquidity") or {}).get("quote")) < DEFENSE_MIN_SOL:
-        funnel(s, "fail_liq10sol")
-        return False
     ok = simulate_sell(p, mint)
     if ok is False:
         funnel(s, "fail_sim_sell")
         return False
     if ok is None:
-        funnel(s, "sim_sell_unavailable")        # fail-open so a Jupiter outage cannot silently stop V5; counted in the funnel
+        funnel(s, "sim_sell_unavailable")
     else:
         funnel(s, "sim_sell_ok")
     return True
@@ -554,7 +550,7 @@ def scan(s):
                         continue
                 elif not passes(p, s):
                     continue
-                elif MODE == "v5" and not defense_stack(p, ch, a, s):
+                if MODE in ("v5", "accel") and not defense_stack(p, ch, a, s):
                     continue
                 open_pos(s, p, ch, a, src_of.get(a))
     if MODE == "accel":
