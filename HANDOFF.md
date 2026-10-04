@@ -134,3 +134,11 @@ Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
 - Free public Solana RPC has been adequate: no `rpc_error` in any funnel. Do not create extra provider accounts to dodge limits.
 - `replay.py` replays exit variants on recorded paths (paths end at baseline exit, so longer-hold variants are blind). On 343 trades: baseline 0.81x (actual ~0.69x, so replay is optimistic); Ascending Shave 0.78x; only 1 path reached 10x. No exit variant turns this positive; sample is tiny.
 - Pasted "SniperV5.py" is live-trading code needing private keys: out of scope, paper only. Its "guarantee" claim is unsupported.
+
+## Update 2026-10-04 (11:40 Lagos): meme scanners retired, V7 rebuilt to spec
+- Disabled workflows (reversible with `gh workflow enable`): meme.yml (V5-1), meme_accel.yml, meme_birth.yml, meme_loose.yml. State files are kept as the final record.
+- Final results (paper): V5-1 6 closed avg 0.64x; ACCEL-1 73 closed avg 0.81x win 27%; BIRTH-1 57 closed avg 0.56x win 12%; LOOSE-1 650 closed avg 0.69x median 0.87x win 6.5%.
+- V7 (`sniper_v7.py`) was rebuilt to the user's AariNAT V5 write-up/code, paper only: gate = mint+freeze authority null and real SOL in curve >= 0.02 (user's value; the write-up text says 2.0); 0.05 SOL per trade; 2x sell 60% of initial, 4x sell 30% of initial, shaves at 6/15/50/150x (half of remaining), 15% trail after the last shave, exit at 12 h if no 2x, rug rule = real curve SOL down >= 60% versus the previous scan. Multiples on capital invested after costs. Old V7 data: v7_archive_before_spec_2026-10-04.json.
+- Write-up arithmetic errors found (tier cash amounts and scenario B/C P&L); logic unchanged.
+- V7 reports: Telegram summary at the end of each ~55 min job. First closed positions only after 12 h or a rug/trailing stop.
+- Still running: Polymarket bot, NGX bot, tokenized-stock tracker, V7.
