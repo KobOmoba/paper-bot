@@ -41,7 +41,8 @@
    "ev": "1092467",
    "fair": 0.075,
    "src": "btc-model",
-   "opened": "2026-10-04 11:37:42"
+   "opened": "2026-10-04 11:37:42",
+   "mark": 0.004
   }
  ],
  "closed": [
@@ -124,24 +125,6 @@
  "last_summary": "2026-10-04",
  "dead_notified": false,
  "model_log": [
-  {
-   "t": "2026-10-04 04:55:20",
-   "q": "Will the price of Bitcoin be above $74,000 on October 4?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-04 04:55:32",
-   "q": "Will the price of Bitcoin be above $74,000 on October 4?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-04 05:20:34",
-   "q": "Will the price of Bitcoin be above $74,000 on October 4?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
   {
    "t": "2026-10-04 05:45:37",
    "q": "Will the price of Bitcoin be above $74,000 on October 4?",
@@ -302,6 +285,24 @@
    "t": "2026-10-04 11:37:42",
    "q": "Will the price of Bitcoin be above $84,000 on October 4?",
    "model": 0.925,
+   "mkt": 0.9975
+  },
+  {
+   "t": "2026-10-04 11:37:56",
+   "q": "Will the price of Bitcoin be above $74,000 on October 4?",
+   "model": 1.0,
+   "mkt": 0.9995
+  },
+  {
+   "t": "2026-10-04 11:37:56",
+   "q": "Will the price of Bitcoin be above $82,000 on October 4?",
+   "model": 0.9999,
+   "mkt": 0.9995
+  },
+  {
+   "t": "2026-10-04 11:37:56",
+   "q": "Will the price of Bitcoin be above $84,000 on October 4?",
+   "model": 0.9251,
    "mkt": 0.9975
   }
  ],
