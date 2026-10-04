@@ -40,9 +40,9 @@
    "src": "pumpportal",
    "h1_change": 35.73,
    "miss": 0,
-   "liq_last": 35753.91,
-   "last": 0.000151,
-   "last_mult": 2.295,
+   "liq_last": 35582.07,
+   "last": 0.0001496,
+   "last_mult": 2.274,
    "path": [
     [
      1791061781,
@@ -2108,10 +2108,20 @@
      1791109778,
      0.000151,
      35753.91
+    ],
+    [
+     1791109847,
+     0.0001469,
+     35240.16
+    ],
+    [
+     1791109967,
+     0.0001496,
+     35582.07
     ]
    ],
    "obs_sold": 21.121199277511376,
-   "price_last": 0.000151
+   "price_last": 0.0001496
   },
   {
    "ctx": {
@@ -2152,8 +2162,8 @@
    "src": "pumpportal",
    "h1_change": -25.67,
    "miss": 0,
-   "liq_last": 4558.39,
-   "last": 4.658e-06,
+   "liq_last": 4554.63,
+   "last": 4.654e-06,
    "last_mult": 0.126,
    "path": [
     [
@@ -4005,10 +4015,20 @@
      1791109778,
      4.658e-06,
      4558.39
+    ],
+    [
+     1791109847,
+     4.658e-06,
+     4558.39
+    ],
+    [
+     1791109967,
+     4.654e-06,
+     4554.63
     ]
    ],
    "obs_sold": 24.66325384123553,
-   "price_last": 4.658e-06
+   "price_last": 4.654e-06
   },
   {
    "ctx": {
@@ -5233,6 +5253,16 @@
      1791109778,
      4.419e-06,
      4204.44
+    ],
+    [
+     1791109847,
+     4.419e-06,
+     4204.44
+    ],
+    [
+     1791109967,
+     4.419e-06,
+     4204.44
     ]
    ],
    "obs_sold": 19.32783575403237
@@ -5276,10 +5306,10 @@
    "src": "pumpportal",
    "h1_change": 219.0,
    "miss": 0,
-   "price_last": 0.000124,
-   "liq_last": 33392.88,
-   "last": 0.000124,
-   "last_mult": 0.781,
+   "price_last": 0.0001457,
+   "liq_last": 36387.53,
+   "last": 0.0001457,
+   "last_mult": 0.918,
    "path": [
     [
      1791099760,
@@ -5715,6 +5745,16 @@
      1791109778,
      0.000124,
      33392.88
+    ],
+    [
+     1791109847,
+     0.0001365,
+     35139.14
+    ],
+    [
+     1791109967,
+     0.0001457,
+     36387.53
     ]
    ],
    "obs_sold": 21.644584563267784
@@ -5758,10 +5798,10 @@
    "src": "pumpportal",
    "h1_change": 272.0,
    "miss": 0,
-   "price_last": 0.0001224,
-   "liq_last": 32750.09,
-   "last": 0.0001224,
-   "last_mult": 0.321,
+   "price_last": 0.0001209,
+   "liq_last": 32533.44,
+   "last": 0.0001209,
+   "last_mult": 0.317,
    "path": [
     [
      1791100359,
@@ -6172,6 +6212,16 @@
      1791109778,
      0.0001224,
      32750.09
+    ],
+    [
+     1791109847,
+     0.0001264,
+     33306.77
+    ],
+    [
+     1791109967,
+     0.0001209,
+     32533.44
     ]
    ],
    "obs_sold": 19.892442365773068
@@ -11457,18 +11507,18 @@
   }
  ],
  "funnel": {
-  "ws_births": 30561,
-  "b_lookups": 449823,
-  "evaluated": 397211,
-  "fail_age": 60456,
+  "ws_births": 30603,
+  "b_lookups": 451578,
+  "evaluated": 398823,
+  "fail_age": 60625,
   "b_hot": 316,
-  "fail_liq": 332928,
-  "wait_second_reading": 855,
-  "fail_velocity": 2841,
-  "pair_first": 26824,
+  "fail_liq": 334365,
+  "wait_second_reading": 859,
+  "fail_velocity": 2843,
+  "pair_first": 27092,
   "pair_age_40m+": 595,
-  "pair_age_20-40m": 784,
-  "pair_age_10-20m": 25443,
+  "pair_age_20-40m": 1040,
+  "pair_age_10-20m": 25455,
   "fail_authority": 69,
   "opened": 62,
   "pair_age_<5m": 2
@@ -11536,8 +11586,6 @@
  "snap": {},
  "track": {},
  "hot": {
-  "7X9YuhfvC9MZV3RBAuZfPj6Ve2zkuosjWhu5oqAGENT": 1791104580.0378392,
-  "hz9uqizexceP7Y3qnezAHvGxSG6PW2xGNJYuPkUpump": 1791104580.0378392,
   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v": 1791104819.993806,
   "12vCR2Tc9iLYSA3WuFZXrd45j1iUSA9yThiHxpQtpump": 1791104819.993806,
   "TDzGkXtMnhMEWJqi5wWvf8VTbPGPomQ2YBV4Lxz8UgE": 1791105420.0634053,
@@ -11552,11 +11600,9 @@
   "DB41oGBhUKz1ezF3V4Kgo1nXUb95YykbdpsymWHpump": 1791108318.7879574,
   "8yPeduSMHP9UFYEXLLr5si2sR1o3nFGAKpDDKMH8Uiys": 1791108818.761511,
   "DBgxRXZZScdUq4GkbAT3mGg7KnpusQzHzMjPQTzpump": 1791108938.7268395,
-  "36mewNdQikpBxuNwRtJ82uy3aeuMtyXJBUGtVE2ypump": 1791109298.7668467,
-  "8W5L563Po3imZkZ6WcngnM9H64pHDUC7LZaDAFSEpump": 1791109539.434729,
-  "DYctWjJtc92UoEywpcc6bY33HBbPnF6YNTY7FMFUpump": 1791109658.760251
+  "36mewNdQikpBxuNwRtJ82uy3aeuMtyXJBUGtVE2ypump": 1791109298.7668467
  },
- "scans": 514,
+ "scans": 516,
  "last_hb": 1791104342.4124026,
  "last_summary": "2026-10-04",
  "api_fail": 0
