@@ -1,0 +1,126 @@
+{
+ "quote_host": "https://lite-api.jup.ag/swap/v1/quote",
+ "tokens": [
+  {
+   "mint": "9U8xmuY8YXDL4ZbqYG6wBbzjEdHHWZkksChaSrZwLq7b",
+   "sym": "PURPE",
+   "liq_usd": 1566.5,
+   "decimals": 9,
+   "expected_sol": 0.1646337726019001,
+   "quote_ok": true,
+   "out_sol": 0.165839917,
+   "price_impact_pct": "0.0876159913177812463235129817",
+   "routes": 1,
+   "ratio": 1.007326227049516
+  },
+  {
+   "mint": "DoVAVzViX8Bjy3r15nwikSaSbzE6dV4ovd28aWpJpump",
+   "sym": "HIGGS",
+   "liq_usd": 62021.42,
+   "decimals": 6,
+   "expected_sol": 0.16456375838926174,
+   "quote_ok": true,
+   "out_sol": 0.162246703,
+   "price_impact_pct": "0.0004736674480535208416799939",
+   "routes": 1,
+   "ratio": 0.9859200141517129
+  },
+  {
+   "mint": "9tVxVhKDmWLsG29CcfsAhLfgcZEkvemjB8TUDb4Wpump",
+   "sym": "486",
+   "liq_usd": 0.0,
+   "decimals": 6,
+   "expected_sol": 0.16455317024463303,
+   "quote_ok": true,
+   "out_sol": 0.144890724,
+   "price_impact_pct": "0.0412617305562839966435633893",
+   "routes": 1,
+   "ratio": 0.8805100733373787
+  },
+  {
+   "mint": "FvEtxYTGk6UxgKvcHETh3oCVDQbQFgLdupf8rzcNpump",
+   "sym": "VIRTUALZ",
+   "liq_usd": 0.0,
+   "decimals": 6,
+   "expected_sol": 0.16451127819548872,
+   "quote_ok": true,
+   "out_sol": 0.185136526,
+   "price_impact_pct": "0.0100670550905725120458242337",
+   "routes": 1,
+   "ratio": 1.12537285
+  },
+  {
+   "mint": "2T7SM2K2RuD5p4NLR5b8jARhpuSgr5fzEjPqoKUopump",
+   "sym": "ROUTE",
+   "liq_usd": 0.0,
+   "decimals": 6,
+   "expected_sol": 0.1645374449339207,
+   "quote_ok": true,
+   "out_sol": 0.161662219,
+   "price_impact_pct": "0.0260418754389979213145697772",
+   "routes": 1,
+   "ratio": 0.9825254006157965
+  },
+  {
+   "mint": "52JXUnsomfshtLwgfV5E96Trf1ZRHfMboS5FPSNsdHqW",
+   "sym": "SI",
+   "liq_usd": 0.0,
+   "decimals": 6,
+   "expected_sol": 0.1645554909936084,
+   "quote_ok": true,
+   "out_sol": 0.161039656,
+   "price_impact_pct": "0.0216346040031081765514673283",
+   "routes": 1,
+   "ratio": 0.97863435019774
+  },
+  {
+   "mint": "Av9FWAxskP79aNirbcmj8t1Wbcy1sYC42GPBo4gtpump",
+   "sym": "YUI",
+   "liq_usd": 0.0,
+   "decimals": 6,
+   "expected_sol": 0.16454778156996588,
+   "quote_ok": true,
+   "out_sol": 0.160759477,
+   "price_impact_pct": "0.0194415433891448757780562357",
+   "routes": 1,
+   "ratio": 0.9769774801348198
+  },
+  {
+   "mint": "94RNfQN5FPBFoBS5rfZ6d6DZ9qkKTJxD4cwmxDjhpump",
+   "sym": "\u8c46\u52a9",
+   "liq_usd": 7870.36,
+   "decimals": 6,
+   "expected_sol": 0.16459157351676698,
+   "quote_ok": true,
+   "out_sol": 0.161235707,
+   "price_impact_pct": "0.0206087801425108649677228389",
+   "routes": 1,
+   "ratio": 0.9796109457789155
+  },
+  {
+   "mint": "2YVUc3Te4wRa3MSjpgNxgTQBEB6NvnDV24DqRB1wr9Pm",
+   "sym": "OWL",
+   "liq_usd": 18201.21,
+   "decimals": 6,
+   "expected_sol": 0.16457068516912401,
+   "quote_ok": true,
+   "out_sol": 0.190147179,
+   "price_impact_pct": "0.0079047860665959006662810983",
+   "routes": 1,
+   "ratio": 1.155413424964427
+  },
+  {
+   "mint": "7Gk8JYXC3sKw6frH37sVeXhwYZZ3246zXr7UXGCpump",
+   "sym": "cap",
+   "liq_usd": 18265.89,
+   "decimals": 6,
+   "expected_sol": 0.16456544502617798,
+   "quote_ok": true,
+   "out_sol": 0.154856506,
+   "price_impact_pct": "0.0141867671149515817215316381",
+   "routes": 1,
+   "ratio": 0.9410025657291934
+  }
+ ],
+ "errors": []
+}
