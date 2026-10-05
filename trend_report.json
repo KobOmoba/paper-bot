@@ -1,0 +1,311 @@
+{
+ "data_start": "2003-01-01",
+ "data_end": "2026-10-05",
+ "first_valid": {
+  "SPY": "2003-01-02",
+  "EFA": "2003-01-02",
+  "EWJ": "2003-01-02",
+  "IEF": "2003-01-02",
+  "TLT": "2003-01-02",
+  "GLD": "2004-11-18",
+  "USO": "2006-04-10",
+  "CPER": "2011-11-15",
+  "CORN": "2010-06-09",
+  "UNG": "2007-04-18",
+  "EURUSD=X": "2003-12-01",
+  "GBPUSD=X": "2003-12-01",
+  "USDJPY=X": "2003-01-01"
+ },
+ "realistic": {
+  "all": {
+   "years": 23.3,
+   "sharpe": 0.6,
+   "ci_analytic": [
+    0.16,
+    1.04
+   ],
+   "ci_block_boot": [
+    0.33,
+    1.05
+   ],
+   "ann_return_pct": 2.73,
+   "ann_vol_pct": 4.52,
+   "return_at_10pct_vol_pct": 6.04,
+   "max_dd_pct": -8.75,
+   "longest_dd_trading_days": 557,
+   "longest_dd_months": 26.5
+  },
+  "2003-09": {
+   "years": 6.0,
+   "sharpe": 0.55,
+   "ci_analytic": [
+    -0.31,
+    1.4
+   ],
+   "ci_block_boot": [
+    0.32,
+    1.79
+   ],
+   "ann_return_pct": 3.13,
+   "ann_vol_pct": 5.72,
+   "return_at_10pct_vol_pct": 5.48,
+   "max_dd_pct": -7.35,
+   "longest_dd_trading_days": 466,
+   "longest_dd_months": 22.2
+  },
+  "2010-19": {
+   "years": 10.3,
+   "sharpe": 0.44,
+   "ci_analytic": [
+    -0.2,
+    1.07
+   ],
+   "ci_block_boot": [
+    -0.13,
+    0.91
+   ],
+   "ann_return_pct": 1.7,
+   "ann_vol_pct": 3.89,
+   "return_at_10pct_vol_pct": 4.37,
+   "max_dd_pct": -8.75,
+   "longest_dd_trading_days": 502,
+   "longest_dd_months": 23.9
+  },
+  "2020-26": {
+   "years": 7.0,
+   "sharpe": 0.93,
+   "ci_analytic": [
+    0.04,
+    1.82
+   ],
+   "ci_block_boot": [
+    0.17,
+    1.67
+   ],
+   "ann_return_pct": 3.91,
+   "ann_vol_pct": 4.21,
+   "return_at_10pct_vol_pct": 9.29,
+   "max_dd_pct": -8.12,
+   "longest_dd_trading_days": 458,
+   "longest_dd_months": 21.8
+  },
+  "all_13_live": {
+   "years": 14.2,
+   "sharpe": 0.76,
+   "ci_analytic": [
+    0.17,
+    1.35
+   ],
+   "ci_block_boot": [
+    0.23,
+    1.16
+   ],
+   "ann_return_pct": 3.09,
+   "ann_vol_pct": 4.09,
+   "return_at_10pct_vol_pct": 7.56,
+   "max_dd_pct": -8.75,
+   "longest_dd_trading_days": 550,
+   "longest_dd_months": 26.2
+  },
+  "all_13_live_start": "2013-01-23"
+ },
+ "zero_cost": {
+  "all": {
+   "years": 23.3,
+   "sharpe": 0.63,
+   "ci_analytic": [
+    0.19,
+    1.08
+   ],
+   "ci_block_boot": [
+    0.36,
+    1.09
+   ],
+   "ann_return_pct": 2.86,
+   "ann_vol_pct": 4.52,
+   "return_at_10pct_vol_pct": 6.33,
+   "max_dd_pct": -8.48,
+   "longest_dd_trading_days": 556,
+   "longest_dd_months": 26.5
+  },
+  "2003-09": {
+   "years": 6.0,
+   "sharpe": 0.56,
+   "ci_analytic": [
+    -0.3,
+    1.42
+   ],
+   "ci_block_boot": [
+    0.35,
+    1.83
+   ],
+   "ann_return_pct": 3.22,
+   "ann_vol_pct": 5.72,
+   "return_at_10pct_vol_pct": 5.63,
+   "max_dd_pct": -7.22,
+   "longest_dd_trading_days": 466,
+   "longest_dd_months": 22.2
+  },
+  "2010-19": {
+   "years": 10.3,
+   "sharpe": 0.48,
+   "ci_analytic": [
+    -0.17,
+    1.12
+   ],
+   "ci_block_boot": [
+    -0.03,
+    0.96
+   ],
+   "ann_return_pct": 1.86,
+   "ann_vol_pct": 3.89,
+   "return_at_10pct_vol_pct": 4.77,
+   "max_dd_pct": -8.48,
+   "longest_dd_trading_days": 502,
+   "longest_dd_months": 23.9
+  },
+  "2020-26": {
+   "years": 7.0,
+   "sharpe": 0.96,
+   "ci_analytic": [
+    0.06,
+    1.86
+   ],
+   "ci_block_boot": [
+    0.21,
+    1.71
+   ],
+   "ann_return_pct": 4.04,
+   "ann_vol_pct": 4.21,
+   "return_at_10pct_vol_pct": 9.61,
+   "max_dd_pct": -8.01,
+   "longest_dd_trading_days": 458,
+   "longest_dd_months": 21.8
+  },
+  "all_13_live": {
+   "years": 14.2,
+   "sharpe": 0.79,
+   "ci_analytic": [
+    0.2,
+    1.39
+   ],
+   "ci_block_boot": [
+    0.28,
+    1.2
+   ],
+   "ann_return_pct": 3.25,
+   "ann_vol_pct": 4.09,
+   "return_at_10pct_vol_pct": 7.94,
+   "max_dd_pct": -8.48,
+   "longest_dd_trading_days": 550,
+   "longest_dd_months": 26.2
+  },
+  "all_13_live_start": "2013-01-23"
+ },
+ "by_market": {
+  "SPY": {
+   "contribution_ann_pct": 0.633,
+   "standalone_sharpe": 0.6,
+   "years_live": 23.3,
+   "avg_abs_weight": 0.07
+  },
+  "EFA": {
+   "contribution_ann_pct": 0.405,
+   "standalone_sharpe": 0.39,
+   "years_live": 23.3,
+   "avg_abs_weight": 0.061
+  },
+  "EWJ": {
+   "contribution_ann_pct": 0.269,
+   "standalone_sharpe": 0.26,
+   "years_live": 23.3,
+   "avg_abs_weight": 0.055
+  },
+  "IEF": {
+   "contribution_ann_pct": 0.318,
+   "standalone_sharpe": 0.35,
+   "years_live": 23.3,
+   "avg_abs_weight": 0.146
+  },
+  "TLT": {
+   "contribution_ann_pct": 0.039,
+   "standalone_sharpe": 0.04,
+   "years_live": 23.3,
+   "avg_abs_weight": 0.077
+  },
+  "GLD": {
+   "contribution_ann_pct": 0.317,
+   "standalone_sharpe": 0.37,
+   "years_live": 21.4,
+   "avg_abs_weight": 0.056
+  },
+  "USO": {
+   "contribution_ann_pct": 0.076,
+   "standalone_sharpe": 0.09,
+   "years_live": 20.0,
+   "avg_abs_weight": 0.028
+  },
+  "CPER": {
+   "contribution_ann_pct": 0.136,
+   "standalone_sharpe": 0.2,
+   "years_live": 14.2,
+   "avg_abs_weight": 0.037
+  },
+  "CORN": {
+   "contribution_ann_pct": 0.103,
+   "standalone_sharpe": 0.19,
+   "years_live": 15.7,
+   "avg_abs_weight": 0.044
+  },
+  "UNG": {
+   "contribution_ann_pct": 0.258,
+   "standalone_sharpe": 0.36,
+   "years_live": 18.9,
+   "avg_abs_weight": 0.02
+  },
+  "EURUSD=X": {
+   "contribution_ann_pct": -0.13,
+   "standalone_sharpe": -0.15,
+   "years_live": 22.4,
+   "avg_abs_weight": 0.108
+  },
+  "GBPUSD=X": {
+   "contribution_ann_pct": -0.047,
+   "standalone_sharpe": -0.05,
+   "years_live": 22.4,
+   "avg_abs_weight": 0.106
+  },
+  "USDJPY=X": {
+   "contribution_ann_pct": 0.352,
+   "standalone_sharpe": 0.36,
+   "years_live": 23.3,
+   "avg_abs_weight": 0.103
+  }
+ },
+ "avg_gross_leverage": 0.86,
+ "calendar_year_pct": {
+  "2004": 1.52,
+  "2005": 0.03,
+  "2006": 0.67,
+  "2007": 6.86,
+  "2008": 11.3,
+  "2009": -1.51,
+  "2010": 1.39,
+  "2011": 0.89,
+  "2012": -1.67,
+  "2013": 8.15,
+  "2014": 1.45,
+  "2015": 5.02,
+  "2016": -2.88,
+  "2017": 4.39,
+  "2018": -3.41,
+  "2019": 4.26,
+  "2020": 4.58,
+  "2021": 1.86,
+  "2022": 7.31,
+  "2023": -0.06,
+  "2024": 2.9,
+  "2025": 6.2,
+  "2026": 4.5
+ }
+}
