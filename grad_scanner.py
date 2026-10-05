@@ -48,6 +48,25 @@ def load():
     return s
 
 
+TINY_LIQ = 1000          # entries with less liquidity than this (USD) are tagged "tiny-liq" (almost certainly wrong reads); kept in all counts
+
+
+def retag(s):
+    """Tag only - nothing is removed. clean | tiny-liq | feed-suspect (3+ rug exits in the very same second = one feed event, not independent drains)."""
+    allp = s["closed"] + s["pos"]
+    for x in allp:
+        if x.get("tag") in (None, "clean"):
+            x["tag"] = "tiny-liq" if x["liq_entry"] < TINY_LIQ else "clean"
+    by = {}
+    for x in s["closed"]:
+        if x.get("reason") == "rug-liquidity-collapse":
+            by.setdefault(x["closed"], []).append(x)
+    for grp in by.values():
+        if len(grp) >= 3:
+            for x in grp:
+                x["tag"] = "feed-suspect"
+
+
 def funnel(s, k, n=1):
     s["funnel"][k] = s["funnel"].get(k, 0) + n
 
@@ -79,7 +98,7 @@ def ws_thread():
 
 
 def dex_batch(mints):
-    """mint -> best pair (highest liquidity) for up to 30 mints per call."""
+    """mint -> list of all priced pairs for up to 30 mints per call (callers choose: best-liquidity for a new entry, the SAME pair for a held position)."""
     out = {}
     for i in range(0, len(mints), 30):
         chunk = mints[i:i + 30]
@@ -92,9 +111,12 @@ def dex_batch(mints):
         for p in pairs if isinstance(pairs, list) else []:
             m = (p.get("baseToken") or {}).get("address")
             if m in chunk and f(p.get("priceUsd")) > 0:
-                if m not in out or f((p.get("liquidity") or {}).get("usd")) > f((out[m].get("liquidity") or {}).get("usd")):
-                    out[m] = p
+                out.setdefault(m, []).append(p)
     return out
+
+
+def best(pairs):
+    return max(pairs, key=lambda p: f((p.get("liquidity") or {}).get("usd")))
 
 
 def sell(s, pos, tokens, price, rug=False):
@@ -150,6 +172,7 @@ def step(s):
         s["pend"][m] = t
         funnel(s, "graduations_seen")
     s["seen"] = {k: v for k, v in s["seen"].items() if now - v < 86400}
+    retag(s)
     held = {p["mint"] for p in s["pos"]}
     mints = list(s["pend"]) + [p["mint"] for p in s["pos"]]
     if not mints:
@@ -157,14 +180,16 @@ def step(s):
     data = dex_batch(mints)
     for m, t in list(s["pend"].items()):                      # waiting for DexScreener to list the new pair
         if m in data and m not in held:
-            if open_pos(s, m, t, data[m]):
+            if open_pos(s, m, t, best(data[m])):
                 del s["pend"][m]
             elif now - t > PEND_MAX_S:
                 funnel(s, "never_had_liquidity"); del s["pend"][m]
         elif now - t > PEND_MAX_S:
             funnel(s, "never_listed"); del s["pend"][m]
     for pos in list(s["pos"]):
-        p = data.get(pos["mint"])
+        # a held position is followed on the SAME pair it was bought on; if that pair is missing from this reading it counts as a miss
+        # (before 2026-10-05 12:30 the highest-liquidity pair was used, and 7 positions 'collapsed' to a dust pair at the same second)
+        p = next((x for x in data.get(pos["mint"], []) if x.get("pairAddress") == pos["pair"]), None) if pos.get("pair") else (best(data[pos["mint"]]) if pos["mint"] in data else None)
         if not p:
             pos["miss"] += 1
             if pos["miss"] >= 10:                             # ~2.5 min of no price: treat as gone
@@ -197,18 +222,30 @@ def step(s):
             close(s, pos, "time-6h")
 
 
-def stats(s):
-    allp = s["closed"] + s["pos"]
+def _stats(allp, closed):
     n = len(allp)
     if not n:
-        return "no entries yet"
+        return "none"
     r = lambda x: sum(1 for p in allp if p["peak_mult"] >= x)
-    c = [p["mult_net"] for p in s["closed"]]
+    c = [p["mult_net"] for p in closed]
     d = sorted(p["delay_s"] for p in allp)
-    return (f"entries {n} (closed {len(c)}, open {len(s['pos'])}) | reached 1.25x {r(1.25)} ({r(1.25)*100//n}%) | 1.5x {r(1.5)} ({r(1.5)*100//n}%) "
+    return (f"entries {n} (closed {len(c)}) | reached 1.25x {r(1.25)} ({r(1.25)*100//n}%) | 1.5x {r(1.5)} ({r(1.5)*100//n}%) "
             f"| 2x {r(2)} ({r(2)*100//n}%) | 5x {r(5)} ({r(5)*100//n}%)"
             + (f" | closed avg {sum(c)/len(c):.2f}x median {sorted(c)[len(c)//2]:.2f}x" if c else "")
-            + f" | median entry delay after graduation {d[len(d)//2]:.0f}s")
+            + f" | median entry delay {d[len(d)//2]:.0f}s")
+
+
+def stats(s):
+    allp = s["closed"] + s["pos"]
+    if not allp:
+        return "no entries yet"
+    tags = {}
+    for p in allp:
+        tags[p.get("tag", "clean")] = tags.get(p.get("tag", "clean"), 0) + 1
+    clean = [p for p in allp if p.get("tag", "clean") != "tiny-liq"]          # peaks of feed-suspect trades are real, only their exit values are not
+    cc = [p for p in s["closed"] if p.get("tag", "clean") == "clean"]
+    return ("ALL   : " + _stats(allp, s["closed"]) + "\nCLEAN : " + _stats(clean, cc)
+            + "\nTags  : " + ", ".join(f"{k} {v}" for k, v in sorted(tags.items())) + " (nothing is deleted; CLEAN drops tiny-liq entries and the exit values of feed-suspect trades)")
 
 
 def summary(s):
