@@ -121,9 +121,9 @@ def close(s, pos, why):
 def open_pos(s, mint, ev_t, p):
     price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
     if liq <= 0:
-        funnel(s, "skip_no_liquidity"); return
+        return False                                          # liquidity not populated yet: keep waiting (up to PEND_MAX_S)
     if len(s["pos"]) >= MAX_POS or s["cash"] < STAKE:
-        funnel(s, "skip_capacity"); return
+        funnel(s, "skip_capacity"); return True
     fill = price * (1 + SLIP_IN + STAKE / max(liq, 1.0))
     s["cash"] -= STAKE
     now = time.time()
@@ -134,6 +134,7 @@ def open_pos(s, mint, ev_t, p):
                      "delay_s": round(now - ev_t, 1), "t_open": now, "opened": time.strftime("%F %T"), "miss": 0,
                      "path": [[int(now), price, liq]], "last": price, "last_mult": 1.0, "peak_mult": 1.0})
     funnel(s, "opened")
+    return True
 
 
 def step(s):
@@ -156,7 +157,10 @@ def step(s):
     data = dex_batch(mints)
     for m, t in list(s["pend"].items()):                      # waiting for DexScreener to list the new pair
         if m in data and m not in held:
-            open_pos(s, m, t, data[m]); del s["pend"][m]
+            if open_pos(s, m, t, data[m]):
+                del s["pend"][m]
+            elif now - t > PEND_MAX_S:
+                funnel(s, "never_had_liquidity"); del s["pend"][m]
         elif now - t > PEND_MAX_S:
             funnel(s, "never_listed"); del s["pend"][m]
     for pos in list(s["pos"]):
