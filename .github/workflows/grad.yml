@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 62
     steps:
       - uses: actions/checkout@v4
+      - name: Sync to latest main (a queued run is pinned to the commit at dispatch time, which predates the previous run's state save)
+        run: git fetch origin main && git reset --hard origin/main
       - run: echo "T0=$(date +%s)" >> $GITHUB_ENV
       - name: Queue next job now
         env:
@@ -41,8 +43,14 @@ jobs:
           set +e
           git config user.name "grad-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add grad_state.json
-          git diff --cached --quiet && exit 0
-          git commit -m "grad state"
-          for i in 1 2 3 4; do git pull --rebase --autostash && git push && exit 0; sleep 6; done
+          FILES="grad_state.json"
+          mkdir -p /tmp/keep && for f in $FILES; do [ -f "$f" ] && cp "$f" /tmp/keep/; done
+          for i in 1 2 3 4 5; do
+            git fetch origin main && git reset --hard origin/main
+            for f in $FILES; do [ -f "/tmp/keep/$f" ] && cp "/tmp/keep/$f" "$f"; done
+            git add $FILES
+            git diff --cached --quiet && exit 0
+            git commit -q -m "grad state" && git push && exit 0
+            sleep 6
+          done
           echo "::error::could not push state"; exit 1
