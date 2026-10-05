@@ -83,12 +83,22 @@ def f(x, d=0.0):
         return d
 
 
+RAMP_LIQ = 300_000      # entries with >= this much liquidity are tagged "ramp-bigliq" (2026-10-05): recycled big-pool symbols with smooth scripted ramps
+
+
+def tag_of(liq):
+    return "ramp-bigliq" if (liq or 0) >= RAMP_LIQ else "organic"
+
+
 def load():
     s = json.load(open(STATE)) if os.path.exists(STATE) else {}
     s.setdefault("cash", BANK); s.setdefault("pos", []); s.setdefault("closed", [])
     if s.get("rules") != RULES:
         s["funnel"] = {}; s["rules"] = RULES
     s.setdefault("seen", {}); s.setdefault("snap", {}); s.setdefault("track", {}); s.setdefault("hot", {}); s.setdefault("scans", 0); s.setdefault("last_hb", 0); s.setdefault("funnel", {}); s.setdefault("last_summary", ""); s.setdefault("api_fail", 0)
+    for x in s["pos"] + s["closed"]:                      # tag-only: also labels history; changes no trading behaviour
+        if "tag" not in x:
+            x["tag"] = tag_of(x.get("liq_entry"))
     return s
 
 
@@ -511,7 +521,7 @@ def open_pos(s, p, ch, a, src, birth=None, feats=None):
     s["pos"].append({"ctx": ctx, "sym": (p["baseToken"].get("symbol") or "?")[:12], "addr": p["baseToken"]["address"],
                      "chain": ch, "pair": p["pairAddress"], "entry_obs": price, "fill": fill, "liq_entry": liq,
                      "tokens0": tokens, "tokens": tokens, "proceeds": 0.0, "peak": price, "t1": False, "t2": False,
-                     "t_open": time.time(), "opened": time.strftime("%F %T"), "src": src or "?",
+                     "t_open": time.time(), "opened": time.strftime("%F %T"), "src": src or "?", "tag": tag_of(liq),
                      "h1_change": f((p.get("priceChange") or {}).get("h1")), "miss": 0})
     funnel(s, "opened")
     if feats is not None:
@@ -771,6 +781,15 @@ def summary(s):
             L.append(f"  if exit slippage were {k}x: avg {sum(net_mult(t, k) for t in c)/len(c):.2f}x per trade")
         rug = sum(1 for t in c if t["reason"].startswith("rug") or t["reason"] == "vanished")
         L.append(f"Rugs/vanished: {rug} of {len(c)}")
+    if MODE == "accel":
+        for tg_name in ("organic", "ramp-bigliq"):
+            g = [x for x in c if x.get("tag") == tg_name]
+            o = sum(1 for x in s["pos"] if x.get("tag") == tg_name)
+            if g:
+                gm = sorted(x["mult_net"] for x in g)
+                L.append(f"  [{tg_name}] closed {len(g)} | win {sum(1 for x in g if x['pnl'] > 0)}/{len(g)} | median {gm[len(gm)//2]:.2f}x | avg {sum(gm)/len(gm):.2f}x | open {o}")
+            else:
+                L.append(f"  [{tg_name}] closed 0 | open {o}")
     fu = s["funnel"]
     L.append("Why no trades: " + ", ".join(f"{k.replace('fail_', '')} {v}" for k, v in sorted(fu.items()) if k.startswith(("fail_", "wait_", "rpc_", "gt_", "pf_", "b_", "ws_", "pair_")))
              + f" | seen {fu.get('candidates', 0) or fu.get('ws_births', 0)} tokens, {fu.get('opened', 0)} opened")
