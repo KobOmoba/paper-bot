@@ -89,6 +89,7 @@ def stats(d, years=None):
 
 def main():
     px = download().dropna(how="all")
+    px = px.ffill(limit=5)   # alignment fix: FX trades on US holidays, ETFs do not; holiday = zero return, leading NaN kept
     out = {"data_start": str(px.index[0].date()), "data_end": str(px.index[-1].date()),
            "first_valid": {t: str(px[t].first_valid_index().date()) for t in px.columns}}
     nets = {}
@@ -113,6 +114,8 @@ def main():
         out["by_market"][t] = {"contribution_ann_pct": round(float(net[t][port.index].mean() * 252 * 100), 3),
                                "standalone_sharpe": st["sharpe"] if st else None, "years_live": st["years"] if st else None,
                                "avg_abs_weight": round(float(Wh[t][live[t]].abs().mean()), 3)}
+    dead = [t for t in px.columns if out["by_market"][t]["avg_abs_weight"] == 0]
+    assert not dead, f"markets never held: {dead}"
     out["avg_gross_leverage"] = round(float(Wh.abs().sum(axis=1)[live.any(axis=1)].mean()), 2)
     ann = port.groupby(port.index.year).sum()
     out["calendar_year_pct"] = {int(k): round(float(v) * 100, 2) for k, v in ann.items()}
