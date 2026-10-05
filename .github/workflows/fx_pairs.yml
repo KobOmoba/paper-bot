@@ -1,0 +1,27 @@
+name: fx-pairs-backtest
+on: workflow_dispatch
+permissions:
+  contents: write
+concurrency:
+  group: fx-pairs
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yfinance statsmodels pandas numpy
+      - run: python fx_pairs_backtest.py
+      - name: Save report
+        if: always()
+        run: |
+          set +e
+          git config user.name "fx-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -f fx_pairs_report.json fx_pairs_trades.csv
+          git commit -m "fx pairs backtest report"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && exit 0; sleep 5; done
