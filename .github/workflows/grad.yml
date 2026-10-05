@@ -1,0 +1,48 @@
+name: grad-scanner
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: grad-scanner
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 62
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "T0=$(date +%s)" >> $GITHUB_ENV
+      - name: Queue next job now
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # queued behind this job by the concurrency group, so it starts the moment this one ends (tiny gap in the live feed)
+          for i in 1 2 3; do
+            gh api -X POST repos/${{ github.repository }}/actions/workflows/grad.yml/dispatches -f ref=main && exit 0
+            sleep 10
+          done
+          echo "::warning::could not queue next job"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install websockets
+      - run: python grad_scanner.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          LOOP_MIN: "55"
+      - name: Save state
+        if: always()
+        run: |
+          set +e
+          git config user.name "grad-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add grad_state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "grad state"
+          for i in 1 2 3 4; do git pull --rebase --autostash && git push && exit 0; sleep 6; done
+          echo "::error::could not push state"; exit 1
