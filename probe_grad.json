@@ -1,0 +1,28 @@
+{
+ "connected": true,
+ "error": null,
+ "events": 2,
+ "types": {
+  "Subscribed to 'migration' events.": 1,
+  "migrate": 1
+ },
+ "samples": [
+  {
+   "t": 0.1,
+   "d": {
+    "message": "Subscribed to 'migration' events."
+   }
+  },
+  {
+   "t": 165.7,
+   "d": {
+    "signature": "35NkGhh1C3foMKmLsR8vqtGwZuSRR4E1CZwxoc8yuUryczAaPDtfCdDnGQWF9EKiwG15sqECfZaGYa9e9Pz67mZt",
+    "mint": "Fa4zQx81PhdJFBvtqAMM4jjLe6GjisGWgJYx54hy9V3s",
+    "txType": "migrate",
+    "pool": "pump-amm"
+   }
+  }
+ ],
+ "seconds": 240,
+ "elapsed_s": 240.8
+}
