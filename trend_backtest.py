@@ -16,7 +16,7 @@ def download():
     return yf.download(TICK, start=START, auto_adjust=True, progress=False)["Close"][TICK]
 
 
-def run(px, cost):
+def run(px, cost, mode="trend"):
     r = px.pct_change()
     lr = np.log(px)
     n = len(px)
@@ -33,7 +33,11 @@ def run(px, cost):
         k = int(ok.sum())
         w = pd.Series(0.0, index=px.columns)
         if k:
-            w[ok] = sig.iloc[e][ok] * np.minimum(CAP, VT / vol.iloc[e][ok]) / k
+            if mode == "lo_eq":
+                w[ok] = 1.0 / k
+            else:
+                sg = sig.iloc[e][ok] if mode == "trend" else 1.0
+                w[ok] = sg * np.minimum(CAP, VT / vol.iloc[e][ok]) / k
         nxt[e + 1] = w                                   # executes at the close of day e+1
     for i in range(n):
         if i in nxt:
