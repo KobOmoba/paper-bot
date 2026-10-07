@@ -42,7 +42,7 @@
    "fair": 0.07,
    "src": "btc-model",
    "opened": "2026-10-07 00:55:27",
-   "mark": 0.013
+   "mark": 0.015
   }
  ],
  "closed": [
@@ -206,30 +206,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-06 14:51:26",
-   "q": "Will the price of Bitcoin be above $80,000 on October 6?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-06 14:51:44",
-   "q": "Will the price of Bitcoin be above $90,000 on October 6?",
-   "model": 0.0,
-   "mkt": 0.0015
-  },
-  {
-   "t": "2026-10-06 14:51:44",
-   "q": "Will the price of Bitcoin be above $84,000 on October 6?",
-   "model": 1.0,
-   "mkt": 0.9975
-  },
-  {
-   "t": "2026-10-06 14:51:44",
-   "q": "Will the price of Bitcoin be above $82,000 on October 6?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
    "t": "2026-10-06 14:51:44",
    "q": "Will the price of Bitcoin be above $88,000 on October 6?",
    "model": 0.0003,
@@ -384,6 +360,30 @@
    "q": "Will the price of Bitcoin be above $82,000 on October 7?",
    "model": 0.8989,
    "mkt": 0.88
+  },
+  {
+   "t": "2026-10-07 03:01:26",
+   "q": "Will the price of Bitcoin be above $88,000 on October 7?",
+   "model": 0.0041,
+   "mkt": 0.0155
+  },
+  {
+   "t": "2026-10-07 03:01:26",
+   "q": "Will the price of Bitcoin be above $82,000 on October 7?",
+   "model": 0.8947,
+   "mkt": 0.8975
+  },
+  {
+   "t": "2026-10-07 03:01:26",
+   "q": "Will the price of Bitcoin be above $90,000 on October 7?",
+   "model": 0.0001,
+   "mkt": 0.0025
+  },
+  {
+   "t": "2026-10-07 03:01:26",
+   "q": "Will the price of Bitcoin be above $92,000 on October 7?",
+   "model": 0.0,
+   "mkt": 0.0005
   }
  ],
  "fc": {
@@ -400,6 +400,20 @@
    "mkt": 0.88,
    "end": "2026-10-07T16:00:00Z",
    "t": "2026-10-07 02:36:11"
+  },
+  "5156704": {
+   "q": "Will the price of Bitcoin be above $90,000 on October 7?",
+   "model": 0.0001,
+   "mkt": 0.0025,
+   "end": "2026-10-07T16:00:00Z",
+   "t": "2026-10-07 03:01:26"
+  },
+  "5156707": {
+   "q": "Will the price of Bitcoin be above $92,000 on October 7?",
+   "model": 0.0,
+   "mkt": 0.0005,
+   "end": "2026-10-07T16:00:00Z",
+   "t": "2026-10-07 03:01:26"
   }
  },
  "scores": [
