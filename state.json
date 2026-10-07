@@ -42,7 +42,7 @@
    "fair": 0.07,
    "src": "btc-model",
    "opened": "2026-10-07 00:55:27",
-   "mark": 0.018
+   "mark": 0.015
   }
  ],
  "closed": [
@@ -206,42 +206,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-07 04:16:49",
-   "q": "Will the price of Bitcoin be above $82,000 on October 7?",
-   "model": 0.9265,
-   "mkt": 0.947
-  },
-  {
-   "t": "2026-10-07 04:16:49",
-   "q": "Will the price of Bitcoin be above $88,000 on October 7?",
-   "model": 0.004,
-   "mkt": 0.017
-  },
-  {
-   "t": "2026-10-07 04:16:49",
-   "q": "Will the price of Bitcoin be above $90,000 on October 7?",
-   "model": 0.0,
-   "mkt": 0.0035
-  },
-  {
-   "t": "2026-10-07 04:16:49",
-   "q": "Will the price of Bitcoin be above $92,000 on October 7?",
-   "model": 0.0,
-   "mkt": 0.0005
-  },
-  {
-   "t": "2026-10-07 04:16:49",
-   "q": "Will the price of Bitcoin be above $80,000 on October 7?",
-   "model": 0.998,
-   "mkt": 0.9885
-  },
-  {
-   "t": "2026-10-07 04:17:04",
-   "q": "Will the price of Bitcoin be above $82,000 on October 7?",
-   "model": 0.9247,
-   "mkt": 0.947
-  },
-  {
    "t": "2026-10-07 04:17:04",
    "q": "Will the price of Bitcoin be above $88,000 on October 7?",
    "model": 0.0039,
@@ -384,6 +348,42 @@
    "q": "Will the price of Bitcoin be above $80,000 on October 7?",
    "model": 0.9992,
    "mkt": 0.9875
+  },
+  {
+   "t": "2026-10-07 05:57:28",
+   "q": "Will the price of Bitcoin be above $82,000 on October 7?",
+   "model": 0.9551,
+   "mkt": 0.9605
+  },
+  {
+   "t": "2026-10-07 05:57:28",
+   "q": "Will the price of Bitcoin be above $88,000 on October 7?",
+   "model": 0.0032,
+   "mkt": 0.0155
+  },
+  {
+   "t": "2026-10-07 05:57:28",
+   "q": "Will the price of Bitcoin be above $90,000 on October 7?",
+   "model": 0.0,
+   "mkt": 0.0025
+  },
+  {
+   "t": "2026-10-07 05:57:28",
+   "q": "Will the price of Bitcoin be above $92,000 on October 7?",
+   "model": 0.0,
+   "mkt": 0.0005
+  },
+  {
+   "t": "2026-10-07 05:57:28",
+   "q": "Will the price of Bitcoin be above $80,000 on October 7?",
+   "model": 0.9994,
+   "mkt": 0.988
+  },
+  {
+   "t": "2026-10-07 05:57:28",
+   "q": "Will the price of Bitcoin be above $78,000 on October 7?",
+   "model": 1.0,
+   "mkt": 0.9985
   }
  ],
  "fc": {
@@ -421,6 +421,13 @@
    "mkt": 0.9885,
    "end": "2026-10-07T16:00:00Z",
    "t": "2026-10-07 04:16:49"
+  },
+  "5156692": {
+   "q": "Will the price of Bitcoin be above $78,000 on October 7?",
+   "model": 1.0,
+   "mkt": 0.9985,
+   "end": "2026-10-07T16:00:00Z",
+   "t": "2026-10-07 05:57:28"
   }
  },
  "scores": [
