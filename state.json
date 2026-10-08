@@ -1,5 +1,5 @@
 {
- "cash": 35.56,
+ "cash": 39.25,
  "open": [
   {
    "id": "562831",
@@ -30,19 +30,6 @@
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
    "mark": 0.945
-  },
-  {
-   "id": "5179256",
-   "q": "Will the price of Bitcoin be above $82,000 on October 8?",
-   "side": "NO",
-   "price": 0.122,
-   "cost": 0.45,
-   "shares": 3.693,
-   "ev": "1114353",
-   "fair": 0.192,
-   "src": "btc-model",
-   "opened": "2026-10-08 10:20:42",
-   "mark": 1.0
   }
  ],
  "closed": [
@@ -230,6 +217,22 @@
    "payout": 1.0,
    "won": true,
    "settled": "2026-10-07 20:05:01"
+  },
+  {
+   "id": "5179256",
+   "q": "Will the price of Bitcoin be above $82,000 on October 8?",
+   "side": "NO",
+   "price": 0.122,
+   "cost": 0.45,
+   "shares": 3.693,
+   "ev": "1114353",
+   "fair": 0.192,
+   "src": "btc-model",
+   "opened": "2026-10-08 10:20:42",
+   "mark": 1.0,
+   "payout": 3.69,
+   "won": true,
+   "settled": "2026-10-08 16:38:41"
   }
  ],
  "dead": false,
