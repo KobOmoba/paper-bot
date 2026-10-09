@@ -50,3 +50,25 @@ every piece is built, and every piece is measured separately by running parallel
 - Primary metric: annualized Sharpe of each book's daily equity curve. Secondary: max drawdown, share of exits by trailing stop vs time exit, FVG fill rate. Win rate is reported but is not the target.
   Honest limit: over ~60 trading days the standard error of an annualized Sharpe is about 2, so Sharpe alone cannot judge anything yet; the verdict also uses the direction-accuracy interval and the paired difference (book minus A, book minus F).
 - Runs once a day at 22:15 UTC (cron + manual dispatch). A run processes every bar since the last run, so a missed day heals itself (that day's forecast is lost and the gap is logged).
+
+## 7. AGENT MANAGER (advisory only; added 2026-10-09 22:xx Lagos, before any Manager code)
+7.1 Purpose. The Manager watches the six books, diagnoses why a gate helps or hurts, and writes PROPOSALS for the human to approve or reject. It never trades, never edits live parameters, never starts a book by itself.
+7.2 Roles (one process, four steps): Observer (computes the report), Critic (cross-checks accepted vs rejected signals against raw outcomes), Reflector (one template-filled line per finding), Evolver (writes a Proposal with a falsifiable test).
+7.3 Data access. The Manager may open raw logs (kronos_forecasts.json, kronos_state.json) for AUDIT and citation. It may draw conclusions ONLY from the report (kronos_report.json / .xlsx), and only for findings whose
+    status is OK. Every reflection cites the report columns it used. A finding below its minimum sample is INSUFFICIENT_DATA; the Manager says nothing narrative about it.
+7.4 Minimum samples (hard states, not warnings). Gate-level: >= 30 ACCEPTED and >= 30 REJECTED Kronos signals with realized outcomes. Regime-level (trend / chop / highvol): >= 15 + 15 inside that bucket.
+    An under-threshold bucket prints "INSUFFICIENT_DATA in <regime>"; a pooled number is never substituted. Overlapping 5-day windows and cross-asset correlation make the effective sample smaller than n, so intervals use a
+    5-date-block bootstrap, and the report prints n next to every statistic.
+    Regime (fixed, computed from data through the signal bar only): HIGHVOL if ATR14/price is above its own trailing-250-bar 75th percentile; else TREND if |close - EMA50| >= 1 ATR; else CHOP.
+7.5 Backward-only cutoff. A signal enters any statistic only if its 5-day OUTCOME had already happened by the as-of date (realized_date <= as_of), not merely if the forecast was made before it.
+7.6 Proposal Acceptance Rule (option B, chosen by the user). A proposal becomes a real book only if ALL hold: (1) over the same 30-day forward window its Sharpe exceeds the control book's by >= 0.15;
+    (2) the window starts on the proposal date and no earlier data is used to evaluate it; (3) the control book keeps running unchanged for the full window and beyond. Otherwise status = REJECTED_BY_FORWARD_TEST (it still counts toward N).
+    Cohort calendar: all proposals made in month M share one forward window, the following calendar month. A failed proposal cannot be re-run with a new start date. If two proposals touch the same gate, the later one must state
+    in its hypothesis why the earlier one's forward result does not apply. A proposal needs >= 20 daily curve points in its window or it is reported as INSUFFICIENT_DATA, not passed.
+7.7 Ledger (kronos_ledger.json). Every proposal, passed or failed: proposal_id, date, gate, regime, change_description, control_book_id, test_book_id, window_start, window_end, forward_sharpe_gap, status, justification_vs_earlier_same_gate.
+    Any result from a book descended from a proposal is reported as "selected from N proposals", with the raw Sharpe and N side by side, never the Sharpe alone. Deflated Sharpe is NOT used (option A not chosen).
+7.8 The Manager may NOT: change anything live, add a new gate, or change fees, sizing, stop rules, horizon, universe or the entry threshold. Those are changes to the system, not proposals about a gate threshold, and need a new spec version.
+7.9 Reflection format. Template fill only, numbers copied verbatim from the report: "Gate {X} rejected {N} signals with mean realized 5d return {Y}; accepted {M} with mean {Z}; gap {D} (95% interval {lo} to {hi}). Largest divergence in {regime}."
+    Any LLM wording may only rephrase this line, and the template line plus its numbers are logged next to it.
+7.10 Report columns (one row per gate x regime): as_of_date, gate, regime, n_accepted, n_rejected, mean_ret_accepted, mean_ret_rejected, gap, ci_low, ci_high, status, reflection, proposal_count_to_date.
+    Plus sections: Books (Sharpe with its standard error, max drawdown, exits by reason, fills/missed/no-gap, difference vs A and vs F), Kronos accuracy (CRYPTO, EQUITY, ALL; Wilson interval; versus always-up), XGBoost out-of-sample hit rate, Ledger.
