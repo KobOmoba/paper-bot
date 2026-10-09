@@ -241,36 +241,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-09 02:16:56",
-   "q": "Will the price of Bitcoin be above $88,000 on October 9?",
-   "model": 0.0001,
-   "mkt": 0.0005
-  },
-  {
-   "t": "2026-10-09 02:17:12",
-   "q": "Will the price of Bitcoin be above $84,000 on October 9?",
-   "model": 0.095,
-   "mkt": 0.072
-  },
-  {
-   "t": "2026-10-09 02:17:12",
-   "q": "Will the price of Bitcoin be above $88,000 on October 9?",
-   "model": 0.0001,
-   "mkt": 0.0005
-  },
-  {
-   "t": "2026-10-09 02:42:15",
-   "q": "Will the price of Bitcoin be above $84,000 on October 9?",
-   "model": 0.096,
-   "mkt": 0.0745
-  },
-  {
-   "t": "2026-10-09 02:42:15",
-   "q": "Will the price of Bitcoin be above $88,000 on October 9?",
-   "model": 0.0001,
-   "mkt": 0.0015
-  },
-  {
    "t": "2026-10-09 02:42:15",
    "q": "Will the price of Bitcoin be above $76,000 on October 9?",
    "model": 1.0,
@@ -419,6 +389,36 @@
    "q": "Will the price of Bitcoin be above $86,000 on October 9?",
    "model": 0.0084,
    "mkt": 0.0105
+  },
+  {
+   "t": "2026-10-09 04:48:03",
+   "q": "Will the price of Bitcoin be above $76,000 on October 9?",
+   "model": 1.0,
+   "mkt": 0.9985
+  },
+  {
+   "t": "2026-10-09 04:48:03",
+   "q": "Will the price of Bitcoin be above $88,000 on October 9?",
+   "model": 0.0001,
+   "mkt": 0.002
+  },
+  {
+   "t": "2026-10-09 04:48:03",
+   "q": "Will the price of Bitcoin be above $84,000 on October 9?",
+   "model": 0.111,
+   "mkt": 0.0905
+  },
+  {
+   "t": "2026-10-09 04:48:03",
+   "q": "Will the price of Bitcoin be above $86,000 on October 9?",
+   "model": 0.0051,
+   "mkt": 0.006
+  },
+  {
+   "t": "2026-10-09 04:48:03",
+   "q": "Will the price of Bitcoin be above $80,000 on October 9?",
+   "model": 0.9421,
+   "mkt": 0.965
   }
  ],
  "fc": {
@@ -449,6 +449,13 @@
    "mkt": 0.9955,
    "end": "2026-10-09T16:00:00Z",
    "t": "2026-10-09 02:42:15"
+  },
+  "5207023": {
+   "q": "Will the price of Bitcoin be above $80,000 on October 9?",
+   "model": 0.9421,
+   "mkt": 0.965,
+   "end": "2026-10-09T16:00:00Z",
+   "t": "2026-10-09 04:48:03"
   }
  },
  "scores": [
