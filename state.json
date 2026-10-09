@@ -1,5 +1,5 @@
 {
- "cash": 36.87,
+ "cash": 38.12,
  "open": [
   {
    "id": "562831",
@@ -30,32 +30,6 @@
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
    "mark": 0.925
-  },
-  {
-   "id": "5207026",
-   "q": "Will the price of Bitcoin be above $82,000 on October 9?",
-   "side": "NO",
-   "price": 0.265,
-   "cost": 1.44,
-   "shares": 5.447,
-   "ev": "1119679",
-   "fair": 0.359,
-   "src": "btc-model",
-   "opened": "2026-10-09 06:54:09",
-   "mark": 0.001
-  },
-  {
-   "id": "5207028",
-   "q": "Will the price of Bitcoin be above $84,000 on October 9?",
-   "side": "NO",
-   "price": 0.756,
-   "cost": 0.94,
-   "shares": 1.25,
-   "ev": "1119679",
-   "fair": 0.828,
-   "src": "btc-model",
-   "opened": "2026-10-09 11:56:26",
-   "mark": 1.0
   }
  ],
  "closed": [
@@ -259,6 +233,38 @@
    "payout": 3.69,
    "won": true,
    "settled": "2026-10-08 16:38:41"
+  },
+  {
+   "id": "5207026",
+   "q": "Will the price of Bitcoin be above $82,000 on October 9?",
+   "side": "NO",
+   "price": 0.265,
+   "cost": 1.44,
+   "shares": 5.447,
+   "ev": "1119679",
+   "fair": 0.359,
+   "src": "btc-model",
+   "opened": "2026-10-09 06:54:09",
+   "mark": 0.0,
+   "payout": 0.0,
+   "won": false,
+   "settled": "2026-10-09 16:33:18"
+  },
+  {
+   "id": "5207028",
+   "q": "Will the price of Bitcoin be above $84,000 on October 9?",
+   "side": "NO",
+   "price": 0.756,
+   "cost": 0.94,
+   "shares": 1.25,
+   "ev": "1119679",
+   "fair": 0.828,
+   "src": "btc-model",
+   "opened": "2026-10-09 11:56:26",
+   "mark": 1.0,
+   "payout": 1.25,
+   "won": true,
+   "settled": "2026-10-09 16:33:19"
   }
  ],
  "dead": false,
