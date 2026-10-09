@@ -1,0 +1,58 @@
+name: kronos-system
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 22 * * *"
+permissions:
+  contents: write
+concurrency:
+  group: kronos
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-kronos-small
+      - run: git clone --depth 1 https://github.com/shiyu-coder/Kronos Kronos_repo
+      - run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r Kronos_repo/requirements.txt yfinance pandas numpy xgboost
+      - name: State hash at job start
+        run: sha256sum kronos_state.json kronos_forecasts.json 2>/dev/null || echo "no state yet"
+      - name: Run
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python kronos_system.py
+      - name: Save state (robust, verified)
+        if: always()
+        run: |
+          set +e
+          FILES="kronos_state.json kronos_forecasts.json"
+          git config user.name "kronos-bot"; git config user.email "bot@users.noreply.github.com"
+          mkdir -p /tmp/keep; cp $FILES /tmp/keep/ 2>/dev/null
+          sha256sum /tmp/keep/* | tee /tmp/keep.sha
+          for i in 1 2 3 4 5; do
+            git fetch origin main && git reset --hard origin/main
+            cp /tmp/keep/* . 2>/dev/null
+            git add $FILES
+            git commit -m "kronos state $(date -u +%F_%H%M)" 
+            if git push; then
+              git fetch origin main
+              for f in $FILES; do
+                a=$(sha256sum /tmp/keep/$f | cut -d' ' -f1); b=$(git show origin/main:$f | sha256sum | cut -d' ' -f1)
+                if [ "$a" != "$b" ]; then echo "VERIFY FAILED: $f differs on remote"; exit 1; fi
+              done
+              echo "VERIFIED: remote state equals local state"; exit 0
+            fi
+            sleep 5
+          done
+          echo "SAVE FAILED after 5 tries"; exit 1
