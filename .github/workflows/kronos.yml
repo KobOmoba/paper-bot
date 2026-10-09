@@ -24,7 +24,7 @@ jobs:
       - run: git clone --depth 1 https://github.com/shiyu-coder/Kronos Kronos_repo
       - run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r Kronos_repo/requirements.txt yfinance pandas numpy xgboost
+          pip install -r Kronos_repo/requirements.txt yfinance pandas numpy xgboost scikit-learn
       - name: State hash at job start
         run: sha256sum kronos_state.json kronos_forecasts.json 2>/dev/null || echo "no state yet"
       - name: Run
