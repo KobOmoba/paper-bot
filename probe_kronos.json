@@ -1,0 +1,45 @@
+{
+ "started": "2026-10-09 21:06:24",
+ "torch": "2.14.1+cpu",
+ "cuda": false,
+ "predict_sig": "(self, df, x_timestamp, y_timestamp, pred_len, T=1.0, top_k=0, top_p=0.9, sample_count=1, verbose=True)",
+ "predict_batch_sig": "(self, df_list, x_timestamp_list, y_timestamp_list, pred_len, T=1.0, top_k=0, top_p=0.9, sample_count=1, verbose=True)",
+ "init_sig": "(self, model, tokenizer, device=None, max_context=512, clip=5)",
+ "load_s": 1.2,
+ "bars": [
+  512,
+  512,
+  512
+ ],
+ "batch_s": 5.9,
+ "batch_cols": [
+  "open",
+  "high",
+  "low",
+  "close",
+  "volume",
+  "amount"
+ ],
+ "batch_first_rows": [
+  {
+   "open": 81028.453125,
+   "high": 81519.2109375,
+   "low": 79020.6171875,
+   "close": 79428.96875,
+   "volume": 38572920832.0,
+   "amount": 3279404562120704.0
+  },
+  {
+   "open": 80563.03125,
+   "high": 79939.7265625,
+   "low": 77231.890625,
+   "close": 76042.234375,
+   "volume": 36289265664.0,
+   "amount": 3055248339894272.0
+  }
+ ],
+ "last_close_btc": 82476.578125,
+ "single_s": 1.9,
+ "single_rows": 5,
+ "ok": true
+}
