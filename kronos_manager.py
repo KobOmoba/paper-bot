@@ -13,6 +13,7 @@ XGB_P = 0.60
 LEDGER_F = "kronos_ledger.json"
 RNG = np.random.default_rng(11)
 MARGIN = 0.15
+CRYPTO_SKIP = 1
 
 
 # ------------------------------------------------------------ rows (PIT)
@@ -33,9 +34,9 @@ def regime_of(d, T):
     return "trend" if abs(r20) >= atrp.iloc[-1] * math.sqrt(20) else "chop"
 
 
-def fvg_fill(d, T, limit):
-    """Simulate the limit on the next 2 real bars. Returns (filled, fill_price)."""
-    fut = d[d.index > T].iloc[:2]
+def fvg_fill(d, T, limit, sk=0):
+    """Simulate the limit on the 2 real tradable bars (after any skipped bar). Returns (filled, fill_price)."""
+    fut = d[d.index > T].iloc[sk:sk + 2]
     for _, b in fut.iterrows():
         if b["open"] <= limit: return True, float(b["open"])
         if b["low"] <= limit: return True, float(limit)
@@ -47,14 +48,16 @@ def matured_rows(fcs, dfs, as_of):
     as_of = pd.Timestamp(as_of)
     for r in fcs:
         a = r["asset"]; T = pd.Timestamp(r["date"])
+        if r.get("timing") != "v2" or r.get("late_run"): continue     # pre-fix crypto rows and rows made after the next open are not scored
+        sk = CRYPTO_SKIP if a in BASKETS["CRYPTO"] else 0
         d = dfs[a][dfs[a].index <= as_of]                  # PIT: nothing after as_of is visible
         fut = d[d.index > T]
-        if len(fut) < H: continue                           # outcome not yet realized by as_of
-        o1, c5 = float(fut["open"].iloc[0]), float(fut["close"].iloc[H - 1])
-        row = dict(r); row["ret"] = c5 / o1 - 1; row["matured"] = str(fut.index[H - 1].date())
+        if len(fut) < H + sk: continue                      # outcome not yet realized by as_of
+        o1, c5 = float(fut["open"].iloc[sk]), float(fut["close"].iloc[sk + H - 1])
+        row = dict(r); row["ret"] = c5 / o1 - 1; row["matured"] = str(fut.index[sk + H - 1].date())
         row["regime"] = regime_of(d, T)
         if r.get("fvg_limit") is not None:
-            f, px = fvg_fill(d, T, r["fvg_limit"]); row["fvg_filled"] = f
+            f, px = fvg_fill(d, T, r["fvg_limit"], sk); row["fvg_filled"] = f
             row["ret_from_fill"] = (c5 / px - 1) if f else None
         else:
             row["fvg_filled"] = None; row["ret_from_fill"] = None

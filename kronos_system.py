@@ -12,6 +12,8 @@ H, N_PATHS, ENTRY_MIN, XGB_P, STOP = 5, 20, 0.01, 0.60, 0.08
 MAXPOS, WEIGHT, CASHMIN, BANK = 5, 0.18, 0.10, 10000.0
 FEE_CRYPTO_TAKER, FEE_CRYPTO_MAKER, FEE_EQ = 0.0010, 0.0005, 0.0002
 FVG_LOOK, FVG_TTL = 30, 2
+CRYPTO_SKIP = 1     # crypto runs mid-day: the current UTC day is already half over, so the first tradable open is one bar later
+EQ_OPEN_UTC_HOUR = 13.5   # earliest US open in UTC (EDT); orders for an equity are refused if the run happens after the next open
 BOOKS = {"A": set(), "B": {"ftfc"}, "C": {"xgb"}, "D": {"fvg"}, "E": {"ftfc", "xgb", "fvg"}}
 STATE_F, FC_F = "kronos_state.json", "kronos_forecasts.json"
 TOKEN, CHAT = os.environ.get("TELEGRAM_TOKEN", ""), os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -132,13 +134,14 @@ def make_predictor():
         for a in assets:
             d = dfs[a].iloc[-512:].copy(); d["amount"] = d["volume"] * d["close"]
             T = d.index[-1]
-            fut = pd.date_range(T + pd.Timedelta(days=1), periods=H) if a in CRYPTO else pd.bdate_range(T + pd.Timedelta(days=1), periods=H)
+            fut = pd.date_range(T + pd.Timedelta(days=1), periods=H + CRYPTO_SKIP) if a in CRYPTO else pd.bdate_range(T + pd.Timedelta(days=1), periods=H + CRYPTO_SKIP)
             dl.append(d.reset_index(drop=True)); xs.append(pd.Series(d.index)); ys.append(pd.Series(fut))
         paths = {a: [] for a in assets}
         for _ in range(N_PATHS):     # sample_count=1 per call keeps every path (the library averages when sample_count>1)
-            res = pr.predict_batch(df_list=dl, x_timestamp_list=xs, y_timestamp_list=ys, pred_len=H, T=1.0, top_p=0.9, sample_count=1, verbose=False)
+            res = pr.predict_batch(df_list=dl, x_timestamp_list=xs, y_timestamp_list=ys, pred_len=H + CRYPTO_SKIP, T=1.0, top_p=0.9, sample_count=1, verbose=False)
             for a, r in zip(assets, res):
-                paths[a].append((float(r["open"].iloc[0]), float(r["close"].iloc[H - 1])))
+                k = CRYPTO_SKIP if a in CRYPTO else 0       # entry bar = first TRADABLE bar; exit = H bars later
+                paths[a].append((float(r["open"].iloc[k]), float(r["close"].iloc[k + H - 1])))
         return paths
     return run
 
@@ -162,6 +165,29 @@ def load():
     return s
 
 
+def late(a, T, now):
+    """True if the next tradable open for this asset has already passed when the decision is made (then no order is placed)."""
+    if a in CRYPTO:
+        return now >= (T + pd.Timedelta(days=1 + CRYPTO_SKIP)).to_pydatetime()      # 00:00 UTC of bar T+2
+    nxt = (T + pd.offsets.BDay(1)).to_pydatetime() + pd.Timedelta(hours=EQ_OPEN_UTC_HOUR).to_pytimedelta()
+    return now >= nxt
+
+
+def migrate(s, fcs):
+    """One-off: crypto rows/orders made before the timing fix (entry at an open that had already passed) are kept in the log but marked invalid and their unfilled orders cancelled."""
+    if s.get("schema") == "v2": return
+    cancelled = []
+    for r in fcs:
+        if r["asset"] in CRYPTO and r.get("timing") != "v2":
+            r["timing"] = "v1_crypto_invalid"
+    for k, b in s["books"].items():
+        for a in [x for x in b["pend"] if x in CRYPTO]:
+            cancelled.append((k, a)); del b["pend"][a]
+    for r in fcs:
+        if r["asset"] not in CRYPTO and r.get("timing") is None: r["timing"] = "v2"; r["late_run"] = False
+    s["schema"] = "v2"; s["log"].append({"migration": "v2 crypto timing fix", "cancelled_unfilled_orders": cancelled})
+
+
 def equity(book, last_close):
     return book["cash"] + sum(p["shares"] * last_close.get(a, p["entry"]) for a, p in book["pos"].items())
 
@@ -180,7 +206,10 @@ def process_bar(book, a, D, bar, last_close):
     if pend: pend["n"] += 1
     if pos and pos.get("exit_next_open"):
         sell(book, a, float(bar["open"]), "market", "stop", D, last_close); pos = None
-    if pend and a not in book["pos"]:
+    if pend and a not in book["pos"] and pend.get("skip", 0) > 0:
+        pend["skip"] -= 1                                  # bar already past at decision time: cannot be traded
+    elif pend and a not in book["pos"]:
+        pend["elig"] = pend.get("elig", 0) + 1
         px = None
         if pend["type"] == "market":
             px = float(bar["open"])
@@ -197,14 +226,15 @@ def process_bar(book, a, D, bar, last_close):
             else:
                 sh = target / (px * (1 + f)); cost = sh * px * (1 + f)
                 book["cash"] -= cost
-                book["pos"][a] = {"shares": sh, "entry": px, "cost": cost, "entry_date": str(D.date()), "n": pend["n"], "peak": px, "kind": pend["type"], "exit_next_open": False}
+                book["pos"][a] = {"shares": sh, "entry": px, "cost": cost, "entry_date": str(D.date()), "n": pend["n"], "peak": px, "kind": pend["type"], "exit_next_open": False,
+                                  "h": H + (CRYPTO_SKIP if a in CRYPTO else 0)}
                 book["fills"] += 1
             del book["pend"][a]; pend = None
-        elif pend["n"] >= (FVG_TTL if pend["type"] == "limit" else 1):
+        elif pend["elig"] >= (FVG_TTL if pend["type"] == "limit" else 1):
             book["missed"] += 1; del book["pend"][a]
     pos = book["pos"].get(a)
     if pos:
-        if pos["n"] >= H:
+        if pos["n"] >= pos.get("h", H):
             sell(book, a, float(bar["close"]), "market", "time", D, last_close)
         else:
             pos["peak"] = max(pos["peak"], float(bar["close"]))
@@ -213,6 +243,7 @@ def process_bar(book, a, D, bar, last_close):
 
 def run_once(now, dfs, predict_fn, state=None, forecasts=None, quiet=False):
     s = state or load(); fcs = forecasts if forecasts is not None else (json.load(open(FC_F)) if os.path.exists(FC_F) else [])
+    migrate(s, fcs)
     first = not s["last_bar"]
     if first:
         for a in UNIVERSE:
@@ -238,8 +269,11 @@ def run_once(now, dfs, predict_fn, state=None, forecasts=None, quiet=False):
     for r in fcs:
         if r.get("realized") is None:
             d = dfs[r["asset"]]; T = pd.Timestamp(r["date"]); fut = d[d.index > T]
-            if len(fut) >= H:
-                o1, c5 = float(fut["open"].iloc[0]), float(fut["close"].iloc[H - 1]); cT = float(d.loc[T, "close"])
+            sk = CRYPTO_SKIP if (a_ := r["asset"]) in CRYPTO else 0
+            if r.get("timing") != "v2":
+                continue                                   # pre-fix crypto rows are excluded from scoring (see migrate)
+            if len(fut) >= H + sk:
+                o1, c5 = float(fut["open"].iloc[sk]), float(fut["close"].iloc[sk + H - 1]); cT = float(d.loc[T, "close"])
                 r["realized"] = c5 / o1 - 1; r["realized_from_close"] = c5 / cT - 1
                 r["kronos_hit"] = (r["mean"] > 0) == (r["realized"] > 0)
                 r["xgb_hit"] = None if r.get("xgb_p") is None else ((r["xgb_p"] > 0.5) == (r["realized_from_close"] > 0))
@@ -257,7 +291,8 @@ def run_once(now, dfs, predict_fn, state=None, forecasts=None, quiet=False):
         for a in todo:
             sm = summarize_paths(paths[a]); T = T_by[a]
             row = {"date": str(T.date()), "asset": a, **{k: round(v, 5) for k, v in sm.items()}, "signal": sm["mean"] >= ENTRY_MIN, "ftfc": ftfc(dfs[a]), "xgb_p": xp[a],
-                   "fvg_limit": fvg_limit(dfs[a]), "last_close": float(dfs[a]["close"].iloc[-1]), "realized": None, "created": now.strftime("%F %T")}
+                   "fvg_limit": fvg_limit(dfs[a]), "last_close": float(dfs[a]["close"].iloc[-1]), "realized": None, "created": now.strftime("%F %T"), "timing": "v2",
+                   "late_run": late(a, T, now)}
             new_fc.append(row); s["fc_bar"][a] = str(T.date())
         fcs.extend(new_fc)
         # 4) create orders for each book
@@ -266,7 +301,7 @@ def run_once(now, dfs, predict_fn, state=None, forecasts=None, quiet=False):
             cands = []
             for r in new_fc:
                 a = r["asset"]
-                if not r["signal"] or a in b["pos"] or a in b["pend"]: continue
+                if not r["signal"] or a in b["pos"] or a in b["pend"] or r.get("late_run"): continue
                 if "ftfc" in gates and not r["ftfc"]: continue
                 if "xgb" in gates and not (r["xgb_p"] is not None and r["xgb_p"] > XGB_P): continue
                 cands.append(r)
@@ -276,9 +311,9 @@ def run_once(now, dfs, predict_fn, state=None, forecasts=None, quiet=False):
                 a = r["asset"]
                 if "fvg" in gates:
                     if r["fvg_limit"] is None: b["no_fvg"] += 1; continue
-                    b["pend"][a] = {"type": "limit", "limit": r["fvg_limit"], "n": 0, "signal_date": r["date"]}
+                    b["pend"][a] = {"type": "limit", "limit": r["fvg_limit"], "n": 0, "signal_date": r["date"], "skip": CRYPTO_SKIP if a in CRYPTO else 0}
                 else:
-                    b["pend"][a] = {"type": "market", "n": 0, "signal_date": r["date"]}
+                    b["pend"][a] = {"type": "market", "n": 0, "signal_date": r["date"], "skip": CRYPTO_SKIP if a in CRYPTO else 0}
     s["runs"] += 1
     s["log"] = (s["log"] + [{"t": now.strftime("%F %T"), "events": len(events), "forecasts": len(new_fc), "last_bars": {a: str(dfs[a].index[-1].date()) for a in UNIVERSE}}])[-60:]
     if not quiet: json.dump(s, open(STATE_F, "w")); json.dump(fcs, open(FC_F, "w"))
