@@ -72,3 +72,42 @@ every piece is built, and every piece is measured separately by running parallel
     Any LLM wording may only rephrase this line, and the template line plus its numbers are logged next to it.
 7.10 Report columns (one row per gate x regime): as_of_date, gate, regime, n_accepted, n_rejected, mean_ret_accepted, mean_ret_rejected, gap, ci_low, ci_high, status, reflection, proposal_count_to_date.
     Plus sections: Books (Sharpe with its standard error, max drawdown, exits by reason, fills/missed/no-gap, difference vs A and vs F), Kronos accuracy (CRYPTO, EQUITY, ALL; Wilson interval; versus always-up), XGBoost out-of-sample hit rate, Ledger.
+
+## SECTION 7: AGENT MANAGER (spec written 2026-10-10, before any Manager code; decisions: user chose Option B for multiple comparisons)
+### 7.1 Purpose and scope
+The Manager is advisory. It never trades, never edits books, forecasts, fees, sizing or stops, and never changes anything live. It observes the books and the forecast log, produces a fixed-schema
+report and a Diagnosis, and a human decides whether a Proposal is created.
+### 7.2 Roles (one script plus a human gate; no autonomous loop)
+Observer = the report script (deterministic statistics). Critic = the same script's audit step: every report number is recomputed from the raw forecast rows and price bars, and the row ids / dates used are written next to it.
+Reflector = a template sentence filled from report columns (7.3). Evolver = a Proposal written to the ledger ONLY after the user approves; Claude may draft the text, nothing is applied automatically.
+### 7.3 Data access and reflection rule (reflection grounding)
+The Manager may read raw logs for audit and citation. It may only generate a reflection from a report row whose status is OK, and every reflection must cite the report columns it uses.
+The reflection is a template fill: "Gate {gate} ({basket}, {regime}) rejected {n_rejected} signals with mean realized 5-day return {mean_ret_rejected}; accepted {n_accepted} with mean {mean_ret_accepted}; gap {gap} (95% CI {ci_low} to {ci_high})."
+Any LLM prose may only rephrase those numbers, and the numbers are stored verbatim beside the prose. The reflection memory is never fed back as evidence: each report is recomputed from the raw rows, so one wrong belief cannot compound.
+### 7.4 Minimum-sample gates (hard INSUFFICIENT_DATA state, not a warning)
+Per gate: at least 30 accepted AND 30 rejected matured signals, drawn from at least 10 distinct signal dates on each side (same-day signals across assets are correlated).
+Per regime bucket: at least 15 accepted AND 15 rejected. A bucket below threshold reports "insufficient data in [regime]"; the Manager never substitutes a pooled number for a regime comment.
+### 7.5 Backward-only cutoff (PIT guard)
+A forecast counts only if its 5-day outcome has already happened by the as-of date (date of the 5th bar after the signal <= as_of), not merely if the forecast was made before it.
+Test required: a report computed for as_of = D from the full data must equal the report computed from data truncated at D.
+### 7.6 Proposal acceptance rule (Option B, with the statistical bar added)
+A proposal becomes a real book only if ALL hold: (1) forward-test Sharpe exceeds the control book's Sharpe by >= 0.15 over the same window; (2) the window is forward-only and fixed: all proposals made in calendar month M share the
+following calendar month as their window, a failed proposal cannot be re-run with a new start, and a later proposal on the same gate must state why the earlier one's forward result does not apply; (3) the control book runs unchanged throughout and afterwards;
+(4) the test book made at least 15 trades in the window (else status INSUFFICIENT_FORWARD_DATA).
+Honest limit written into the rule: the standard error of a one-month Sharpe is about 2.9, so a 0.15 margin cannot by itself show skill. A pass in one window is therefore only PROVISIONAL_PASS; it becomes CONFIRMED_IMPROVEMENT only if the next
+calendar-month window also passes. The paired 95% interval of the daily-return difference (test minus control) is always reported. A miss = REJECTED_BY_FORWARD_TEST and still counts as a trial.
+### 7.7 Proposal ledger (kronos_ledger.json) and reporting obligation
+Fields: proposal_id, date, gate, regime, change_description, hypothesis, control_book_id, test_book_id, window_start, window_end, forward_sharpe_test, forward_sharpe_control, forward_sharpe_gap, gap_ci_low, gap_ci_high, n_trades_test, status,
+proposal_count_to_date. Entries are never deleted or edited except the status/result fields at evaluation time. Any result from a descended book is reported as "selected from N proposals" with the raw Sharpe beside N.
+### 7.8 The Manager may NOT
+change anything live; add new gates; change fees, sizing, stop rules or the universe; edit or delete past forecasts, books or ledger rows; start a book without user approval; use data after the as-of date.
+### 7.9 Regime buckets (fixed now, computed only from bars up to the signal date T)
+high_vol: ATR14/close at T is at or above the 75th percentile of that asset's value over the prior 365 bars. Otherwise trend: |20-bar return| >= (ATR14/close) x sqrt(20). Otherwise chop.
+### 7.10 Report sheet: exact columns (kronos_report_gates.csv, one row per gate x basket x regime)
+as_of_date, gate (kronos_signal | ftfc | xgb | fvg), basket (ALL | CRYPTO | EQUITY), regime (ALL | trend | chop | high_vol), n_accepted, n_rejected, distinct_dates_accepted, distinct_dates_rejected,
+mean_ret_accepted, mean_ret_rejected, gap, ci_low, ci_high (95% bootstrap resampling signal DATES), status (OK | INSUFFICIENT_DATA), reflection, proposal_count_to_date.
+Gate definitions on matured Kronos-signal rows: kronos_signal compares signal=true rows with signal=false rows (does the +1% rule separate winners?); ftfc and xgb compare pass vs fail among signal=true rows;
+fvg compares rows that had a limit price with rows that had none, plus fill statistics from the real next two bars (fill rate, mean return from the fill price versus from the open).
+Return = realized 5-day return from the next open to the 5th close (market-entry counterfactual). Replaces the "deflated_sharpe" column from the earlier sketch: Option B needs the ledger and forward gap, not a deflated figure.
+Companion tables: kronos_report_books.csv (per book: equity, return, annualized Sharpe with its standard error, max drawdown, closed trades, fills, missed, stop-exit share, difference versus A and versus F with paired 95% interval)
+and kronos_report_accuracy.csv (Kronos direction hit rate with Wilson 95% interval versus the share of up outcomes, by basket).
