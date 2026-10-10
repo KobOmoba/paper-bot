@@ -280,7 +280,7 @@ def run_once(now, dfs, predict_fn, state=None, forecasts=None, quiet=False):
                 else:
                     b["pend"][a] = {"type": "market", "n": 0, "signal_date": r["date"]}
     s["runs"] += 1
-    s["log"] = (s["log"] + [{"t": now.strftime("%F %T"), "events": len(events), "forecasts": len(new_fc)}])[-60:]
+    s["log"] = (s["log"] + [{"t": now.strftime("%F %T"), "events": len(events), "forecasts": len(new_fc), "last_bars": {a: str(dfs[a].index[-1].date()) for a in UNIVERSE}}])[-60:]
     if not quiet: json.dump(s, open(STATE_F, "w")); json.dump(fcs, open(FC_F, "w"))
     return s, fcs, new_fc
 
