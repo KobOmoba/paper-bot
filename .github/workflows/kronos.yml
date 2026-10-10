@@ -32,11 +32,16 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python kronos_system.py
+      - name: Manager report (advisory, reads logs, never trades)
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python kronos_manager.py
       - name: Save state (robust, verified)
         if: always()
         run: |
           set +e
-          FILES="kronos_state.json kronos_forecasts.json"
+          FILES="kronos_state.json kronos_forecasts.json kronos_report.json kronos_report_gates.csv kronos_report_books.csv kronos_report_accuracy.csv kronos_report_fvg.csv"
           git config user.name "kronos-bot"; git config user.email "bot@users.noreply.github.com"
           mkdir -p /tmp/keep; cp $FILES /tmp/keep/ 2>/dev/null
           sha256sum /tmp/keep/* | tee /tmp/keep.sha

@@ -111,3 +111,6 @@ fvg compares rows that had a limit price with rows that had none, plus fill stat
 Return = realized 5-day return from the next open to the 5th close (market-entry counterfactual). Replaces the "deflated_sharpe" column from the earlier sketch: Option B needs the ledger and forward gap, not a deflated figure.
 Companion tables: kronos_report_books.csv (per book: equity, return, annualized Sharpe with its standard error, max drawdown, closed trades, fills, missed, stop-exit share, difference versus A and versus F with paired 95% interval)
 and kronos_report_accuracy.csv (Kronos direction hit rate with Wilson 95% interval versus the share of up outcomes, by basket).
+### 7.11 Counting the looks (added after the first Manager test)
+Every report states how many OK gate rows have a 95% interval that excludes zero and how many would be expected by chance (5% of OK rows). Rows overlap, so this is a rough guide, not a test.
+In the synthetic random-data test, several rows excluded zero by chance. A gap is only worth a Proposal if the count of excluding rows is clearly above the chance figure AND the gap repeats in a later report.
