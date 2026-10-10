@@ -1,0 +1,4 @@
+basket,n_matured,distinct_dates,kronos_direction_hit_rate,hit_ci_low,hit_ci_high,share_of_up_outcomes_always_up_hit_rate,n_signals,mean_ret_when_signal
+ALL,0,0,,,,,0,
+CRYPTO,0,0,,,,,0,
+EQUITY,0,0,,,,,0,
