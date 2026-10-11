@@ -56672,12 +56672,12 @@
   "8yebtpv58fh6tnzuaihmk1lixsgc1jsn7dayboirpump": 1791729879.4395509
  },
  "funnel": {
-  "candidates": 277485,
-  "evaluated": 259685,
-  "fail_age": 62084,
-  "fail_liq": 183760,
-  "fail_volume": 12820,
-  "fail_flow": 921,
+  "candidates": 278826,
+  "evaluated": 260891,
+  "fail_age": 62424,
+  "fail_liq": 184514,
+  "fail_volume": 12928,
+  "fail_flow": 925,
   "opened": 70,
   "sim_sell_unavailable": 49,
   "liq_glitch": 76,
@@ -56689,6 +56689,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 5845,
+ "scans": 5873,
  "last_hb": 1791736524.806114
 }
