@@ -19,7 +19,7 @@
    "cost": 3.0,
    "shares": 3.245,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.869
+   "mark": 0.845
   },
   {
    "id": "3758964",
@@ -42,7 +42,7 @@
    "fair": 0.275,
    "src": "btc-model",
    "opened": "2026-10-11 03:46:36",
-   "mark": 0.023
+   "mark": 0.024
   }
  ],
  "closed": [
@@ -318,12 +318,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-11 05:27:18",
-   "q": "Will the price of Bitcoin be above $78,000 on October 11?",
-   "model": 0.9999,
-   "mkt": 0.999
-  },
-  {
    "t": "2026-10-11 05:27:34",
    "q": "Will the price of Bitcoin be above $82,000 on October 11?",
    "model": 0.765,
@@ -496,6 +490,12 @@
    "q": "Will the price of Bitcoin be above $82,000 on October 11?",
    "model": 0.8535,
    "mkt": 0.9735
+  },
+  {
+   "t": "2026-10-11 11:45:03",
+   "q": "Will the price of Bitcoin be above $82,000 on October 11?",
+   "model": 0.8684,
+   "mkt": 0.9755
   }
  ],
  "fc": {
