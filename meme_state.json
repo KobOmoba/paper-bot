@@ -56828,12 +56828,12 @@
   "eh8uxwnpmukpq48nf1hgv6hbgdo9ekgq1yzcxauppump": 1791763766.1372898
  },
  "funnel": {
-  "candidates": 286627,
-  "evaluated": 268046,
-  "fail_age": 64279,
-  "fail_liq": 189618,
-  "fail_volume": 13099,
-  "fail_flow": 948,
+  "candidates": 288004,
+  "evaluated": 269339,
+  "fail_age": 64548,
+  "fail_liq": 190579,
+  "fail_volume": 13156,
+  "fail_flow": 954,
   "opened": 72,
   "sim_sell_unavailable": 51,
   "liq_glitch": 76,
@@ -56845,6 +56845,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 6041,
+ "scans": 6069,
  "last_hb": 1791758214.973867
 }
