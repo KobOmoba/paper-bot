@@ -1,5 +1,5 @@
 {
- "as_of_date": "2026-10-09",
+ "as_of_date": "2026-10-10",
  "matured_forecasts": 0,
  "multiple_looks": {
   "ok_rows_with_ci": 0,
@@ -9,7 +9,7 @@
  },
  "gates": [
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "ALL",
    "regime": "ALL",
@@ -27,7 +27,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "ALL",
    "regime": "trend",
@@ -45,7 +45,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "ALL",
    "regime": "chop",
@@ -63,7 +63,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "ALL",
    "regime": "high_vol",
@@ -81,7 +81,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "CRYPTO",
    "regime": "ALL",
@@ -99,7 +99,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "CRYPTO",
    "regime": "trend",
@@ -117,7 +117,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "CRYPTO",
    "regime": "chop",
@@ -135,7 +135,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "CRYPTO",
    "regime": "high_vol",
@@ -153,7 +153,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "EQUITY",
    "regime": "ALL",
@@ -171,7 +171,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "EQUITY",
    "regime": "trend",
@@ -189,7 +189,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "EQUITY",
    "regime": "chop",
@@ -207,7 +207,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "kronos_signal",
    "basket": "EQUITY",
    "regime": "high_vol",
@@ -225,7 +225,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "ALL",
    "regime": "ALL",
@@ -243,7 +243,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "ALL",
    "regime": "trend",
@@ -261,7 +261,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "ALL",
    "regime": "chop",
@@ -279,7 +279,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "ALL",
    "regime": "high_vol",
@@ -297,7 +297,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "CRYPTO",
    "regime": "ALL",
@@ -315,7 +315,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "CRYPTO",
    "regime": "trend",
@@ -333,7 +333,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "CRYPTO",
    "regime": "chop",
@@ -351,7 +351,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "CRYPTO",
    "regime": "high_vol",
@@ -369,7 +369,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "EQUITY",
    "regime": "ALL",
@@ -387,7 +387,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "EQUITY",
    "regime": "trend",
@@ -405,7 +405,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "EQUITY",
    "regime": "chop",
@@ -423,7 +423,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "ftfc",
    "basket": "EQUITY",
    "regime": "high_vol",
@@ -441,7 +441,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "ALL",
    "regime": "ALL",
@@ -459,7 +459,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "ALL",
    "regime": "trend",
@@ -477,7 +477,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "ALL",
    "regime": "chop",
@@ -495,7 +495,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "ALL",
    "regime": "high_vol",
@@ -513,7 +513,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "CRYPTO",
    "regime": "ALL",
@@ -531,7 +531,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "CRYPTO",
    "regime": "trend",
@@ -549,7 +549,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "CRYPTO",
    "regime": "chop",
@@ -567,7 +567,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "CRYPTO",
    "regime": "high_vol",
@@ -585,7 +585,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "EQUITY",
    "regime": "ALL",
@@ -603,7 +603,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "EQUITY",
    "regime": "trend",
@@ -621,7 +621,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "EQUITY",
    "regime": "chop",
@@ -639,7 +639,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "xgb",
    "basket": "EQUITY",
    "regime": "high_vol",
@@ -657,7 +657,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "ALL",
    "regime": "ALL",
@@ -675,7 +675,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "ALL",
    "regime": "trend",
@@ -693,7 +693,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "ALL",
    "regime": "chop",
@@ -711,7 +711,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "ALL",
    "regime": "high_vol",
@@ -729,7 +729,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "CRYPTO",
    "regime": "ALL",
@@ -747,7 +747,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "CRYPTO",
    "regime": "trend",
@@ -765,7 +765,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "CRYPTO",
    "regime": "chop",
@@ -783,7 +783,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "CRYPTO",
    "regime": "high_vol",
@@ -801,7 +801,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "EQUITY",
    "regime": "ALL",
@@ -819,7 +819,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "EQUITY",
    "regime": "trend",
@@ -837,7 +837,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "EQUITY",
    "regime": "chop",
@@ -855,7 +855,7 @@
    "proposal_count_to_date": 0
   },
   {
-   "as_of_date": "2026-10-09",
+   "as_of_date": "2026-10-10",
    "gate": "fvg",
    "basket": "EQUITY",
    "regime": "high_vol",
