@@ -68150,12 +68150,12 @@
   "1zxbhkts2vzhjuifadepvvrmk9f94gcrtlmv2pupump": 1791916794.4219217
  },
  "funnel": {
-  "candidates": 351866,
-  "evaluated": 328479,
-  "fail_age": 78405,
-  "fail_liq": 232447,
-  "fail_volume": 16373,
-  "fail_flow": 1125,
+  "candidates": 353184,
+  "evaluated": 329651,
+  "fail_age": 78713,
+  "fail_liq": 233278,
+  "fail_volume": 16404,
+  "fail_flow": 1127,
   "opened": 95,
   "sim_sell_unavailable": 69,
   "liq_glitch": 76,
@@ -68167,6 +68167,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 7357,
- "last_hb": 1791910227.1940598
+ "scans": 7385,
+ "last_hb": 1791921130.1161008
 }
