@@ -9,7 +9,7 @@
    "cost": 3.0,
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.905
+   "mark": 0.915
   },
   {
    "id": "679022",
@@ -19,7 +19,7 @@
    "cost": 3.0,
    "shares": 3.245,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.877
+   "mark": 0.876
   },
   {
    "id": "3758964",
@@ -385,30 +385,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-14 04:50:41",
-   "q": "Will the price of Bitcoin be above $76,000 on October 14?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-14 04:50:41",
-   "q": "Will the price of Bitcoin be above $80,000 on October 14?",
-   "model": 0.9945,
-   "mkt": 0.9895
-  },
-  {
-   "t": "2026-10-14 04:50:57",
-   "q": "Will the price of Bitcoin be above $76,000 on October 14?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-14 04:50:57",
-   "q": "Will the price of Bitcoin be above $80,000 on October 14?",
-   "model": 0.9945,
-   "mkt": 0.9895
-  },
-  {
    "t": "2026-10-14 05:15:59",
    "q": "Will the price of Bitcoin be above $76,000 on October 14?",
    "model": 1.0,
@@ -563,6 +539,30 @@
    "q": "Will the price of Bitcoin be above $78,000 on October 14?",
    "model": 1.0,
    "mkt": 0.9985
+  },
+  {
+   "t": "2026-10-14 09:02:36",
+   "q": "Will the price of Bitcoin be above $78,000 on October 14?",
+   "model": 1.0,
+   "mkt": 0.9985
+  },
+  {
+   "t": "2026-10-14 09:02:36",
+   "q": "Will the price of Bitcoin be above $76,000 on October 14?",
+   "model": 1.0,
+   "mkt": 0.9995
+  },
+  {
+   "t": "2026-10-14 09:02:36",
+   "q": "Will the price of Bitcoin be above $80,000 on October 14?",
+   "model": 0.9984,
+   "mkt": 0.9905
+  },
+  {
+   "t": "2026-10-14 09:02:36",
+   "q": "Will the price of Bitcoin be above $88,000 on October 14?",
+   "model": 0.0,
+   "mkt": 0.0035
   }
  ],
  "fc": {
@@ -586,6 +586,13 @@
    "mkt": 0.9985,
    "end": "2026-10-14T16:00:00Z",
    "t": "2026-10-14 08:37:33"
+  },
+  "5407352": {
+   "q": "Will the price of Bitcoin be above $88,000 on October 14?",
+   "model": 0.0,
+   "mkt": 0.0035,
+   "end": "2026-10-14T16:00:00Z",
+   "t": "2026-10-14 09:02:36"
   }
  },
  "scores": [
