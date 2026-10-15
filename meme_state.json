@@ -76160,12 +76160,12 @@
   "cqo4kebnzeyazqj3d7xwsnx5uvntq7wrea7uyettpump": 1792056118.4535093
  },
  "funnel": {
-  "candidates": 417321,
-  "evaluated": 390382,
-  "fail_age": 89976,
-  "fail_liq": 279503,
-  "fail_volume": 19434,
-  "fail_flow": 1320,
+  "candidates": 418583,
+  "evaluated": 391601,
+  "fail_age": 90202,
+  "fail_liq": 280427,
+  "fail_volume": 19497,
+  "fail_flow": 1326,
   "opened": 115,
   "sim_sell_unavailable": 87,
   "liq_glitch": 77,
@@ -76177,6 +76177,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 8701,
+ "scans": 8729,
  "last_hb": 1792073132.482961
 }
