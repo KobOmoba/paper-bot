@@ -397,39 +397,9 @@
  ],
  "dead": false,
  "offset": 36271741,
- "last_summary": "2026-10-14",
+ "last_summary": "2026-10-15",
  "dead_notified": false,
  "model_log": [
-  {
-   "t": "2026-10-15 06:27:06",
-   "q": "Will the price of Bitcoin be above $86,000 on October 15?",
-   "model": 0.0001,
-   "mkt": 0.0025
-  },
-  {
-   "t": "2026-10-15 06:27:06",
-   "q": "Will the price of Bitcoin be above $80,000 on October 15?",
-   "model": 0.7192,
-   "mkt": 0.764
-  },
-  {
-   "t": "2026-10-15 06:27:06",
-   "q": "Will the price of Bitcoin be above $84,000 on October 15?",
-   "model": 0.0084,
-   "mkt": 0.0245
-  },
-  {
-   "t": "2026-10-15 06:27:06",
-   "q": "Will the price of Bitcoin be above $78,000 on October 15?",
-   "model": 0.9831,
-   "mkt": 0.958
-  },
-  {
-   "t": "2026-10-15 06:27:06",
-   "q": "Will the price of Bitcoin be above $74,000 on October 15?",
-   "model": 1.0,
-   "mkt": 0.9985
-  },
   {
    "t": "2026-10-15 06:52:08",
    "q": "Will the price of Bitcoin be above $86,000 on October 15?",
@@ -579,6 +549,36 @@
    "q": "Will the price of Bitcoin be above $74,000 on October 15?",
    "model": 1.0,
    "mkt": 0.9985
+  },
+  {
+   "t": "2026-10-15 08:07:54",
+   "q": "Will the price of Bitcoin be above $86,000 on October 15?",
+   "model": 0.0001,
+   "mkt": 0.0045
+  },
+  {
+   "t": "2026-10-15 08:07:54",
+   "q": "Will the price of Bitcoin be above $80,000 on October 15?",
+   "model": 0.8552,
+   "mkt": 0.8785
+  },
+  {
+   "t": "2026-10-15 08:07:54",
+   "q": "Will the price of Bitcoin be above $84,000 on October 15?",
+   "model": 0.0133,
+   "mkt": 0.037
+  },
+  {
+   "t": "2026-10-15 08:07:54",
+   "q": "Will the price of Bitcoin be above $78,000 on October 15?",
+   "model": 0.9971,
+   "mkt": 0.978
+  },
+  {
+   "t": "2026-10-15 08:07:54",
+   "q": "Will the price of Bitcoin be above $74,000 on October 15?",
+   "model": 1.0,
+   "mkt": 0.9995
   }
  ],
  "fc": {
