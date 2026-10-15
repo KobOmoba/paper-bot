@@ -401,42 +401,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-15 10:14:07",
-   "q": "Will the price of Bitcoin be above $86,000 on October 15?",
-   "model": 0.0,
-   "mkt": 0.0035
-  },
-  {
-   "t": "2026-10-15 10:14:07",
-   "q": "Will the price of Bitcoin be above $80,000 on October 15?",
-   "model": 0.8324,
-   "mkt": 0.8665
-  },
-  {
-   "t": "2026-10-15 10:14:07",
-   "q": "Will the price of Bitcoin be above $84,000 on October 15?",
-   "model": 0.0021,
-   "mkt": 0.023
-  },
-  {
-   "t": "2026-10-15 10:14:07",
-   "q": "Will the price of Bitcoin be above $78,000 on October 15?",
-   "model": 0.9984,
-   "mkt": 0.9885
-  },
-  {
-   "t": "2026-10-15 10:14:07",
-   "q": "Will the price of Bitcoin be above $74,000 on October 15?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-15 10:14:07",
-   "q": "Will the price of Bitcoin be above $82,000 on October 15?",
-   "model": 0.1654,
-   "mkt": 0.175
-  },
-  {
    "t": "2026-10-15 10:39:09",
    "q": "Will the price of Bitcoin be above $86,000 on October 15?",
    "model": 0.0,
@@ -579,6 +543,42 @@
    "q": "Will the price of Bitcoin be above $82,000 on October 15?",
    "model": 0.1338,
    "mkt": 0.155
+  },
+  {
+   "t": "2026-10-15 11:54:36",
+   "q": "Will the price of Bitcoin be above $86,000 on October 15?",
+   "model": 0.0,
+   "mkt": 0.0005
+  },
+  {
+   "t": "2026-10-15 11:54:36",
+   "q": "Will the price of Bitcoin be above $84,000 on October 15?",
+   "model": 0.0003,
+   "mkt": 0.0105
+  },
+  {
+   "t": "2026-10-15 11:54:36",
+   "q": "Will the price of Bitcoin be above $80,000 on October 15?",
+   "model": 0.8725,
+   "mkt": 0.8535
+  },
+  {
+   "t": "2026-10-15 11:54:36",
+   "q": "Will the price of Bitcoin be above $78,000 on October 15?",
+   "model": 0.9998,
+   "mkt": 0.986
+  },
+  {
+   "t": "2026-10-15 11:54:36",
+   "q": "Will the price of Bitcoin be above $74,000 on October 15?",
+   "model": 1.0,
+   "mkt": 0.9995
+  },
+  {
+   "t": "2026-10-15 11:54:36",
+   "q": "Will the price of Bitcoin be above $82,000 on October 15?",
+   "model": 0.1229,
+   "mkt": 0.15
   }
  ],
  "fc": {
