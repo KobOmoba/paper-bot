@@ -76080,12 +76080,12 @@
   "5jofqtntbrrt1qpjxjkqylssgijjbtwfclrxltaapump": 1792041028.9368
  },
  "funnel": {
-  "candidates": 405171,
-  "evaluated": 379014,
-  "fail_age": 88098,
-  "fail_liq": 270787,
-  "fail_volume": 18707,
-  "fail_flow": 1274,
+  "candidates": 406560,
+  "evaluated": 380319,
+  "fail_age": 88273,
+  "fail_liq": 271804,
+  "fail_volume": 18818,
+  "fail_flow": 1276,
   "opened": 114,
   "sim_sell_unavailable": 86,
   "liq_glitch": 77,
@@ -76097,6 +76097,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 8449,
+ "scans": 8477,
  "last_hb": 1792040548.8782709
 }
