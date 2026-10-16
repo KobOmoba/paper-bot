@@ -1,5 +1,5 @@
 {
- "cash": 36.31,
+ "cash": 35.85,
  "open": [
   {
    "id": "562831",
@@ -42,7 +42,19 @@
    "fair": 0.116,
    "src": "btc-model",
    "opened": "2026-10-15 23:14:34",
-   "mark": 0.047
+   "mark": 0.056
+  },
+  {
+   "id": "5459797",
+   "q": "Will the price of Bitcoin be above $84,000 on October 16?",
+   "side": "YES",
+   "price": 0.056,
+   "cost": 0.46,
+   "shares": 8.222,
+   "ev": "1159739",
+   "fair": 0.089,
+   "src": "btc-model",
+   "opened": "2026-10-16 03:51:35"
   }
  ],
  "closed": [
@@ -446,24 +458,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-15 23:39:38",
-   "q": "Will the price of Bitcoin be above $80,000 on October 16?",
-   "model": 0.8847,
-   "mkt": 0.945
-  },
-  {
-   "t": "2026-10-15 23:39:38",
-   "q": "Will the price of Bitcoin be above $84,000 on October 16?",
-   "model": 0.1415,
-   "mkt": 0.0925
-  },
-  {
-   "t": "2026-10-15 23:39:56",
-   "q": "Will the price of Bitcoin be above $80,000 on October 16?",
-   "model": 0.8849,
-   "mkt": 0.945
-  },
-  {
    "t": "2026-10-15 23:39:56",
    "q": "Will the price of Bitcoin be above $84,000 on October 16?",
    "model": 0.1416,
@@ -624,6 +618,24 @@
    "q": "Will the price of Bitcoin be above $84,000 on October 16?",
    "model": 0.0822,
    "mkt": 0.059
+  },
+  {
+   "t": "2026-10-16 03:51:35",
+   "q": "Will the price of Bitcoin be above $80,000 on October 16?",
+   "model": 0.9244,
+   "mkt": 0.944
+  },
+  {
+   "t": "2026-10-16 03:51:35",
+   "q": "Will the price of Bitcoin be above $84,000 on October 16?",
+   "model": 0.0895,
+   "mkt": 0.0455
+  },
+  {
+   "t": "2026-10-16 03:51:35",
+   "q": "Will the price of Bitcoin be above $90,000 on October 16?",
+   "model": 0.0,
+   "mkt": 0.0005
   }
  ],
  "fc": {
@@ -640,6 +652,13 @@
    "mkt": 0.0925,
    "end": "2026-10-16T16:00:00Z",
    "t": "2026-10-15 23:39:38"
+  },
+  "5459803": {
+   "q": "Will the price of Bitcoin be above $90,000 on October 16?",
+   "model": 0.0,
+   "mkt": 0.0005,
+   "end": "2026-10-16T16:00:00Z",
+   "t": "2026-10-16 03:51:35"
   }
  },
  "scores": [
