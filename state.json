@@ -29,33 +29,7 @@
    "cost": 3.0,
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.969
-  },
-  {
-   "id": "5459793",
-   "q": "Will the price of Bitcoin be above $80,000 on October 16?",
-   "side": "NO",
-   "price": 0.065,
-   "cost": 0.46,
-   "shares": 7.03,
-   "ev": "1159739",
-   "fair": 0.116,
-   "src": "btc-model",
-   "opened": "2026-10-15 23:14:34",
-   "mark": 0.001
-  },
-  {
-   "id": "5459797",
-   "q": "Will the price of Bitcoin be above $84,000 on October 16?",
-   "side": "YES",
-   "price": 0.056,
-   "cost": 0.46,
-   "shares": 8.222,
-   "ev": "1159739",
-   "fair": 0.089,
-   "src": "btc-model",
-   "opened": "2026-10-16 03:51:35",
-   "mark": 0.001
+   "mark": 0.97
   }
  ],
  "closed": [
@@ -451,6 +425,38 @@
    "payout": 1.0,
    "won": true,
    "settled": "2026-10-15 16:32:05"
+  },
+  {
+   "id": "5459793",
+   "q": "Will the price of Bitcoin be above $80,000 on October 16?",
+   "side": "NO",
+   "price": 0.065,
+   "cost": 0.46,
+   "shares": 7.03,
+   "ev": "1159739",
+   "fair": 0.116,
+   "src": "btc-model",
+   "opened": "2026-10-15 23:14:34",
+   "mark": 0.0,
+   "payout": 0.0,
+   "won": false,
+   "settled": "2026-10-16 16:27:54"
+  },
+  {
+   "id": "5459797",
+   "q": "Will the price of Bitcoin be above $84,000 on October 16?",
+   "side": "YES",
+   "price": 0.056,
+   "cost": 0.46,
+   "shares": 8.222,
+   "ev": "1159739",
+   "fair": 0.089,
+   "src": "btc-model",
+   "opened": "2026-10-16 03:51:35",
+   "mark": 0.0,
+   "payout": 0.0,
+   "won": false,
+   "settled": "2026-10-16 16:27:55"
   }
  ],
  "dead": false,
