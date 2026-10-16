@@ -77226,12 +77226,12 @@
   "fsjbl5ujbzkkmwneknugjg6phqkdbhhycugdo1lcpump": 1792124430.2092018
  },
  "funnel": {
-  "candidates": 440426,
-  "evaluated": 412437,
-  "fail_age": 94630,
-  "fail_liq": 295786,
-  "fail_volume": 20499,
-  "fail_flow": 1366,
+  "candidates": 441799,
+  "evaluated": 413704,
+  "fail_age": 94915,
+  "fail_liq": 296688,
+  "fail_volume": 20573,
+  "fail_flow": 1372,
   "opened": 122,
   "sim_sell_unavailable": 93,
   "liq_glitch": 77,
@@ -77243,6 +77243,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 9177,
+ "scans": 9205,
  "last_hb": 1792127430.1836662
 }
