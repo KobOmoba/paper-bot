@@ -478,18 +478,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-16 23:11:13",
-   "q": "Will the price of Bitcoin be above $80,000 on October 17?",
-   "model": 0.8334,
-   "mkt": 0.982
-  },
-  {
-   "t": "2026-10-16 23:11:13",
-   "q": "Will the price of Bitcoin be above $78,000 on October 17?",
-   "model": 0.9859,
-   "mkt": 0.9925
-  },
-  {
    "t": "2026-10-16 23:11:32",
    "q": "Will the price of Bitcoin be above $80,000 on October 17?",
    "model": 0.8345,
@@ -656,6 +644,18 @@
    "q": "Will the price of Bitcoin be above $78,000 on October 17?",
    "model": 0.9898,
    "mkt": 0.9935
+  },
+  {
+   "t": "2026-10-17 03:23:08",
+   "q": "Will the price of Bitcoin be above $80,000 on October 17?",
+   "model": 0.8328,
+   "mkt": 0.982
+  },
+  {
+   "t": "2026-10-17 03:23:08",
+   "q": "Will the price of Bitcoin be above $78,000 on October 17?",
+   "model": 0.9912,
+   "mkt": 0.9955
   }
  ],
  "fc": {
