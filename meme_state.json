@@ -79140,7 +79140,6 @@
   }
  ],
  "seen": {
-  "0xf5ccda43eddb03f9e03b9f332b79ee78da1c7777": 1791619795.2832525,
   "7536qc4les3w2gtskbhvgnjsirfuxjhkvthxsgfkpump": 1791635220.51539,
   "5k2t9zu8xusuq4w59hf3ccbgbxhvsk3gisudxpkxpump": 1791653196.0762198,
   "e2dpvgbyqm17mszhphtytve8garpbeuzbbarstpnpump": 1791658382.8066137,
@@ -79216,10 +79215,10 @@
   "0x99c85356ad1e5933668656f09d168b002a3e705f": 1792196959.1858447
  },
  "funnel": {
-  "candidates": 477312,
-  "evaluated": 448064,
-  "fail_age": 102812,
-  "fail_liq": 321514,
+  "candidates": 478575,
+  "evaluated": 449271,
+  "fail_age": 103142,
+  "fail_liq": 322391,
   "fail_volume": 22084,
   "fail_flow": 1489,
   "opened": 131,
@@ -79227,12 +79226,12 @@
   "liq_glitch": 77,
   "fail_mcap": 34
  },
- "last_summary": "2026-10-16",
+ "last_summary": "2026-10-17",
  "api_fail": 0,
  "rules": "V5-1",
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 9933,
- "last_hb": 1792214353.7487895
+ "scans": 9961,
+ "last_hb": 1792225208.961241
 }
