@@ -1,5 +1,5 @@
 {
- "cash": 330.058,
+ "cash": 322.9181,
  "pos": [],
  "closed": [
   {
@@ -79137,6 +79137,60 @@
    "closed": "2026-10-17 02:04:21",
    "pnl": 44.96,
    "mult_net": 3.248
+  },
+  {
+   "ctx": {
+    "mcap": 121231.0,
+    "age_min": 61.0,
+    "launch": null,
+    "vel": null,
+    "birth": null
+   },
+   "sym": "Gigabite",
+   "addr": "6tsykNmR3WDqouj9uVUFZRgR2Kpai4F1Qm1gAcirpump",
+   "chain": "solana",
+   "pair": "FEK1dRG7wzN5JySutUJ8otAZQASxkZN3HXowL9XHtnjv",
+   "entry_obs": 0.0001254,
+   "fill": 0.00012924535737446875,
+   "liq_entry": 30087.32,
+   "tokens0": 153196.9921568054,
+   "tokens": 0.0,
+   "proceeds": 12.860063960757445,
+   "peak": 0.0001254,
+   "t1": false,
+   "t2": false,
+   "t_open": 1792236675.1237984,
+   "opened": "2026-10-17 11:31:15",
+   "src": "token-profiles",
+   "tag": "organic",
+   "h1_change": 125.0,
+   "miss": 0,
+   "price_last": 9.124e-05,
+   "liq_last": 25657.25,
+   "last": 9.124e-05,
+   "last_mult": 0.728,
+   "path": [
+    [
+     1792236794,
+     0.0001105,
+     28185.51
+    ],
+    [
+     1792236914,
+     0.000108,
+     27939.12
+    ],
+    [
+     1792237034,
+     9.124e-05,
+     25657.25
+    ]
+   ],
+   "obs_sold": 13.977693564386925,
+   "reason": "stop",
+   "closed": "2026-10-17 11:37:14",
+   "pnl": -7.14,
+   "mult_net": 0.643
   }
  ],
  "seen": {
@@ -79212,17 +79266,18 @@
   "2aqkywra1szrpvz5nottuvs3csgtxjeysc9qry9wpump": 1792173548.8646338,
   "0x9b6a2c3e00f4baabf2313217f5bfeaae4e5c7a72": 1792182106.1737316,
   "cfgjgbwnypzdeusj9kad5aocibwfprq13kdvqyz4pump": 1792184045.3924308,
-  "0x99c85356ad1e5933668656f09d168b002a3e705f": 1792196959.1858447
+  "0x99c85356ad1e5933668656f09d168b002a3e705f": 1792196959.1858447,
+  "6tsyknmr3wdqouj9uvufzrgr2kpai4f1qm1gacirpump": 1792236675.0517638
  },
  "funnel": {
-  "candidates": 482353,
-  "evaluated": 452959,
-  "fail_age": 104129,
-  "fail_liq": 324893,
-  "fail_volume": 22273,
-  "fail_flow": 1499,
-  "opened": 131,
-  "sim_sell_unavailable": 98,
+  "candidates": 483699,
+  "evaluated": 454271,
+  "fail_age": 104481,
+  "fail_liq": 325745,
+  "fail_volume": 22378,
+  "fail_flow": 1501,
+  "opened": 132,
+  "sim_sell_unavailable": 99,
   "liq_glitch": 77,
   "fail_mcap": 34
  },
@@ -79232,6 +79287,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 10045,
- "last_hb": 1792225208.961241
+ "scans": 10073,
+ "last_hb": 1792236075.0055387
 }
