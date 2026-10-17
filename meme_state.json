@@ -79217,12 +79217,12 @@
   "0x99c85356ad1e5933668656f09d168b002a3e705f": 1792196959.1858447
  },
  "funnel": {
-  "candidates": 471867,
-  "evaluated": 442799,
-  "fail_age": 101338,
-  "fail_liq": 318034,
-  "fail_volume": 21791,
-  "fail_flow": 1471,
+  "candidates": 473249,
+  "evaluated": 444112,
+  "fail_age": 101803,
+  "fail_liq": 318786,
+  "fail_volume": 21885,
+  "fail_flow": 1473,
   "opened": 131,
   "sim_sell_unavailable": 98,
   "liq_glitch": 77,
@@ -79234,6 +79234,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 9821,
+ "scans": 9849,
  "last_hb": 1792203501.5320995
 }
