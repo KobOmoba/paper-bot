@@ -79140,7 +79140,6 @@
   }
  ],
  "seen": {
-  "erteyzyl85r8nsxm4waet5vjqkltf8wwiupbjzm24chh": 1791602541.9500468,
   "cb4f3ttuckrtsjxfycvsurlyhedkdkkpcm1mewbvpump": 1791608575.4710772,
   "0xf5ccda43eddb03f9e03b9f332b79ee78da1c7777": 1791619795.2832525,
   "7536qc4les3w2gtskbhvgnjsirfuxjhkvthxsgfkpump": 1791635220.51539,
@@ -79218,12 +79217,12 @@
   "0x99c85356ad1e5933668656f09d168b002a3e705f": 1792196959.1858447
  },
  "funnel": {
-  "candidates": 470457,
-  "evaluated": 441443,
-  "fail_age": 100950,
-  "fail_liq": 317184,
-  "fail_volume": 21674,
-  "fail_flow": 1470,
+  "candidates": 471867,
+  "evaluated": 442799,
+  "fail_age": 101338,
+  "fail_liq": 318034,
+  "fail_volume": 21791,
+  "fail_flow": 1471,
   "opened": 131,
   "sim_sell_unavailable": 98,
   "liq_glitch": 77,
@@ -79235,6 +79234,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 9793,
+ "scans": 9821,
  "last_hb": 1792203501.5320995
 }
