@@ -1,5 +1,5 @@
 {
- "cash": 270.0204,
+ "cash": 285.4803,
  "pos": [
   {
    "ctx": {
@@ -34,10 +34,10 @@
    "tag": "organic",
    "h1_change": 132.0,
    "miss": 0,
-   "price_last": 2.1e-05,
-   "liq_last": 16291.88,
-   "last": 2.1e-05,
-   "last_mult": 1.486,
+   "price_last": 2.054e-05,
+   "liq_last": 16060.7,
+   "last": 2.054e-05,
+   "last_mult": 1.454,
    "path": [
     [
      1792244147,
@@ -1748,6 +1748,146 @@
      1792283849,
      2.1e-05,
      16291.88
+    ],
+    [
+     1792283868,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792283988,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284108,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284228,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284348,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284468,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284588,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284708,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284828,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792284948,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285068,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285188,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285308,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285428,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285548,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285668,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285788,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792285908,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792286028,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792286148,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792286268,
+     2.1e-05,
+     16291.88
+    ],
+    [
+     1792286388,
+     2.106e-05,
+     16334.48
+    ],
+    [
+     1792286508,
+     2.106e-05,
+     16334.48
+    ],
+    [
+     1792286628,
+     2.054e-05,
+     16060.7
+    ],
+    [
+     1792286748,
+     2.054e-05,
+     16060.7
+    ],
+    [
+     1792286868,
+     2.054e-05,
+     16060.7
+    ],
+    [
+     1792286988,
+     2.054e-05,
+     16060.7
+    ],
+    [
+     1792287108,
+     2.054e-05,
+     16060.7
     ]
    ],
    "t1_time": 1792245005.1997716,
@@ -1755,37 +1895,118 @@
   },
   {
    "ctx": {
-    "mcap": 143487.0,
+    "mcap": 145906.0,
     "age_min": 60.9,
     "launch": {
-     "launch_price": 0.00011245420061580101,
-     "first_trade_ts": 1792280160,
-     "ath": 0.00032763453509422315,
-     "low": 4.501714321671498e-05,
-     "candles": 61
+     "launch_price": 6.745690046801753e-05,
+     "first_trade_ts": 1792282800,
+     "ath": 0.00023299145019199262,
+     "low": 4.9812244750821515e-05,
+     "candles": 62
     },
     "vel": null,
     "birth": null
    },
-   "sym": "QTITS",
-   "addr": "6JVe4NQPab3NkKxE6vaKcEiJVsz8hpSZYvdHh54hpump",
+   "sym": "Catcoin",
+   "addr": "68yywen51ppvR2zWptcpvmc5H5a5SC6tsz8evAP2pump",
    "chain": "solana",
-   "pair": "5rSpYkZgWu4LAU7d4x3q7Mye5wZw6h995cZHg2cPzuvX",
-   "entry_obs": 0.0001455,
-   "fill": 0.00014995732716814174,
-   "liq_entry": 31518.35,
-   "tokens0": 132037.5627781027,
-   "tokens": 132037.5627781027,
+   "pair": "FUjuEo9knL28fnn1hgfydTkvTbyoLkXiQWkRUYh5zD7j",
+   "entry_obs": 0.0001482,
+   "fill": 0.00015273805940999984,
+   "liq_entry": 32196.6,
+   "tokens0": 129633.70149184758,
+   "tokens": 129633.70149184758,
    "proceeds": 0.0,
-   "peak": 0.0001455,
+   "peak": 0.0002426,
    "t1": false,
    "t2": false,
-   "t_open": 1792283849.9292054,
-   "opened": "2026-10-18 00:37:29",
+   "t_open": 1792286509.058658,
+   "opened": "2026-10-18 01:21:49",
    "src": "token-profiles",
    "tag": "organic",
-   "h1_change": 14.63,
-   "miss": 0
+   "h1_change": 37.1,
+   "miss": 0,
+   "price_last": 0.0002164,
+   "liq_last": 39352.98,
+   "last": 0.0002164,
+   "last_mult": 1.46,
+   "path": [
+    [
+     1792286628,
+     0.0001393,
+     31181.1
+    ],
+    [
+     1792286748,
+     0.0001866,
+     36391.77
+    ],
+    [
+     1792286868,
+     0.0001993,
+     37682.98
+    ],
+    [
+     1792286988,
+     0.0002426,
+     41767.8
+    ],
+    [
+     1792287108,
+     0.0002164,
+     39352.98
+    ]
+   ]
+  },
+  {
+   "ctx": {
+    "mcap": 203820.0,
+    "age_min": 64.6,
+    "launch": {
+     "launch_price": 0.0003207142045081576,
+     "first_trade_ts": 1792282980,
+     "ath": 0.0009028695727499015,
+     "low": 6.706149226019048e-05,
+     "candles": 64
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "HISOCIETY",
+   "addr": "Hoxw5QZavJWePbGKFjLCqnAyaXB6VZZc3FTAUfALpump",
+   "chain": "solana",
+   "pair": "Cdkpu8tyz7vSQxzCpG6n5UzCYwEKabsP5yF6dqym5bec",
+   "entry_obs": 0.0002049,
+   "fill": 0.00021115436672496118,
+   "liq_entry": 38168.25,
+   "tokens0": 93770.2606254431,
+   "tokens": 93770.2606254431,
+   "proceeds": 0.0,
+   "peak": 0.0002049,
+   "t1": false,
+   "t2": false,
+   "t_open": 1792286869.2998662,
+   "opened": "2026-10-18 01:27:49",
+   "src": "token-profiles",
+   "tag": "organic",
+   "h1_change": -32.4,
+   "miss": 0,
+   "price_last": 0.0001944,
+   "liq_last": 37176.04,
+   "last": 0.0001944,
+   "last_mult": 0.949,
+   "path": [
+    [
+     1792286988,
+     0.0001626,
+     33798.91
+    ],
+    [
+     1792287108,
+     0.0001944,
+     37176.04
+    ]
+   ]
   }
  ],
  "closed": [
@@ -81473,10 +81694,105 @@
    "closed": "2026-10-18 00:33:29",
    "pnl": -0.21,
    "mult_net": 0.99
+  },
+  {
+   "ctx": {
+    "mcap": 143487.0,
+    "age_min": 60.9,
+    "launch": {
+     "launch_price": 0.00011245420061580101,
+     "first_trade_ts": 1792280160,
+     "ath": 0.00032763453509422315,
+     "low": 4.501714321671498e-05,
+     "candles": 61
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "QTITS",
+   "addr": "6JVe4NQPab3NkKxE6vaKcEiJVsz8hpSZYvdHh54hpump",
+   "chain": "solana",
+   "pair": "5rSpYkZgWu4LAU7d4x3q7Mye5wZw6h995cZHg2cPzuvX",
+   "entry_obs": 0.0001455,
+   "fill": 0.00014995732716814174,
+   "liq_entry": 31518.35,
+   "tokens0": 132037.5627781027,
+   "tokens": 0.0,
+   "proceeds": 55.4598927219347,
+   "peak": 0.0005886,
+   "t1": true,
+   "t2": true,
+   "t_open": 1792283849.9292054,
+   "opened": "2026-10-18 00:37:29",
+   "src": "token-profiles",
+   "tag": "organic",
+   "h1_change": 14.63,
+   "miss": 0,
+   "price_last": 0.0005162,
+   "liq_last": 61252.83,
+   "last": 0.0005162,
+   "last_mult": 3.548,
+   "path": [
+    [
+     1792283868,
+     0.000157,
+     32801.47
+    ],
+    [
+     1792283988,
+     0.0001993,
+     37196.95
+    ],
+    [
+     1792284108,
+     0.0002402,
+     41038.24
+    ],
+    [
+     1792284228,
+     0.0003534,
+     50172.97
+    ],
+    [
+     1792284348,
+     0.0004049,
+     53862.29
+    ],
+    [
+     1792284468,
+     0.0003718,
+     51562.57
+    ],
+    [
+     1792284588,
+     0.0004767,
+     58702.47
+    ],
+    [
+     1792284708,
+     0.0005576,
+     63654.06
+    ],
+    [
+     1792284828,
+     0.0005886,
+     65481.56
+    ],
+    [
+     1792284948,
+     0.0005162,
+     61252.83
+    ]
+   ],
+   "t1_time": 1792284228.7702134,
+   "obs_sold": 60.27778815945945,
+   "reason": "trail",
+   "closed": "2026-10-18 00:55:48",
+   "pnl": 35.46,
+   "mult_net": 2.773
   }
  ],
  "seen": {
-  "ayi9zdqcriypu77b9hjatax32at1apmamukvypehpump": 1791679729.716706,
   "8qpb7abjrujbtsuupmr4kfqrhaqdmyy4x6drr3zqpump": 1791690815.963839,
   "hdfgyxpbp66vy5zyfgrbhgj1ucx8fdduxv8ndfm6pump": 1791721329.0052783,
   "8yebtpv58fh6tnzuaihmk1lixsgc1jsn7dayboirpump": 1791729879.4395509,
@@ -81548,17 +81864,19 @@
   "3m2rtqfcqqbtdilwwxsxnq6fwcp6r3dchq5xfwjipump": 1792274332.0950274,
   "gtwtp5hhxwxhe21nqkkhp1atdh9feagvq2n9dhfgpump": 1792278191.4846003,
   "dekyazbndrddsc9hdqyn3nyybz6otrjg9p57qup8pump": 1792279391.529851,
-  "6jve4nqpab3nkkxe6vakceijvsz8hpszyvdhh54hpump": 1792283849.7394004
+  "6jve4nqpab3nkkxe6vakceijvsz8hpszyvdhh54hpump": 1792283849.7394004,
+  "68yywen51ppvr2zwptcpvmc5h5a5sc6tsz8evap2pump": 1792286508.9193795,
+  "hoxw5qzavjwepbgkfjlcqnayaxb6vzzc3ftaufalpump": 1792286868.997045
  },
  "funnel": {
-  "candidates": 502050,
-  "evaluated": 471738,
-  "fail_age": 108857,
-  "fail_liq": 337767,
-  "fail_volume": 23400,
-  "fail_flow": 1541,
-  "opened": 139,
-  "sim_sell_unavailable": 105,
+  "candidates": 503449,
+  "evaluated": 473080,
+  "fail_age": 109249,
+  "fail_liq": 338566,
+  "fail_volume": 23545,
+  "fail_flow": 1545,
+  "opened": 141,
+  "sim_sell_unavailable": 107,
   "liq_glitch": 77,
   "fail_mcap": 34
  },
@@ -81568,6 +81886,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 10465,
+ "scans": 10493,
  "last_hb": 1792279511.7753766
 }
