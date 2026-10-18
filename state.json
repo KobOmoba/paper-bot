@@ -1,5 +1,5 @@
 {
- "cash": 34.52,
+ "cash": 34.09,
  "open": [
   {
    "id": "562831",
@@ -30,6 +30,18 @@
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
    "mark": 0.971
+  },
+  {
+   "id": "5610598",
+   "q": "Will the price of Bitcoin be above $80,000 on October 19?",
+   "side": "NO",
+   "price": 0.08,
+   "cost": 0.43,
+   "shares": 5.437,
+   "ev": "1177747",
+   "fair": 0.123,
+   "src": "btc-model",
+   "opened": "2026-10-18 23:52:05"
   }
  ],
  "closed": [
@@ -513,18 +525,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-18 12:07:29",
-   "q": "Will the price of Bitcoin be above $84,000 on October 18?",
-   "model": 0.0073,
-   "mkt": 0.0025
-  },
-  {
-   "t": "2026-10-18 12:32:32",
-   "q": "Will the price of Bitcoin be above $80,000 on October 18?",
-   "model": 0.9931,
-   "mkt": 0.9965
-  },
-  {
    "t": "2026-10-18 12:32:32",
    "q": "Will the price of Bitcoin be above $84,000 on October 18?",
    "model": 0.0032,
@@ -691,6 +691,18 @@
    "q": "Will the price of Bitcoin be above $80,000 on October 19?",
    "model": 0.8634,
    "mkt": 0.905
+  },
+  {
+   "t": "2026-10-18 23:52:05",
+   "q": "Will the price of Bitcoin be above $80,000 on October 19?",
+   "model": 0.877,
+   "mkt": 0.93
+  },
+  {
+   "t": "2026-10-18 23:52:05",
+   "q": "Will the price of Bitcoin be above $84,000 on October 19?",
+   "model": 0.1073,
+   "mkt": 0.0735
   }
  ],
  "fc": {
@@ -700,6 +712,13 @@
    "mkt": 0.885,
    "end": "2026-10-19T16:00:00Z",
    "t": "2026-10-18 23:01:40"
+  },
+  "5610602": {
+   "q": "Will the price of Bitcoin be above $84,000 on October 19?",
+   "model": 0.1073,
+   "mkt": 0.0735,
+   "end": "2026-10-19T16:00:00Z",
+   "t": "2026-10-18 23:52:05"
   }
  },
  "scores": [
