@@ -1,6 +1,52 @@
 {
- "cash": 210.9317,
- "pos": [],
+ "cash": 190.9317,
+ "pos": [
+  {
+   "ctx": {
+    "mcap": 147484.0,
+    "age_min": 60.8,
+    "launch": {
+     "launch_price": 5.524863403085585e-05,
+     "first_trade_ts": 1792521240,
+     "ath": 0.0005026282157847449,
+     "low": 5.13547553089504e-05,
+     "candles": 62
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "DACITY",
+   "addr": "F6Kw7crAAXQp4hjXVSe8ZuyvnaLyjvJDVBpcxGUFpump",
+   "chain": "solana",
+   "pair": "zWy8MjPNR9j5MTtRCY7VDiGsKsLEvty1nvFC5e9WZ2B",
+   "entry_obs": 0.0001483,
+   "fill": 0.000152839450710462,
+   "liq_entry": 32791.34,
+   "tokens0": 129547.70452236828,
+   "tokens": 129547.70452236828,
+   "proceeds": 0.0,
+   "peak": 0.0001483,
+   "t1": false,
+   "t2": false,
+   "t_open": 1792524944.1546288,
+   "opened": "2026-10-20 19:35:44",
+   "src": "token-profiles",
+   "tag": "organic",
+   "h1_change": -54.26,
+   "miss": 0,
+   "price_last": 0.0001289,
+   "liq_last": 30481.76,
+   "last": 0.0001289,
+   "last_mult": 0.869,
+   "path": [
+    [
+     1792525063,
+     0.0001289,
+     30481.76
+    ]
+   ]
+  }
+ ],
  "closed": [
   {
    "ctx": {
@@ -90019,17 +90065,18 @@
   "ajhu1jdt7m6tr3gcu4zqq37ez8h65jbbaszjfb27pump": 1792468656.1065404,
   "9ce7umbhsffvp22ho1ijezgz1xj47e72auw52b9brnwa": 1792471313.769993,
   "5yy5qcnh5f3jaaybxqr5wlvb2gxzce34gge7dpyzpump": 1792474691.5382323,
-  "6gxn9n4ygwstzhheabzpkpfwqzfps9abqmhewe5vpump": 1792521204.2541525
+  "6gxn9n4ygwstzhheabzpkpfwqzfps9abqmhewe5vpump": 1792521204.2541525,
+  "f6kw7craaxqp4hjxvse8zuyvnalyjvjdvbpcxgufpump": 1792524943.8810964
  },
  "funnel": {
-  "candidates": 600542,
-  "evaluated": 564556,
-  "fail_age": 128330,
-  "fail_liq": 405744,
-  "fail_volume": 28507,
+  "candidates": 601823,
+  "evaluated": 565761,
+  "fail_age": 128553,
+  "fail_liq": 406674,
+  "fail_volume": 28558,
   "fail_flow": 1754,
-  "opened": 162,
-  "sim_sell_unavailable": 127,
+  "opened": 163,
+  "sim_sell_unavailable": 128,
   "liq_glitch": 78,
   "fail_mcap": 59
  },
@@ -90039,6 +90086,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 12509,
+ "scans": 12537,
  "last_hb": 1792518541.7304242
 }
