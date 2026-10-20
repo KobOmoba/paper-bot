@@ -1,5 +1,5 @@
 {
- "cash": 190.6421,
+ "cash": 170.7078,
  "pos": [],
  "closed": [
   {
@@ -90441,12 +90441,124 @@
    "closed": "2026-10-20 20:54:27",
    "pnl": -7.53,
    "mult_net": 0.623
+  },
+  {
+   "ctx": {
+    "mcap": 196135.0,
+    "age_min": 63.5,
+    "launch": {
+     "launch_price": 5.279918883278631e-05,
+     "first_trade_ts": 1792532100,
+     "ath": 0.0003467386691236194,
+     "low": 4.680155061585219e-05,
+     "candles": 62
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "air",
+   "addr": "ECARsqfGxEQbsLhkJugMh1pQrDzM9iBMgtg22uNCpump",
+   "chain": "solana",
+   "pair": "DciCY13q6MskSSt1mwMZCZd5hs8gaLqmqDWuXRA1xRhk",
+   "entry_obs": 0.0002025,
+   "fill": 0.00020867910708892158,
+   "liq_entry": 38902.25,
+   "tokens0": 94882.52214709208,
+   "tokens": 0.0,
+   "proceeds": 0.06569665833464657,
+   "peak": 0.0003695,
+   "t1": false,
+   "t2": false,
+   "t_open": 1792535947.5903268,
+   "opened": "2026-10-20 22:39:07",
+   "src": "token-profiles",
+   "tag": "organic",
+   "h1_change": 255.0,
+   "miss": 0,
+   "price_last": 2.308e-06,
+   "liq_last": 3334.71,
+   "last": 2.308e-06,
+   "last_mult": 0.011,
+   "path": [
+    [
+     1792536067,
+     0.0002125,
+     39203.61
+    ],
+    [
+     1792536187,
+     0.0001686,
+     34880.97
+    ],
+    [
+     1792536307,
+     0.0001571,
+     33707.47
+    ],
+    [
+     1792536427,
+     0.0002706,
+     44852.29
+    ],
+    [
+     1792536547,
+     0.0003117,
+     48354.63
+    ],
+    [
+     1792536667,
+     0.0002633,
+     44486.09
+    ],
+    [
+     1792536787,
+     0.0002793,
+     46023.03
+    ],
+    [
+     1792536907,
+     0.0002926,
+     46477.78
+    ],
+    [
+     1792537027,
+     0.0003387,
+     50232.89
+    ],
+    [
+     1792537147,
+     0.0003695,
+     52684.46
+    ],
+    [
+     1792537267,
+     0.0003622,
+     52390.29
+    ],
+    [
+     1792537387,
+     0.0001927,
+     38049.09
+    ],
+    [
+     1792537507,
+     0.0001566,
+     34322.62
+    ],
+    [
+     1792537627,
+     2.308e-06,
+     3334.71
+    ]
+   ],
+   "obs_sold": 0.21898886111548854,
+   "reason": "rug-liquidity-collapse",
+   "closed": "2026-10-20 23:07:07",
+   "pnl": -19.93,
+   "mult_net": 0.003
   }
  ],
  "seen": {
-  "hhzb1zqfmjk1numqaafixbewz1zri98xtvg1de6epump": 1791930301.3340542,
-  "dxnkb7w6f2es1nfjh8er1meor3apjzqkka6sspzfpump": 1791931861.4318762,
-  "0x83c48939821a8b5dd8bfc565028ade526cb3bcf9": 1791933081.2541025,
   "e5468cxrwdaiu1pyf5pq3cyeczhmjqqqzixsyrmxpump": 1791939720.5266712,
   "0xcc54d403bc9c4de1c8b727eada9188a09a487777": 1791942857.1324337,
   "ebsqwayzsxjjkbxbkvqivwhhk7ubdevv6nzjvwg7pump": 1791947915.154168,
@@ -90511,17 +90623,18 @@
   "6gxn9n4ygwstzhheabzpkpfwqzfps9abqmhewe5vpump": 1792521204.2541525,
   "f6kw7craaxqp4hjxvse8zuyvnalyjvjdvbpcxgufpump": 1792524943.8810964,
   "93iqi7jsbc5jbnwjnzqs7nqfwaealzpxmpylvnvspump": 1792526524.8792315,
-  "9szq2ouyxalcmbgd3isx9rtaxbwddpv6b3fk8tovpump": 1792527005.0035508
+  "9szq2ouyxalcmbgd3isx9rtaxbwddpv6b3fk8tovpump": 1792527005.0035508,
+  "ecarsqfgxeqbslhkjugmh1pqrdzm9ibmgtg22uncpump": 1792535947.298843
  },
  "funnel": {
-  "candidates": 605545,
-  "evaluated": 569307,
-  "fail_age": 129206,
-  "fail_liq": 409342,
-  "fail_volume": 28776,
+  "candidates": 606860,
+  "evaluated": 570599,
+  "fail_age": 129436,
+  "fail_liq": 410376,
+  "fail_volume": 28803,
   "fail_flow": 1759,
-  "opened": 165,
-  "sim_sell_unavailable": 130,
+  "opened": 166,
+  "sim_sell_unavailable": 131,
   "liq_glitch": 78,
   "fail_mcap": 59
  },
@@ -90531,6 +90644,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 12621,
+ "scans": 12649,
  "last_hb": 1792529427.8336608
 }
