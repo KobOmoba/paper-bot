@@ -19,7 +19,7 @@
    "cost": 3.0,
    "shares": 3.245,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.882
+   "mark": 0.883
   },
   {
    "id": "3758964",
@@ -29,7 +29,7 @@
    "cost": 3.0,
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.979
+   "mark": 0.977
   }
  ],
  "closed": [
@@ -545,30 +545,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-20 08:38:58",
-   "q": "Will the price of Bitcoin be above $86,000 on October 20?",
-   "model": 0.0,
-   "mkt": 0.0025
-  },
-  {
-   "t": "2026-10-20 08:38:58",
-   "q": "Will the price of Bitcoin be above $84,000 on October 20?",
-   "model": 0.0045,
-   "mkt": 0.0215
-  },
-  {
-   "t": "2026-10-20 08:38:58",
-   "q": "Will the price of Bitcoin be above $80,000 on October 20?",
-   "model": 0.9416,
-   "mkt": 0.9525
-  },
-  {
-   "t": "2026-10-20 09:04:01",
-   "q": "Will the price of Bitcoin be above $86,000 on October 20?",
-   "model": 0.0,
-   "mkt": 0.0025
-  },
-  {
    "t": "2026-10-20 09:04:01",
    "q": "Will the price of Bitcoin be above $84,000 on October 20?",
    "model": 0.0026,
@@ -723,6 +699,30 @@
    "q": "Will the price of Bitcoin be above $80,000 on October 20?",
    "model": 0.9739,
    "mkt": 0.964
+  },
+  {
+   "t": "2026-10-20 11:35:19",
+   "q": "Will the price of Bitcoin be above $86,000 on October 20?",
+   "model": 0.0,
+   "mkt": 0.0015
+  },
+  {
+   "t": "2026-10-20 11:35:19",
+   "q": "Will the price of Bitcoin be above $80,000 on October 20?",
+   "model": 0.9675,
+   "mkt": 0.9505
+  },
+  {
+   "t": "2026-10-20 11:35:19",
+   "q": "Will the price of Bitcoin be above $84,000 on October 20?",
+   "model": 0.0002,
+   "mkt": 0.0085
+  },
+  {
+   "t": "2026-10-20 11:35:19",
+   "q": "Will the price of Bitcoin be above $78,000 on October 20?",
+   "model": 1.0,
+   "mkt": 0.9965
   }
  ],
  "fc": {
@@ -746,6 +746,13 @@
    "mkt": 0.9525,
    "end": "2026-10-20T16:00:00Z",
    "t": "2026-10-20 08:38:41"
+  },
+  "5653786": {
+   "q": "Will the price of Bitcoin be above $78,000 on October 20?",
+   "model": 1.0,
+   "mkt": 0.9965,
+   "end": "2026-10-20T16:00:00Z",
+   "t": "2026-10-20 11:35:19"
   }
  },
  "scores": [
