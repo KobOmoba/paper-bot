@@ -90627,12 +90627,12 @@
   "ecarsqfgxeqbslhkjugmh1pqrdzm9ibmgtg22uncpump": 1792535947.298843
  },
  "funnel": {
-  "candidates": 606860,
-  "evaluated": 570599,
-  "fail_age": 129436,
-  "fail_liq": 410376,
-  "fail_volume": 28803,
-  "fail_flow": 1759,
+  "candidates": 608168,
+  "evaluated": 571862,
+  "fail_age": 129657,
+  "fail_liq": 411385,
+  "fail_volume": 28834,
+  "fail_flow": 1761,
   "opened": 166,
   "sim_sell_unavailable": 131,
   "liq_glitch": 78,
@@ -90644,6 +90644,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 12649,
- "last_hb": 1792529427.8336608
+ "scans": 12677,
+ "last_hb": 1792540287.6368039
 }
