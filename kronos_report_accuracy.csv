@@ -1,4 +1,4 @@
 basket,n_matured,distinct_dates,kronos_direction_hit_rate,hit_ci_low,hit_ci_high,share_of_up_outcomes_always_up_hit_rate,n_signals,mean_ret_when_signal
-ALL,7,1,0.571,0.25,0.842,0.286,4,0.00258
+ALL,14,2,0.5,0.268,0.732,0.286,9,-0.00426
 CRYPTO,0,0,,,,,0,
-EQUITY,3,1,0.333,0.061,0.792,0.0,1,-0.02884
+EQUITY,6,2,0.333,0.097,0.7,0.0,2,-0.02647
