@@ -9,7 +9,7 @@
    "cost": 3.0,
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.915
+   "mark": 0.925
   },
   {
    "id": "679022",
@@ -42,7 +42,7 @@
    "fair": 0.54,
    "src": "btc-model",
    "opened": "2026-10-22 08:31:39",
-   "mark": 0.914
+   "mark": 0.945
   }
  ],
  "closed": [
@@ -558,36 +558,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-22 13:59:47",
-   "q": "Will the price of Bitcoin be above $78,000 on October 22?",
-   "model": 1.0,
-   "mkt": 0.9965
-  },
-  {
-   "t": "2026-10-22 13:59:47",
-   "q": "Will the price of Bitcoin be above $86,000 on October 22?",
-   "model": 0.0,
-   "mkt": 0.0005
-  },
-  {
-   "t": "2026-10-22 13:59:47",
-   "q": "Will the price of Bitcoin be above $82,000 on October 22?",
-   "model": 0.2,
-   "mkt": 0.171
-  },
-  {
-   "t": "2026-10-22 13:59:47",
-   "q": "Will the price of Bitcoin be above $76,000 on October 22?",
-   "model": 1.0,
-   "mkt": 0.9995
-  },
-  {
-   "t": "2026-10-22 14:24:50",
-   "q": "Will the price of Bitcoin be above $84,000 on October 22?",
-   "model": 0.0,
-   "mkt": 0.007
-  },
-  {
    "t": "2026-10-22 14:24:50",
    "q": "Will the price of Bitcoin be above $80,000 on October 22?",
    "model": 1.0,
@@ -736,6 +706,36 @@
    "q": "Will the price of Bitcoin be above $82,000 on October 22?",
    "model": 0.0016,
    "mkt": 0.063
+  },
+  {
+   "t": "2026-10-22 15:40:45",
+   "q": "Will the price of Bitcoin be above $84,000 on October 22?",
+   "model": 0.0,
+   "mkt": 0.0005
+  },
+  {
+   "t": "2026-10-22 15:40:45",
+   "q": "Will the price of Bitcoin be above $80,000 on October 22?",
+   "model": 1.0,
+   "mkt": 0.999
+  },
+  {
+   "t": "2026-10-22 15:40:45",
+   "q": "Will the price of Bitcoin be above $78,000 on October 22?",
+   "model": 1.0,
+   "mkt": 0.9995
+  },
+  {
+   "t": "2026-10-22 15:40:45",
+   "q": "Will the price of Bitcoin be above $86,000 on October 22?",
+   "model": 0.0,
+   "mkt": 0.0005
+  },
+  {
+   "t": "2026-10-22 15:40:45",
+   "q": "Will the price of Bitcoin be above $82,000 on October 22?",
+   "model": 0.0004,
+   "mkt": 0.0535
   }
  ],
  "fc": {
