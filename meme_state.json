@@ -1,5 +1,5 @@
 {
- "cash": 57.6825,
+ "cash": 37.8051,
  "pos": [],
  "closed": [
   {
@@ -105563,11 +105563,74 @@
    "closed": "2026-10-23 15:02:59",
    "pnl": 33.1,
    "mult_net": 2.655
+  },
+  {
+   "ctx": {
+    "mcap": 131908.0,
+    "age_min": 60.3,
+    "launch": {
+     "launch_price": 4.7331032984723945e-05,
+     "first_trade_ts": 1792774500,
+     "ath": 0.0001358926572519977,
+     "low": 4.374172555408413e-05,
+     "candles": 61
+    },
+    "vel": null,
+    "birth": null
+   },
+   "sym": "BULLCHI",
+   "addr": "BqVngDCWkrdnahmcG7ZbBQzXCqsnNDbHRGgL9NThpump",
+   "chain": "solana",
+   "pair": "G42GHpTavPk5hHopdAqtsidK2xX2TUGyP44CFCcJXYti",
+   "entry_obs": 0.0001359,
+   "fill": 0.00014006797959720607,
+   "liq_entry": 29874.83,
+   "tokens0": 141359.931491401,
+   "tokens": 0.0,
+   "proceeds": 0.12260146858249206,
+   "peak": 0.0001381,
+   "t1": false,
+   "t2": false,
+   "t_open": 1792778162.450744,
+   "opened": "2026-10-23 17:56:02",
+   "src": "token-profiles",
+   "tag": "organic",
+   "h1_change": 162.0,
+   "miss": 0,
+   "price_last": 2.891e-06,
+   "liq_last": 2830.73,
+   "last": 2.891e-06,
+   "last_mult": 0.021,
+   "path": [
+    [
+     1792778282,
+     0.0001379,
+     30110.93
+    ],
+    [
+     1792778402,
+     0.0001381,
+     30144.38
+    ],
+    [
+     1792778522,
+     0.0001357,
+     29870.7
+    ],
+    [
+     1792778642,
+     2.891e-06,
+     2830.73
+    ]
+   ],
+   "obs_sold": 0.4086715619416402,
+   "reason": "rug-liquidity-collapse",
+   "closed": "2026-10-23 18:04:02",
+   "pnl": -19.88,
+   "mult_net": 0.006
   }
  ],
  "seen": {
-  "6lhjx2ngdpghj3pkoyp4txkztrptfpbg5d4p1dhnpump": 1792172567.1952233,
-  "2aqkywra1szrpvz5nottuvs3csgtxjeysc9qry9wpump": 1792173548.8646338,
   "0x9b6a2c3e00f4baabf2313217f5bfeaae4e5c7a72": 1792182106.1737316,
   "cfgjgbwnypzdeusj9kad5aocibwfprq13kdvqyz4pump": 1792184045.3924308,
   "0x99c85356ad1e5933668656f09d168b002a3e705f": 1792196959.1858447,
@@ -105634,17 +105697,18 @@
   "edel3przvgtjuf3qeoc8eehsyy7qcwudx2vqil5hpump": 1792694921.908786,
   "fzpuhqk5wgwb4j632gbo6tazdeow7uipfs4vnqzgpump": 1792723304.8142266,
   "fhmsg9kbbaqzhbukybn8axs4p3ctprpxw6prkba4pump": 1792752305.4981015,
-  "2jsj9dzlqwai3q1dhyjcpf5gveg81hbtry8eem3fpump": 1792758950.7115238
+  "2jsj9dzlqwai3q1dhyjcpf5gveg81hbtry8eem3fpump": 1792758950.7115238,
+  "bqvngdcwkrdnahmcg7zbbqzxcqsnndbhrggl9nthpump": 1792778162.3738835
  },
  "funnel": {
-  "candidates": 702481,
-  "evaluated": 658724,
-  "fail_age": 145437,
-  "fail_liq": 468098,
-  "fail_volume": 32751,
-  "fail_flow": 1954,
-  "opened": 195,
-  "sim_sell_unavailable": 157,
+  "candidates": 703745,
+  "evaluated": 659926,
+  "fail_age": 145692,
+  "fail_liq": 469014,
+  "fail_volume": 32768,
+  "fail_flow": 1967,
+  "opened": 196,
+  "sim_sell_unavailable": 158,
   "liq_glitch": 819,
   "fail_mcap": 60,
   "no_slot": 10229
@@ -105655,6 +105719,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 14693,
- "last_hb": 1792768619.7124188
+ "scans": 14721,
+ "last_hb": 1792779482.2019355
 }
