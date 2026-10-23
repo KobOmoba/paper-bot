@@ -142,3 +142,23 @@ Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
 - Write-up arithmetic errors found (tier cash amounts and scenario B/C P&L); logic unchanged.
 - V7 reports: Telegram summary at the end of each ~55 min job. First closed positions only after 12 h or a rug/trailing stop.
 - Still running: Polymarket bot, NGX bot, tokenized-stock tracker, V7.
+
+## Update 2026-10-23 (from Bayo's Aari session): fake meme profits fixed, files kept under 100 MB
+- ACCEL showed cash $2.1 billion. Cause: after a rug DexScreener reports liquidity 0 with absurd prices (up to 167,000x) and
+  `sell()` priced sales at that quote with impact = stake / ENTRY liquidity, so paper sales into drained pools booked fortunes
+  (DOPE: $20 -> $1.17 billion into a pool holding $0.11). In 6,532 ACCEL trades, 1,685 saw liquidity 0 and only 92 ever recovered.
+- Fix (meme_scanner.py, PRICING "amm-2"): `amm_out()` prices every sale against a constant-product pool (half the liquidity
+  per side) using THIS scan's raw liquidity (`pool_liq`; 0 = empty pool). The rug test still uses the last non-zero reading.
+  `migrate_pricing()` runs once on load: replays each trade's recorded path with the same tier rules (`rescore`), open positions
+  included, then rebuilds cash = BANK - STAKE x trades + all proceeds (this identity held exactly before). Old figures kept as
+  `proceeds_old` / `mult_net_old`. grad_scanner.py `sell()` got the same pool model (forward only, no re-score; GRAD had no outliers).
+- Honest ACCEL result after the fix (local run on 23 Oct data): 6,533 closed, avg 0.68x, median 0.55x, win 20%, P&L about
+  -$41,900 on ~$131,700 staked; equity about -$30,400 (ACCEL never checks cash). Only pocket above 1x: tag ramp-bigliq
+  (564 trades, median 1.11x, avg 1.10x) - unproven, those are the "scripted ramp" big pools. V5-1 cash goes to about -$58,
+  so V5 stops opening trades (cash < stake) until Bayo decides to reset its bank.
+- Size: meme_tracks.jsonl was 68.7 MB and meme_accel_state.json 58.7 MB, both growing ~3 MB/day (GitHub refuses >100 MB).
+  Now: state saved compact (no indent); closed trades older than 3 days move in full to archive/<state>/<close date>.jsonl.gz
+  (append-only) with a slim record left in state; tracks older than 2 days rotate daily into archive/meme_tracks/<date>.jsonl.gz.
+  Local result: state 11 MB, tracks 6 MB. meme.yml and meme_accel.yml now `git add archive`. replay.py also reads the archives.
+- Not fixed: the repo's git history already holds hundreds of copies of the big files (clone is slow); rewriting history would
+  need all bots paused - not done.

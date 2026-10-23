@@ -17,7 +17,7 @@ ACCEL MODE (MEME_MODE=accel, own state file, runs alongside V5-1 to compare): So
   (needs holder data we do not have). Tokens need two scans before they can qualify. Candidates come only from DexScreener's
   latest-profiles/boosts lists, so fresh tokens without a profile or boost are never seen.
 CAN'T DO: block-0 sniping or sub-minute reactions; this sees tokens only after they are listed."""
-import json, os, time, traceback, urllib.parse, urllib.request
+import gzip, json, os, time, traceback, urllib.parse, urllib.request
 
 API = "https://api.dexscreener.com"
 UA = {"User-Agent": "Mozilla/5.0 (compatible; meme-paper-scanner; educational)", "Accept": "application/json"}
@@ -99,6 +99,7 @@ def load():
     for x in s["pos"] + s["closed"]:                      # tag-only: also labels history; changes no trading behaviour
         if "tag" not in x:
             x["tag"] = tag_of(x.get("liq_entry"))
+    migrate_pricing(s)
     return s
 
 
@@ -109,16 +110,36 @@ def best_pair(pairs, addr=None):
     return max(pairs, key=lambda p: f((p.get("liquidity") or {}).get("usd")), default=None)
 
 
+PRICING = "amm-2"   # 2026-10-23: sales priced against the pool's real money (see amm_out); older trades re-scored once on load
+
+
+def amm_out(value, liq):
+    """USD received for selling `value` USD worth (at the quoted price) into a constant-product pool holding `liq` USD in total
+    (half on each side): value * R / (R + value), R = liq / 2. A sale can never return more than the pool's USD side.
+    Fix of 2026-10-23: after a rug the pool is drained, DexScreener then quotes absurd prices (e.g. 58 million x) and the old
+    formula (impact = stake / entry liquidity) booked those as real sales, e.g. $20 -> $1.17 billion into a pool holding $0.11."""
+    r = max(liq or 0.0, 0.0) / 2
+    return value * r / (r + value) if r > 0 and value > 0 else 0.0
+
+
+def sale_value(value, liq, rug=False):
+    if rug:
+        return min(value * RUG_PAYOUT, amm_out(value, liq))
+    return amm_out(value * (1 - SLIP_OUT), liq) * (1 - FEE)
+
+
+def pool_liq(pos):
+    """Liquidity to sell into: this scan's raw reading. A reading of 0 counts as an EMPTY pool, not a missing figure: in 6,532
+    ACCEL trades, 1,685 saw liquidity 0 and only 92 ever showed liquidity again; prices quoted at 0 liquidity were garbage
+    (up to 167,000x). manage() still keeps the last non-zero reading for its rug test."""
+    return pos.get("liq_now", pos.get("liq_last") or pos["liq_entry"])
+
+
 def sell(pos, tokens, price, s, why, rug=False):
     tokens = min(tokens, pos["tokens"])
     if tokens <= 0:
         return 0.0
-    impact = STAKE / max(pos["liq_entry"], 1.0)
-    if rug:
-        got = tokens * price * RUG_PAYOUT
-    else:
-        got = tokens * price * (1 - SLIP_OUT - impact) * (1 - FEE)
-    got = max(got, 0.0)
+    got = max(sale_value(tokens * price, pool_liq(pos), rug), 0.0)
     pos["tokens"] -= tokens
     pos["proceeds"] += got
     pos["obs_sold"] = pos.get("obs_sold", 0.0) + tokens * price
@@ -134,6 +155,120 @@ def close_out(s, pos, why):
     s["pos"].remove(pos)
     tg(f"MEME PAPER CLOSE {pos['sym']} ({why}) | in ${STAKE:.0f} -> out ${pos['proceeds']:.2f} ({(pos['mult_net']-1)*100:+.0f}%) "
        f"| held {(time.time()-pos['t_open'])/3600:.1f}h")
+
+
+def rescore(t, final=True):
+    """Re-price a closed trade's sales with sale_value(), replaying its recorded path ([time, price, liquidity] per scan) with the
+    same tier rules. Returns new proceeds, or None when there is no path to replay (the old figure is then kept)."""
+    path = t.get("path") or []
+    if not path or not t.get("tokens0") or not t.get("entry_obs"):
+        return None
+    e, tok0 = t["entry_obs"], t["tokens0"]
+    left, got, liq, did1, did2 = tok0, 0.0, t["liq_entry"], False, False
+    for _, price, L in path:
+        liq = L                                        # raw reading, 0 = empty pool (see pool_liq)
+        m = price / e
+        if t.get("t1") and not did1 and m >= T1:
+            got += sale_value(tok0 * F_T1 * price, liq); left -= tok0 * F_T1; did1 = True
+        if t.get("t2") and did1 and not did2 and m >= T2:
+            got += sale_value(tok0 * F_T2 * price, liq); left -= tok0 * F_T2; did2 = True
+    if t.get("t1") and not did1:                       # path was cut to its last 700 points: assume the 2x sale at exactly 2x
+        got += sale_value(tok0 * F_T1 * e * T1, t["liq_entry"]); left -= tok0 * F_T1
+    if t.get("t2") and not did2:
+        got += sale_value(tok0 * F_T2 * e * T2, t["liq_entry"]); left -= tok0 * F_T2
+    if final and t.get("reason") != "vanished" and left > 0:
+        got += sale_value(left * path[-1][1], liq, rug=t.get("reason", "").startswith("rug"))
+    return got
+
+
+def migrate_pricing(s):
+    if s.get("pricing") == PRICING:
+        return
+    old_total, new_total, n = 0.0, 0.0, 0
+    for t in s["closed"] + s["pos"]:                  # open positions: re-price the 2x/4x sales already made
+        is_open = t in s["pos"]
+        new = rescore(t, final=not is_open)
+        if new is None or (is_open and not t.get("proceeds")):
+            continue
+        old_total += t["proceeds"]; new_total += new; n += 1
+        t["proceeds_old"], t["proceeds"] = t["proceeds"], new
+        if not is_open:
+            t["mult_net_old"] = t.get("mult_net")
+            t["pnl"], t["mult_net"] = round(new - STAKE, 2), round(new / STAKE, 3)
+    # cash = start - every stake paid + everything received (this identity held exactly before the fix)
+    s["cash"] = BANK - STAKE * (len(s["closed"]) + len(s["pos"])) + sum(t["proceeds"] for t in s["closed"] + s["pos"])
+    s["pricing"] = PRICING
+    s["pricing_note"] = (f"{time.strftime('%F')}: {n} trades re-scored with pool-limited sale prices; "
+                         f"proceeds ${old_total:,.2f} -> ${new_total:,.2f}")
+    print(s["pricing_note"])
+    tg(f"Meme paper results corrected: sales are now limited by the money actually in the pool. "
+       f"{n} past trades re-scored: total paid out ${old_total:,.0f} -> ${new_total:,.0f}. Cash now ${s['cash']:,.2f}.")
+
+
+ARCHIVE_DIR = "archive"
+KEEP_DAYS = 3        # closed trades keep their full price path in the state file this long, then move to a daily archive file
+SLIM_KEYS = ("sym", "addr", "chain", "opened", "closed", "reason", "tag", "t1", "t2", "liq_entry", "liq_last", "obs_sold",
+             "proceeds", "pnl", "mult_net", "proceeds_old", "mult_net_old")
+
+
+def archive_closed(s):
+    """Keep the state file small (GitHub refuses files over 100 MB): closed trades older than KEEP_DAYS are written in full to
+    archive/<state name>/<close date>.jsonl.gz (append-only, one file per day) and only a slim record stays in the state."""
+    cutoff = time.strftime("%F", time.gmtime(time.time() - KEEP_DAYS * 86400))
+    by_day = {}
+    for t in s["closed"]:
+        if not t.get("archived") and str(t.get("closed", ""))[:10] < cutoff:
+            by_day.setdefault(str(t.get("closed", ""))[:10] or "unknown", []).append(t)
+    if not by_day:
+        return
+    d = os.path.join(ARCHIVE_DIR, os.path.splitext(os.path.basename(STATE))[0])
+    os.makedirs(d, exist_ok=True)
+    for day, ts in by_day.items():
+        with gzip.open(os.path.join(d, day + ".jsonl.gz"), "at") as fh:
+            for t in ts:
+                fh.write(json.dumps(t, separators=(",", ":")) + "\n")
+    for i, t in enumerate(s["closed"]):
+        if not t.get("archived") and str(t.get("closed", ""))[:10] < cutoff:
+            slim = {k: t[k] for k in SLIM_KEYS if k in t}
+            feats = (t.get("ctx") or {}).get("feats")
+            if feats:
+                slim["ctx"] = {"feats": feats}
+            slim["archived"] = True
+            s["closed"][i] = slim
+
+
+TRACK_KEEP_DAYS = 2
+
+
+def rotate_tracks(s):
+    """Once a day: move research tracks older than TRACK_KEEP_DAYS from meme_tracks.jsonl into
+    archive/meme_tracks/<created date>.jsonl.gz (append-only), so the plain file stays small."""
+    today = time.strftime("%F", time.gmtime())
+    if s.get("tracks_rotated") == today or not os.path.exists(TRACKS):
+        return
+    cutoff = time.time() - TRACK_KEEP_DAYS * 86400
+    keep, old = [], {}
+    with open(TRACKS) as fh:
+        for line in fh:
+            try:
+                created = json.loads(line).get("created") or 0
+            except Exception:
+                continue
+            if created >= cutoff:
+                keep.append(line)
+            else:
+                old.setdefault(time.strftime("%F", time.gmtime(created)), []).append(line)
+    if old:
+        d = os.path.join(ARCHIVE_DIR, "meme_tracks")
+        os.makedirs(d, exist_ok=True)
+        for day, lines in old.items():
+            with gzip.open(os.path.join(d, day + ".jsonl.gz"), "at") as fh:
+                fh.writelines(lines)
+        tmp = TRACKS + ".tmp"
+        with open(tmp, "w") as fh:
+            fh.writelines(keep)
+        os.replace(tmp, TRACKS)
+    s["tracks_rotated"] = today
 
 
 def manage(s):
@@ -157,6 +292,7 @@ def manage(s):
         prev_price = pos.get("price_last", pos["entry_obs"])
         pos["price_last"] = price
         pos["liq_last"] = liq if liq > 0 else prev_liq        # a missing/zero liquidity field is not evidence of a rug by itself
+        pos["liq_now"] = liq                                  # ...but nothing can be sold into it (pool_liq)
         mult, age_h = price / pos["entry_obs"], (time.time() - pos["t_open"]) / 3600
         if MODE == "accel" and pos["t_open"] < ACCEL_FORCE_CLOSE_BEFORE:
             sell(pos, pos["tokens"], price, s, "manual-close")
@@ -764,13 +900,12 @@ def net_mult(t, slip_mult):
     """Re-price a closed trade as if exit slippage had been slip_mult x worse (rugs/vanished use actual proceeds)."""
     if t.get("reason", "").startswith("rug") or t.get("reason") == "vanished":
         return t["proceeds"] / STAKE
-    impact = STAKE / max(t["liq_entry"], 1.0)
-    return t.get("obs_sold", 0.0) * (1 - SLIP_OUT * slip_mult - impact) * (1 - FEE) / STAKE
+    return t["proceeds"] * (1 - SLIP_OUT * slip_mult) / (1 - SLIP_OUT) / STAKE
 
 
 def summary(s):
     c = s["closed"]
-    eq = s["cash"] + sum(x["tokens"] * x.get("last", x["entry_obs"]) * (1 - SLIP_OUT) * (1 - FEE) for x in s["pos"])
+    eq = s["cash"] + sum(sale_value(x["tokens"] * x.get("last", x["entry_obs"]), pool_liq(x)) for x in s["pos"])
     L = [f"Meme paper scanner | equity ${eq:,.2f} (start ${BANK:,.0f}) | cash ${s['cash']:,.2f} | open {len(s['pos'])} | closed {len(c)}"]
     if c:
         w = sum(1 for t in c if t["pnl"] > 0)
@@ -832,7 +967,13 @@ def main():
         s["last_summary"] = today
         tg("Daily meme summary\n" + summary(s))
     s["cash"] = round(s["cash"], 4)
-    json.dump(s, open(STATE, "w"), indent=1)
+    archive_closed(s)
+    if MODE == "accel":
+        rotate_tracks(s)
+    tmp = STATE + ".tmp"
+    with open(tmp, "w") as fh:
+        json.dump(s, fh, separators=(",", ":"))           # compact: the indented file was close to GitHub's 100 MB limit
+    os.replace(tmp, STATE)
     print(summary(s).splitlines()[0])
 
 

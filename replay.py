@@ -12,6 +12,11 @@ def load():
         for t in s["closed"]:
             p = t.get("path") or t.get("ctx", {}).get("path") or []
             if len(p) >= 3: out.append((f, t, p))
+    import gzip                                       # since 2026-10-23 older closed trades (with their paths) live in archive/<state>/*.jsonl.gz
+    for g in sorted(glob.glob("archive/meme*_state/*.jsonl.gz")):
+        for line in gzip.open(g, "rt"):
+            t = json.loads(line); p = t.get("path") or []
+            if len(p) >= 3: out.append((g, t, p))
     return out
 
 def run(t, path, stop=-0.25, tiers=((2, .5), (4, .3)), trail=.12, deadline_h=0.75, ladder=None, post_stop=None):

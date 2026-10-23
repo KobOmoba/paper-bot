@@ -123,8 +123,11 @@ def sell(s, pos, tokens, price, rug=False):
     tokens = min(tokens, pos["tokens"])
     if tokens <= 0:
         return
-    impact = STAKE / max(pos["liq_entry"], 1.0)
-    got = tokens * price * (RUG_PAYOUT if rug else (1 - SLIP_OUT - impact) * (1 - FEE))
+    # 2026-10-23: priced against the pool's real money (constant-product pool, half the liquidity on each side), so a sale into
+    # a drained pool can no longer book a fantasy price. Same model as meme_scanner.amm_out.
+    value, r = tokens * price, max(pos.get("liq_now", pos.get("liq_last") or pos["liq_entry"]), 0.0) / 2
+    pool = value * r / (r + value) if r > 0 and value > 0 else 0.0
+    got = min(value * RUG_PAYOUT, pool) if rug else pool * (1 - SLIP_OUT) * (1 - FEE)
     got = max(got, 0.0)
     pos["tokens"] -= tokens
     pos["proceeds"] += got
@@ -199,6 +202,7 @@ def step(s):
         price, liq = f(p["priceUsd"]), f((p.get("liquidity") or {}).get("usd"))
         prev_p, prev_l = pos["last"], pos.get("liq_last", pos["liq_entry"])
         pos["last"], pos["liq_last"] = price, (liq if liq > 0 else prev_l)
+        pos["liq_now"] = liq                                  # 0 = empty pool for selling (see meme_scanner.pool_liq)
         m = price / pos["entry_obs"]
         pos["last_mult"], pos["peak_mult"] = round(m, 3), round(max(pos["peak_mult"], m), 3)
         if now - pos["path"][-1][0] >= PATH_EVERY_S:
