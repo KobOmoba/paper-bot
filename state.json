@@ -561,24 +561,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-22 15:40:45",
-   "q": "Will the price of Bitcoin be above $86,000 on October 22?",
-   "model": 0.0,
-   "mkt": 0.0005
-  },
-  {
-   "t": "2026-10-22 15:40:45",
-   "q": "Will the price of Bitcoin be above $82,000 on October 22?",
-   "model": 0.0004,
-   "mkt": 0.0535
-  },
-  {
-   "t": "2026-10-23 04:15:57",
-   "q": "Will the price of Bitcoin be above $78,000 on October 23?",
-   "model": 0.9999,
-   "mkt": 0.9905
-  },
-  {
    "t": "2026-10-23 04:41:01",
    "q": "Will the price of Bitcoin be above $78,000 on October 23?",
    "model": 0.9999,
@@ -739,6 +721,24 @@
    "q": "Will the price of Bitcoin be above $86,000 on October 23?",
    "model": 0.0,
    "mkt": 0.0045
+  },
+  {
+   "t": "2026-10-23 07:37:44",
+   "q": "Will the price of Bitcoin be above $84,000 on October 23?",
+   "model": 0.0027,
+   "mkt": 0.036
+  },
+  {
+   "t": "2026-10-23 07:37:44",
+   "q": "Will the price of Bitcoin be above $78,000 on October 23?",
+   "model": 1.0,
+   "mkt": 0.9955
+  },
+  {
+   "t": "2026-10-23 07:37:44",
+   "q": "Will the price of Bitcoin be above $86,000 on October 23?",
+   "model": 0.0,
+   "mkt": 0.0055
   }
  ],
  "fc": {
