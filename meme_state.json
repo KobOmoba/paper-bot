@@ -105701,12 +105701,12 @@
   "bqvngdcwkrdnahmcg7zbbqzxcqsnndbhrggl9nthpump": 1792778162.3738835
  },
  "funnel": {
-  "candidates": 704993,
-  "evaluated": 661116,
-  "fail_age": 145860,
-  "fail_liq": 470034,
-  "fail_volume": 32770,
-  "fail_flow": 1967,
+  "candidates": 706255,
+  "evaluated": 662281,
+  "fail_age": 146071,
+  "fail_liq": 470954,
+  "fail_volume": 32802,
+  "fail_flow": 1969,
   "opened": 196,
   "sim_sell_unavailable": 158,
   "liq_glitch": 819,
@@ -105719,6 +105719,6 @@
  "snap": {},
  "track": {},
  "hot": {},
- "scans": 14749,
+ "scans": 14777,
  "last_hb": 1792779482.2019355
 }
