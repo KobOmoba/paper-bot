@@ -1,49 +1,49 @@
 as_of_date,gate,basket,regime,n_accepted,n_rejected,distinct_dates_accepted,distinct_dates_rejected,mean_ret_accepted,mean_ret_rejected,gap,ci_low,ci_high,status,reflection,proposal_count_to_date
-2026-10-22,kronos_signal,ALL,ALL,9,5,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 9, rejected 5, dates 2/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,kronos_signal,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,ALL,chop,5,5,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 5, rejected 5, dates 2/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,ALL,high_vol,4,0,2,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 4, rejected 0, dates 2/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,kronos_signal,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,EQUITY,ALL,2,4,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 2, rejected 4, dates 2/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,kronos_signal,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,EQUITY,chop,2,4,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 2, rejected 4, dates 2/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,kronos_signal,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,ALL,ALL,5,4,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 5, rejected 4, dates 2/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,ftfc,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,ALL,chop,1,4,1,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 1, rejected 4, dates 1/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,ALL,high_vol,4,0,2,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 4, rejected 0, dates 2/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,ftfc,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,EQUITY,ALL,0,2,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 0, rejected 2, dates 0/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,ftfc,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,EQUITY,chop,0,2,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 0, rejected 2, dates 0/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,ftfc,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,ALL,ALL,0,9,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 0, rejected 9, dates 0/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,xgb,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,ALL,chop,0,5,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 0, rejected 5, dates 0/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,ALL,high_vol,0,4,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 0, rejected 4, dates 0/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,xgb,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,EQUITY,ALL,0,2,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 0, rejected 2, dates 0/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,xgb,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,EQUITY,chop,0,2,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 0, rejected 2, dates 0/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,xgb,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,ALL,ALL,4,5,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 4, rejected 5, dates 2/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,fvg,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,ALL,chop,2,3,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 2, rejected 3, dates 2/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,ALL,high_vol,2,2,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 2, rejected 2, dates 2/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,fvg,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,EQUITY,ALL,0,2,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 0, rejected 2, dates 0/2; needs 30/30 per gate with 10+ dates a side.",0
-2026-10-22,fvg,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,EQUITY,chop,0,2,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 0, rejected 2, dates 0/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
-2026-10-22,fvg,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,ALL,ALL,12,9,3,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 12, rejected 9, dates 3/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,kronos_signal,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,ALL,chop,8,7,3,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 8, rejected 7, dates 3/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,ALL,high_vol,4,2,2,1,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 4, rejected 2, dates 2/1; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,kronos_signal,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,EQUITY,ALL,3,6,3,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 3, rejected 6, dates 3/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,kronos_signal,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,EQUITY,chop,3,6,3,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 3, rejected 6, dates 3/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,kronos_signal,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,ALL,ALL,5,7,2,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 5, rejected 7, dates 2/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,ftfc,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,ALL,chop,1,7,1,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 1, rejected 7, dates 1/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,ALL,high_vol,4,0,2,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 4, rejected 0, dates 2/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,ftfc,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,EQUITY,ALL,0,3,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 0, rejected 3, dates 0/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,ftfc,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,EQUITY,chop,0,3,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 0, rejected 3, dates 0/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,ftfc,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,ALL,ALL,0,12,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 0, rejected 12, dates 0/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,xgb,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,ALL,chop,0,8,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 0, rejected 8, dates 0/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,ALL,high_vol,0,4,0,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 0, rejected 4, dates 0/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,xgb,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,EQUITY,ALL,0,3,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 0, rejected 3, dates 0/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,xgb,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,EQUITY,chop,0,3,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 0, rejected 3, dates 0/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,xgb,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,ALL,ALL,5,7,3,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (ALL): accepted 5, rejected 7, dates 3/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,fvg,ALL,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (ALL): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,ALL,chop,3,5,3,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (ALL): accepted 3, rejected 5, dates 3/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,ALL,high_vol,2,2,2,2,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (ALL): accepted 2, rejected 2, dates 2/2; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,CRYPTO,ALL,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,fvg,CRYPTO,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,CRYPTO,chop,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,CRYPTO,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (CRYPTO): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,EQUITY,ALL,0,3,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in ALL (EQUITY): accepted 0, rejected 3, dates 0/3; needs 30/30 per gate with 10+ dates a side.",0
+2026-10-23,fvg,EQUITY,trend,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in trend (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,EQUITY,chop,0,3,0,3,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in chop (EQUITY): accepted 0, rejected 3, dates 0/3; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
+2026-10-23,fvg,EQUITY,high_vol,0,0,0,0,,,,,,INSUFFICIENT_DATA,"INSUFFICIENT_DATA in high_vol (EQUITY): accepted 0, rejected 0, dates 0/0; needs 30/30 per gate with 10+ dates a side and 15/15 in the bucket.",0
