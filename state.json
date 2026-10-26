@@ -29,7 +29,7 @@
    "cost": 3.0,
    "shares": 3.243,
    "opened": "2026-10-01 17:47:21",
-   "mark": 0.988
+   "mark": 0.987
   }
  ],
  "closed": [
@@ -593,24 +593,6 @@
  "dead_notified": false,
  "model_log": [
   {
-   "t": "2026-10-26 11:34:33",
-   "q": "Will the price of Bitcoin be above $78,000 on October 26?",
-   "model": 1.0,
-   "mkt": 0.9825
-  },
-  {
-   "t": "2026-10-26 11:34:45",
-   "q": "Will the price of Bitcoin be above $84,000 on October 26?",
-   "model": 0.0,
-   "mkt": 0.0035
-  },
-  {
-   "t": "2026-10-26 11:34:45",
-   "q": "Will the price of Bitcoin be above $78,000 on October 26?",
-   "model": 1.0,
-   "mkt": 0.9825
-  },
-  {
    "t": "2026-10-26 11:59:48",
    "q": "Will the price of Bitcoin be above $84,000 on October 26?",
    "model": 0.0,
@@ -771,6 +753,24 @@
    "q": "Will the price of Bitcoin be above $82,000 on October 26?",
    "model": 0.0,
    "mkt": 0.016
+  },
+  {
+   "t": "2026-10-26 14:37:26",
+   "q": "Will the price of Bitcoin be above $78,000 on October 26?",
+   "model": 1.0,
+   "mkt": 0.9775
+  },
+  {
+   "t": "2026-10-26 14:37:26",
+   "q": "Will the price of Bitcoin be above $84,000 on October 26?",
+   "model": 0.0,
+   "mkt": 0.0005
+  },
+  {
+   "t": "2026-10-26 14:37:26",
+   "q": "Will the price of Bitcoin be above $82,000 on October 26?",
+   "model": 0.0,
+   "mkt": 0.0055
   }
  ],
  "fc": {
