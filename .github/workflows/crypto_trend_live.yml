@@ -1,0 +1,38 @@
+name: crypto-trend-paper
+on:
+  workflow_dispatch:
+    inputs:
+      summary:
+        description: "Send the weekly summary now"
+        default: "false"
+permissions:
+  contents: write
+concurrency:
+  group: crypto-trend-live
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yfinance pandas numpy
+      - run: python crypto_trend.py
+        env:
+          MODE: live
+          FORCE_SUMMARY: ${{ inputs.summary }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Save state
+        run: |
+          set +e
+          git config user.name "crypto-trend"
+          git config user.email "bot@users.noreply.github.com"
+          git add crypto_trend_state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "crypto trend paper state"
+          for i in 1 2 3; do git pull --rebase --autostash && git push && exit 0; sleep 5; done
+          echo "::error::could not push state"; exit 1
