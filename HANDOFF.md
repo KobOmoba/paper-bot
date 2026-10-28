@@ -162,3 +162,15 @@ Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
   Local result: state 11 MB, tracks 6 MB. meme.yml and meme_accel.yml now `git add archive`. replay.py also reads the archives.
 - Not fixed: the repo's git history already holds hundreds of copies of the big files (clone is slow); rewriting history would
   need all bots paused - not done.
+
+## Update 2026-10-28 (23:xx Lagos): crypto trend re-test -> WEAK, live bot NOT started
+- Old crypto report (+255% test) was flattered by a survivor coin list AND a sizing bug: ngx_bot buys whole units (`int()`), so with
+  $100k / 10% slots BTC could not be bought while above ~$10k. Not fixed in ngx_bot (NGX shares are cheap, harmless there).
+- New locked test `CRYPTO_TREND_SPEC.md`, code `crypto_trend.py`, report `crypto_trend_report.json` (workflow `crypto_trend.yml`, manual).
+  Same 20/50 cross rule, BTC+ETH only, fractional units, 2018-01-01..2026-10-27, 0.4%/side:
+  strategy +68% (Sharpe 0.40, worst -34.5%, invested 13% of days) vs hold +348% (Sharpe 0.60, worst -87.9%).
+  Sharpe gap CI [-0.95, 0.57]: not distinguishable from holding. 2y windows: beats hold on return 31%, on Sharpe 26%. Verdict WEAK.
+  BTC alone from 2014: +953% vs hold +21,922% (Sharpe 0.95 vs 1.02).
+- I told Bayo the live bot runs only if it beats holding BTC; it did not, so `crypto_trend_live.yml` is dispatch-only (no cron).
+- QuantDinger (Bayo's fork KobOmoba/QuantDinger): self-hosted Docker stack (Postgres, Redis, workers) for AI research, backtests,
+  paper/live execution. Not an open-source TradingView (no charting community / Pine). Needs an always-on server; Bayo is phone-only.
