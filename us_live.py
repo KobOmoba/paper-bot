@@ -101,8 +101,8 @@ def digest(s, date):
     eq = equity(a, px)
     spy = px.get("SPY", a["spy0"]) / a["spy0"] - 1
     L = [f"Tokenized-stock QUARTERLY momentum (paper) {date}",
-         f"Equity ${eq:,.0f} ({(eq / START - 1) * 100:+.1f}%) vs SPY {spy * 100:+.1f}% since {a['start_date']} | "
-         f"cash ${a['cash']:,.0f} | costs paid ${a['costs_paid']:,.0f}",
+         (f"Equity ${eq:,.0f} ({(eq / START - 1) * 100:+.1f}%) vs SPY {spy * 100:+.1f}% since {a['start_date']} | "
+          f"cash ${a['cash']:,.0f} | costs paid ${a['costs_paid']:,.0f}"),
          f"Sessions since last rebalance signal: {a['since']} of {REB}"]
     for sym, sh in sorted(a["pos"].items()):
         L.append(f"  {sym} ${sh * px.get(sym, 0):,.0f}")
@@ -115,14 +115,16 @@ def digest(s, date):
 
 def main():
     if os.path.exists(STATE):
-        s = json.load(open(STATE))
+        with open(STATE) as f:
+            s = json.load(f)
         if s.get("schema") != SCHEMA:
             s = None
     else:
         s = None
     if s is None:
         s, sc = seed(download("2y"))
-        json.dump(s, open(STATE, "w"), indent=1)
+        with open(STATE, "w") as f:
+            json.dump(s, f, indent=1)
         b.tg(f"Quarterly momentum tracker started (paper, ${START:,.0f}). History through {s['last_date']}. First picks "
              "(bought at the next US close): " + ", ".join(f"{k} ({v:+.0f}%)" for k, v in sc.items()))
         return
@@ -140,7 +142,8 @@ def main():
         process_day(s, d, b.tg)
         s["last_date"] = d
     digest(s, new[-1])
-    json.dump(s, open(STATE, "w"), indent=1)
+    with open(STATE, "w") as f:
+        json.dump(s, f, indent=1)
 
 
 if __name__ == "__main__":

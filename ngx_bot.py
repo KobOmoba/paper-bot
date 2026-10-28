@@ -333,7 +333,10 @@ def process_day(s, q, date, say=tg):
 
 # ---------- state / digest ----------
 def load():
-    s = json.load(open(STATE)) if os.path.exists(STATE) else {}
+    s = {}
+    if os.path.exists(STATE):
+        with open(STATE) as f:
+            s = json.load(f)
     s.setdefault("hist", {})
     s.setdefault("last_date", "")
     s.setdefault("accts", {})
@@ -342,7 +345,8 @@ def load():
     for old in ("cash", "pos", "pending", "closed"):
         s.pop(old, None)
     if os.path.exists(HISTFILE) and not s.get("seeded"):
-        full = json.load(open(HISTFILE))
+        with open(HISTFILE) as f:
+            full = json.load(f)
         for sym, rows in full.items():
             extra = [r for r in s["hist"].get(sym, []) if rows and r[0] > rows[-1][0]]
             s["hist"][sym] = (rows + extra)[-HIST_KEEP:]
@@ -397,7 +401,8 @@ def benchmark(hist, lo, hi):
 
 
 def backtest(split=0.7, histfile=None, outfile="backtest_report.json", label="NGX"):
-    full = json.load(open(histfile or HISTFILE))
+    with open(histfile or HISTFILE) as f:
+        full = json.load(f)
     by_date = {}
     for sym, rows in full.items():
         for r in rows:
@@ -421,7 +426,8 @@ def backtest(split=0.7, histfile=None, outfile="backtest_report.json", label="NG
            "benchmark_liquid_buyhold_pct": {p: benchmark(full, *r) for p, r in periods.items()}, "strategies": {}}
     for name, a in s["accts"].items():
         rep["strategies"][name] = {p: metrics(a, curves[name], *r, full) for p, r in periods.items()}
-    json.dump(rep, open(outfile, "w"), indent=1)
+    with open(outfile, "w") as f:
+        json.dump(rep, f, indent=1)
     L = [f"{label} backtest {dates[0]} to {dates[-1]} ({len(dates)} sessions, {len(full)} stocks)",
          f"Build period to {dates[k]}, then untouched TEST period after.",
          "Benchmark (buy & hold liquid stocks): " + ", ".join(f"{p} {v}%" for p, v in rep["benchmark_liquid_buyhold_pct"].items())]
@@ -443,7 +449,8 @@ def run():
         digest(s, q, date)
     else:
         print(f"No new session (latest {date}).")
-    json.dump(s, open(STATE, "w"), indent=1)
+    with open(STATE, "w") as f:
+        json.dump(s, f, indent=1)
 
 
 if __name__ == "__main__":
