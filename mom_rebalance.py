@@ -2,14 +2,16 @@
 rank liquid US stocks by 126-session (~6 month) return, hold the top 10 equal-weight (10% each), rebalance every
 R sessions (R = 21 monthly, or 63 quarterly). Signal at the close, trade at the NEXT close. Costs are charged only on
 the turnover actually traded. Cost per side: 0.1% (stock-level), 0.5% (mid), 1.5% (token-level, = 0.5% fee + 1% slippage).
+Added 2026-10-28 before running: 1.1% per side (Hisa app charges a flat 1% per trade) and a yearly rebalance.
 Universe: the same 89 large caps as the other US tests (survivorship bias: flatters results)."""
 import json, os, re, statistics, urllib.parse, urllib.request
 import numpy as np
 import pandas as pd
 
 LOOK, N, MIN_VAL, H = 126, 10, 20_000_000, 756
-RS = {"monthly (21d)": 21, "quarterly (63d)": 63}
-COSTS = {"0.1% per side (stock)": 0.001, "0.5% per side (mid)": 0.005, "1.5% per side (token)": 0.015}
+RS = {"monthly (21d)": 21, "quarterly (63d)": 63, "yearly (252d)": 252}   # yearly added 2026-10-28 (Hisa fees), before its first run
+COSTS = {"0.1% per side (stock)": 0.001, "0.5% per side (mid)": 0.005, "1.1% per side (Hisa: 1% fee + 0.1% spread)": 0.011,
+         "1.5% per side (token)": 0.015}
 SPLIT = "2020-03-23"
 
 
