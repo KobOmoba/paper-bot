@@ -1,0 +1,819 @@
+{
+ "spec": "CRYPTO_TREND_SPEC.md",
+ "data_to": "2026-10-27",
+ "cost_per_side": 0.004,
+ "primary": {
+  "strategy": {
+   "from": "2018-01-01",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 68.2,
+   "cagr_pct": 6.1,
+   "sharpe": 0.4,
+   "max_dd_pct": -34.5,
+   "trades": 53,
+   "win_pct": 45.3,
+   "avg_trade_pct": 2.77,
+   "days_invested_pct": 13.0
+  },
+  "hold": {
+   "from": "2018-01-01",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 347.8,
+   "cagr_pct": 18.5,
+   "sharpe": 0.6,
+   "max_dd_pct": -87.9
+  },
+  "sharpe_diff_ci95": [
+   -0.95,
+   0.57
+  ],
+  "rolling_2y": {
+   "windows": 84,
+   "beats_hold_return_pct": 31.0,
+   "beats_hold_sharpe_pct": 26.2
+  }
+ },
+ "stress_A_double_cost": {
+  "strategy": {
+   "from": "2018-01-01",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 36.8,
+   "cagr_pct": 3.6,
+   "sharpe": 0.28,
+   "max_dd_pct": -36.7,
+   "trades": 53,
+   "win_pct": 43.4,
+   "avg_trade_pct": 1.96,
+   "days_invested_pct": 12.9
+  },
+  "hold": {
+   "from": "2018-01-01",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 347.8,
+   "cagr_pct": 18.5,
+   "sharpe": 0.6,
+   "max_dd_pct": -87.9
+  }
+ },
+ "stress_B_one_day_late": {
+  "strategy": {
+   "from": "2018-01-01",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 61.0,
+   "cagr_pct": 5.5,
+   "sharpe": 0.37,
+   "max_dd_pct": -40.2,
+   "trades": 53,
+   "win_pct": 49.1,
+   "avg_trade_pct": 2.79,
+   "days_invested_pct": 13.3
+  },
+  "hold": {
+   "from": "2018-01-01",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 347.8,
+   "cagr_pct": 18.5,
+   "sharpe": 0.6,
+   "max_dd_pct": -87.9
+  }
+ },
+ "periods": {
+  "2018-19": {
+   "strategy": {
+    "from": "2018-01-01",
+    "to": "2019-12-31",
+    "years": 2.0,
+    "return_pct": -28.1,
+    "cagr_pct": -15.3,
+    "sharpe": -0.87,
+    "max_dd_pct": -33.6,
+    "trades": 10,
+    "win_pct": 20.0,
+    "avg_trade_pct": -6.24,
+    "days_invested_pct": 5.4
+   },
+   "hold": {
+    "from": "2018-01-01",
+    "to": "2019-12-31",
+    "years": 2.0,
+    "return_pct": -65.3,
+    "cagr_pct": -41.1,
+    "sharpe": -0.27,
+    "max_dd_pct": -87.9
+   }
+  },
+  "2020-21": {
+   "strategy": {
+    "from": "2020-01-01",
+    "to": "2021-12-31",
+    "years": 2.0,
+    "return_pct": 91.6,
+    "cagr_pct": 38.4,
+    "sharpe": 1.48,
+    "max_dd_pct": -10.3,
+    "trades": 11,
+    "win_pct": 81.8,
+    "avg_trade_pct": 13.78,
+    "days_invested_pct": 17.5
+   },
+   "hold": {
+    "from": "2020-01-01",
+    "to": "2021-12-31",
+    "years": 2.0,
+    "return_pct": 1629.3,
+    "cagr_pct": 316.3,
+    "sharpe": 2.06,
+    "max_dd_pct": -57.2
+   }
+  },
+  "2022": {
+   "strategy": {
+    "from": "2022-01-01",
+    "to": "2022-12-31",
+    "years": 1.0,
+    "return_pct": -21.6,
+    "cagr_pct": -21.7,
+    "sharpe": -1.27,
+    "max_dd_pct": -27.2,
+    "trades": 6,
+    "win_pct": 16.7,
+    "avg_trade_pct": -7.79,
+    "days_invested_pct": 7.1
+   },
+   "hold": {
+    "from": "2022-01-01",
+    "to": "2022-12-31",
+    "years": 1.0,
+    "return_pct": -66.8,
+    "cagr_pct": -66.9,
+    "sharpe": -1.16,
+    "max_dd_pct": -68.9
+   }
+  },
+  "2023-26": {
+   "strategy": {
+    "from": "2023-01-01",
+    "to": "2026-10-27",
+    "years": 3.8,
+    "return_pct": 56.8,
+    "cagr_pct": 12.5,
+    "sharpe": 0.77,
+    "max_dd_pct": -21.4,
+    "trades": 26,
+    "win_pct": 46.2,
+    "avg_trade_pct": 4.02,
+    "days_invested_pct": 16.0
+   },
+   "hold": {
+    "from": "2023-01-01",
+    "to": "2026-10-27",
+    "years": 3.8,
+    "return_pct": 240.8,
+    "cagr_pct": 37.9,
+    "sharpe": 0.9,
+    "max_dd_pct": -57.7
+   }
+  }
+ },
+ "btc_alone_2014": {
+  "strategy": {
+   "from": "2014-11-10",
+   "to": "2026-10-27",
+   "years": 12.0,
+   "return_pct": 952.9,
+   "cagr_pct": 21.8,
+   "sharpe": 0.95,
+   "max_dd_pct": -43.9,
+   "trades": 40,
+   "win_pct": 50.0,
+   "avg_trade_pct": 7.82,
+   "days_invested_pct": 16.9
+  },
+  "hold": {
+   "from": "2014-11-10",
+   "to": "2026-10-27",
+   "years": 12.0,
+   "return_pct": 21922.3,
+   "cagr_pct": 57.0,
+   "sharpe": 1.02,
+   "max_dd_pct": -83.4
+  }
+ },
+ "eth_alone_2017": {
+  "strategy": {
+   "from": "2017-12-29",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 88.3,
+   "cagr_pct": 7.4,
+   "sharpe": 0.42,
+   "max_dd_pct": -40.1,
+   "trades": 23,
+   "win_pct": 52.2,
+   "avg_trade_pct": 3.73,
+   "days_invested_pct": 11.8
+  },
+  "hold": {
+   "from": "2017-12-29",
+   "to": "2026-10-27",
+   "years": 8.8,
+   "return_pct": 211.5,
+   "cagr_pct": 13.7,
+   "sharpe": 0.57,
+   "max_dd_pct": -94.0
+  }
+ },
+ "trades": [
+  {
+   "coin": "BTC-USD",
+   "signal": "2018-03-04",
+   "entry_date": "2018-03-04",
+   "entry": 11558.65,
+   "stake": 500.0,
+   "exit_date": "2018-03-07",
+   "exit": 9925.71,
+   "reason": "stop",
+   "ret_pct": -14.13
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2018-04-27",
+   "entry_date": "2018-04-27",
+   "entry": 9023.0,
+   "stake": 429.36,
+   "exit_date": "2018-05-10",
+   "exit": 9007.76,
+   "reason": "trend",
+   "ret_pct": -0.17
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2018-07-22",
+   "entry_date": "2018-07-22",
+   "entry": 7448.16,
+   "stake": 428.64,
+   "exit_date": "2018-08-02",
+   "exit": 7536.88,
+   "reason": "trend",
+   "ret_pct": 1.19
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2019-01-07",
+   "entry_date": "2019-01-07",
+   "entry": 4041.35,
+   "stake": 433.74,
+   "exit_date": "2019-01-10",
+   "exit": 3664.21,
+   "reason": "trend",
+   "ret_pct": -9.33
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2019-02-22",
+   "entry_date": "2019-02-22",
+   "entry": 4021.55,
+   "stake": 393.27,
+   "exit_date": "2019-03-04",
+   "exit": 3746.51,
+   "reason": "trend",
+   "ret_pct": -6.84
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2019-11-05",
+   "entry_date": "2019-11-05",
+   "entry": 9379.9,
+   "stake": 366.37,
+   "exit_date": "2019-11-08",
+   "exit": 8769.66,
+   "reason": "trend",
+   "ret_pct": -6.51
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2020-01-08",
+   "entry_date": "2020-01-08",
+   "entry": 8112.18,
+   "stake": 342.54,
+   "exit_date": "2020-01-25",
+   "exit": 8334.38,
+   "reason": "trend",
+   "ret_pct": 2.74
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2020-04-19",
+   "entry_date": "2020-04-19",
+   "entry": 7218.18,
+   "stake": 351.92,
+   "exit_date": "2020-04-20",
+   "exit": 6854.43,
+   "reason": "trend",
+   "ret_pct": -5.04
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2020-07-27",
+   "entry_date": "2020-07-27",
+   "entry": 11034.84,
+   "stake": 334.18,
+   "exit_date": "2020-08-21",
+   "exit": 11546.12,
+   "reason": "trend",
+   "ret_pct": 4.63
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2020-10-13",
+   "entry_date": "2020-10-13",
+   "entry": 11471.6,
+   "stake": 349.67,
+   "exit_date": "2020-11-27",
+   "exit": 17039.97,
+   "reason": "trend",
+   "ret_pct": 48.54
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2021-08-01",
+   "entry_date": "2021-08-01",
+   "entry": 40134.79,
+   "stake": 519.4,
+   "exit_date": "2021-08-30",
+   "exit": 46866.76,
+   "reason": "trend",
+   "ret_pct": 16.77
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2021-10-11",
+   "entry_date": "2021-10-11",
+   "entry": 57714.73,
+   "stake": 606.52,
+   "exit_date": "2021-10-27",
+   "exit": 58248.46,
+   "reason": "trend",
+   "ret_pct": 0.92
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2022-03-19",
+   "entry_date": "2022-03-19",
+   "entry": 42359.41,
+   "stake": 612.13,
+   "exit_date": "2022-04-06",
+   "exit": 43033.91,
+   "reason": "trend",
+   "ret_pct": 1.59
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2022-07-28",
+   "entry_date": "2022-07-28",
+   "entry": 23939.26,
+   "stake": 621.87,
+   "exit_date": "2022-08-04",
+   "exit": 22540.43,
+   "reason": "trend",
+   "ret_pct": -5.84
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2022-10-31",
+   "entry_date": "2022-10-31",
+   "entry": 20577.76,
+   "stake": 585.54,
+   "exit_date": "2022-11-08",
+   "exit": 18467.11,
+   "reason": "trend",
+   "ret_pct": -10.26
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2023-01-12",
+   "entry_date": "2023-01-12",
+   "entry": 18945.07,
+   "stake": 525.48,
+   "exit_date": "2023-02-06",
+   "exit": 22669.07,
+   "reason": "trend",
+   "ret_pct": 19.66
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2023-03-19",
+   "entry_date": "2023-03-19",
+   "entry": 28150.83,
+   "stake": 628.77,
+   "exit_date": "2023-04-07",
+   "exit": 27814.16,
+   "reason": "trend",
+   "ret_pct": -1.2
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2023-06-25",
+   "entry_date": "2023-06-25",
+   "entry": 30602.18,
+   "stake": 621.25,
+   "exit_date": "2023-07-09",
+   "exit": 30050.55,
+   "reason": "trend",
+   "ret_pct": -1.8
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2023-10-01",
+   "entry_date": "2023-10-01",
+   "entry": 28095.68,
+   "stake": 610.05,
+   "exit_date": "2023-10-11",
+   "exit": 26765.83,
+   "reason": "trend",
+   "ret_pct": -4.73
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2024-02-11",
+   "entry_date": "2024-02-11",
+   "entry": 48487.09,
+   "stake": 581.18,
+   "exit_date": "2024-03-16",
+   "exit": 65053.86,
+   "reason": "trend",
+   "ret_pct": 34.17
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2024-05-25",
+   "entry_date": "2024-05-25",
+   "entry": 69543.01,
+   "stake": 779.75,
+   "exit_date": "2024-06-11",
+   "exit": 67062.7,
+   "reason": "trend",
+   "ret_pct": -3.57
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2024-07-28",
+   "entry_date": "2024-07-28",
+   "entry": 68528.89,
+   "stake": 751.94,
+   "exit_date": "2024-07-31",
+   "exit": 64360.77,
+   "reason": "trend",
+   "ret_pct": -6.08
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2024-09-25",
+   "entry_date": "2024-09-25",
+   "entry": 63395.72,
+   "stake": 706.2,
+   "exit_date": "2024-10-01",
+   "exit": 60593.66,
+   "reason": "trend",
+   "ret_pct": -4.42
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2025-01-21",
+   "entry_date": "2025-01-21",
+   "entry": 106570.85,
+   "stake": 674.99,
+   "exit_date": "2025-02-01",
+   "exit": 100253.28,
+   "reason": "trend",
+   "ret_pct": -5.93
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2025-04-24",
+   "entry_date": "2025-04-24",
+   "entry": 94319.57,
+   "stake": 634.97,
+   "exit_date": "2025-05-29",
+   "exit": 105219.19,
+   "reason": "trend",
+   "ret_pct": 11.56
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2025-07-08",
+   "entry_date": "2025-07-08",
+   "entry": 109386.07,
+   "stake": 708.35,
+   "exit_date": "2025-07-29",
+   "exit": 117450.46,
+   "reason": "trend",
+   "ret_pct": 7.37
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2026-01-08",
+   "entry_date": "2026-01-08",
+   "entry": 91391.23,
+   "stake": 760.58,
+   "exit_date": "2026-01-20",
+   "exit": 87957.66,
+   "reason": "trend",
+   "ret_pct": -3.76
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2026-03-20",
+   "entry_date": "2026-03-20",
+   "entry": 70804.68,
+   "stake": 732.0,
+   "exit_date": "2026-03-21",
+   "exit": 68436.68,
+   "reason": "trend",
+   "ret_pct": -3.34
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2026-04-11",
+   "entry_date": "2026-04-11",
+   "entry": 73346.49,
+   "stake": 707.52,
+   "exit_date": "2026-05-15",
+   "exit": 78749.42,
+   "reason": "trend",
+   "ret_pct": 7.37
+  },
+  {
+   "coin": "BTC-USD",
+   "signal": "2026-07-20",
+   "entry_date": "2026-07-20",
+   "entry": 65490.95,
+   "stake": 759.64,
+   "exit_date": "2026-07-24",
+   "exit": 63842.1,
+   "reason": "trend",
+   "ret_pct": -2.52
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2018-04-26",
+   "entry_date": "2018-04-26",
+   "entry": 665.46,
+   "stake": 500.0,
+   "exit_date": "2018-05-11",
+   "exit": 676.87,
+   "reason": "trend",
+   "ret_pct": 1.71
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2019-01-03",
+   "entry_date": "2019-01-03",
+   "entry": 149.73,
+   "stake": 508.57,
+   "exit_date": "2019-01-10",
+   "exit": 128.11,
+   "reason": "stop",
+   "ret_pct": -14.44
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2019-02-22",
+   "entry_date": "2019-02-22",
+   "entry": 149.69,
+   "stake": 435.13,
+   "exit_date": "2019-03-02",
+   "exit": 133.67,
+   "reason": "stop",
+   "ret_pct": -10.7
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2019-11-09",
+   "entry_date": "2019-11-09",
+   "entry": 185.77,
+   "stake": 388.57,
+   "exit_date": "2019-11-15",
+   "exit": 179.8,
+   "reason": "trend",
+   "ret_pct": -3.21
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2020-01-16",
+   "entry_date": "2020-01-16",
+   "entry": 165.05,
+   "stake": 376.08,
+   "exit_date": "2020-02-25",
+   "exit": 246.83,
+   "reason": "trend",
+   "ret_pct": 49.55
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2020-04-20",
+   "entry_date": "2020-04-20",
+   "entry": 172.99,
+   "stake": 562.42,
+   "exit_date": "2020-05-10",
+   "exit": 187.85,
+   "reason": "trend",
+   "ret_pct": 8.59
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2020-10-21",
+   "entry_date": "2020-10-21",
+   "entry": 393.76,
+   "stake": 610.73,
+   "exit_date": "2020-10-29",
+   "exit": 385.18,
+   "reason": "trend",
+   "ret_pct": -2.18
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2021-08-02",
+   "entry_date": "2021-08-02",
+   "entry": 2620.59,
+   "stake": 597.43,
+   "exit_date": "2021-08-26",
+   "exit": 3087.92,
+   "reason": "trend",
+   "ret_pct": 17.83
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2021-10-16",
+   "entry_date": "2021-10-16",
+   "entry": 3845.7,
+   "stake": 703.97,
+   "exit_date": "2021-11-16",
+   "exit": 4199.5,
+   "reason": "trend",
+   "ret_pct": 9.2
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2022-03-28",
+   "entry_date": "2022-03-28",
+   "entry": 3349.98,
+   "stake": 768.74,
+   "exit_date": "2022-04-06",
+   "exit": 3159.01,
+   "reason": "trend",
+   "ret_pct": -5.7
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2022-07-24",
+   "entry_date": "2022-07-24",
+   "entry": 1605.87,
+   "stake": 724.91,
+   "exit_date": "2022-07-26",
+   "exit": 1436.04,
+   "reason": "stop",
+   "ret_pct": -10.58
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2022-10-31",
+   "entry_date": "2022-10-31",
+   "entry": 1579.01,
+   "stake": 648.25,
+   "exit_date": "2022-11-08",
+   "exit": 1327.5,
+   "reason": "stop",
+   "ret_pct": -15.93
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2023-01-10",
+   "entry_date": "2023-01-10",
+   "entry": 1341.93,
+   "stake": 544.99,
+   "exit_date": "2023-02-09",
+   "exit": 1540.25,
+   "reason": "trend",
+   "ret_pct": 14.78
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2023-03-21",
+   "entry_date": "2023-03-21",
+   "entry": 1813.99,
+   "stake": 625.54,
+   "exit_date": "2023-04-21",
+   "exit": 1842.6,
+   "reason": "trend",
+   "ret_pct": 1.58
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2023-07-04",
+   "entry_date": "2023-07-04",
+   "entry": 1944.38,
+   "stake": 635.4,
+   "exit_date": "2023-07-06",
+   "exit": 1841.24,
+   "reason": "trend",
+   "ret_pct": -5.3
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2023-10-27",
+   "entry_date": "2023-10-27",
+   "entry": 1787.17,
+   "stake": 601.7,
+   "exit_date": "2023-11-21",
+   "exit": 1929.32,
+   "reason": "trend",
+   "ret_pct": 7.95
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2024-02-14",
+   "entry_date": "2024-02-14",
+   "entry": 2789.01,
+   "stake": 649.56,
+   "exit_date": "2024-03-16",
+   "exit": 3508.77,
+   "reason": "trend",
+   "ret_pct": 25.81
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2024-05-25",
+   "entry_date": "2024-05-25",
+   "entry": 3764.23,
+   "stake": 817.19,
+   "exit_date": "2024-06-07",
+   "exit": 3663.91,
+   "reason": "trend",
+   "ret_pct": -2.67
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2025-05-08",
+   "entry_date": "2025-05-08",
+   "entry": 2215.34,
+   "stake": 795.41,
+   "exit_date": "2025-05-30",
+   "exit": 2519.82,
+   "reason": "trend",
+   "ret_pct": 13.74
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2025-07-12",
+   "entry_date": "2025-07-12",
+   "entry": 2954.68,
+   "stake": 904.73,
+   "exit_date": "2025-08-01",
+   "exit": 3474.41,
+   "reason": "trend",
+   "ret_pct": 17.59
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2026-01-07",
+   "entry_date": "2026-01-07",
+   "entry": 3179.51,
+   "stake": 1063.88,
+   "exit_date": "2026-01-20",
+   "exit": 2923.86,
+   "reason": "trend",
+   "ret_pct": -8.04
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2026-03-20",
+   "entry_date": "2026-03-20",
+   "entry": 2155.08,
+   "stake": 978.34,
+   "exit_date": "2026-03-21",
+   "exit": 2068.38,
+   "reason": "trend",
+   "ret_pct": -4.02
+  },
+  {
+   "coin": "ETH-USD",
+   "signal": "2026-07-17",
+   "entry_date": "2026-07-17",
+   "entry": 1848.35,
+   "stake": 938.98,
+   "exit_date": "2026-07-31",
+   "exit": 1852.9,
+   "reason": "trend",
+   "ret_pct": 0.25
+  }
+ ],
+ "verdict": "WEAK",
+ "distinguishable": false
+}
