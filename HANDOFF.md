@@ -174,3 +174,8 @@ Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
 - I told Bayo the live bot runs only if it beats holding BTC; it did not, so `crypto_trend_live.yml` is dispatch-only (no cron).
 - QuantDinger (Bayo's fork KobOmoba/QuantDinger): self-hosted Docker stack (Postgres, Redis, workers) for AI research, backtests,
   paper/live execution. Not an open-source TradingView (no charting community / Pine). Needs an always-on server; Bayo is phone-only.
+
+## Update 2026-10-28 (23:5x Lagos): momentum at Hisa costs
+- Bayo's broker is the Hisa app (ex-Chaka): flat 1% commission per trade (hisa.co; press June 2026). Tested at 1.1%/side (+0.1% spread);
+  yearly rebalance added before its first run. 3-year windows beating SPY: monthly 15.9%, quarterly 53.6% (median 40.7% vs SPY 43.0%),
+  yearly 54.1% (median 53.6% vs 43.0%). Survivor list flatters all of it. Verdict told to Bayo: at Hisa costs no version clearly beats an S&P 500 ETF.
