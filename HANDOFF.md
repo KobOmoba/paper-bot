@@ -179,3 +179,9 @@ Four experiments now run in parallel: V5-1, ACCEL-1, BIRTH-1, LOOSE-1.
 - Bayo's broker is the Hisa app (ex-Chaka): flat 1% commission per trade (hisa.co; press June 2026). Tested at 1.1%/side (+0.1% spread);
   yearly rebalance added before its first run. 3-year windows beating SPY: monthly 15.9%, quarterly 53.6% (median 40.7% vs SPY 43.0%),
   yearly 54.1% (median 53.6% vs 43.0%). Survivor list flatters all of it. Verdict told to Bayo: at Hisa costs no version clearly beats an S&P 500 ETF.
+
+## 2026-10-28 (23:4x Lagos): ALL BOTS STOPPED at Bayo's request
+- Reason: no strategy showed an edge after costs (meme scanners, short-term stock rules, FX pairs, trend overlay, crypto trend, momentum at Hisa costs).
+- All 23 workflows disabled via the API and running jobs cancelled. Nothing was deleted: code, state files and reports stay as the record.
+- To restart one: `gh api -X PUT repos/KobOmoba/paper-bot/actions/workflows/<file>/enable` (or GitHub app: Actions -> workflow -> Enable).
+- Unfinished experiments at stop time: Kronos (21 matured forecasts, needed ~60 trading days), Polymarket scoreboard (needed >=30 resolved).
