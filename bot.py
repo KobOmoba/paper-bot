@@ -116,7 +116,8 @@ def btc_model(m):
 
 def load():
     if os.path.exists(STATE):
-        s = json.load(open(STATE))
+        with open(STATE) as f:
+            s = json.load(f)
     else:
         s = {"cash": START, "open": [], "closed": [], "dead": False}
     s.setdefault("offset", 0)
@@ -317,7 +318,8 @@ def main():
         tg("Bot is dead (balance hit zero).")
     commands(s)
     daily_summary(s)
-    json.dump(s, open(STATE, "w"), indent=1)
+    with open(STATE, "w") as f:
+        json.dump(s, f, indent=1)
     print(status(s).splitlines()[0])
 
 

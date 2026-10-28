@@ -91,7 +91,10 @@ def tag_of(liq):
 
 
 def load():
-    s = json.load(open(STATE)) if os.path.exists(STATE) else {}
+    s = {}
+    if os.path.exists(STATE):
+        with open(STATE) as f:
+            s = json.load(f)
     s.setdefault("cash", BANK); s.setdefault("pos", []); s.setdefault("closed", [])
     if s.get("rules") != RULES:
         s["funnel"] = {}; s["rules"] = RULES
@@ -734,7 +737,8 @@ BIRTH_AGE_MIN, BIRTH_AGE_MAX, BIRTH_MAX_STORED = 15.0, 90.0, 6000
 
 def births_load():
     try:
-        d = json.load(open(BIRTHS_FILE))
+        with open(BIRTHS_FILE) as f:
+            d = json.load(f)
         with LOCK:
             for m, b in d.items():
                 BIRTHS.setdefault(m, b)
@@ -747,7 +751,8 @@ def births_save():
     with LOCK:
         snap = {m: b for m, b in BIRTHS.items()}
     tmp = BIRTHS_FILE + ".tmp"
-    json.dump(snap, open(tmp, "w"), separators=(",", ":"))
+    with open(tmp, "w") as fh:
+        json.dump(snap, fh, separators=(",", ":"))
     os.replace(tmp, BIRTHS_FILE)
 
 

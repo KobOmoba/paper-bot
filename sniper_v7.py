@@ -428,13 +428,15 @@ def save():
     except Exception as e:
         funnel("csv_error"); print("csv write failed (state still saved):", repr(e)[:200])
     d = {"ST": {k: ST[k] for k in ("funnel", "ws", "agg", "closed", "cash")}, "tok": ST["tok"], "saved": time.strftime("%F %T"), "schema": "v7-spec-1"}
-    json.dump(d, open(STATE + ".tmp", "w"), separators=(",", ":"))
+    with open(STATE + ".tmp", "w") as fh:
+        json.dump(d, fh, separators=(",", ":"))
     os.replace(STATE + ".tmp", STATE)
 
 
 def load():
     try:
-        d = json.load(open(STATE))
+        with open(STATE) as f:
+            d = json.load(f)
     except Exception:
         return
     if d.get("schema") != "v7-spec-1":
